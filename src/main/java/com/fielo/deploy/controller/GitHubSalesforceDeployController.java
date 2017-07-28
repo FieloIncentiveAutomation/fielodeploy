@@ -243,6 +243,7 @@ public class GitHubSalesforceDeployController {
 	
 	//@ResponseBody
 	//@RequestMapping(method = RequestMethod.POST, value = "/{owner}/{repo}")
+	/*
 	public String deploy(
 			@PathVariable("owner") String repoOwner, 
 			@PathVariable("repo") String repoName,
@@ -261,12 +262,14 @@ public class GitHubSalesforceDeployController {
 		else
 			return deployRepository(repoOwner, repoName, repoContentsJson, response, map, session);
 		}
+	*/
 	
 	@ResponseBody
 	@RequestMapping(method = RequestMethod.POST, value = "/{owner}/{initialRepo}/repository/{repo}")	
 	public String deployRepository(
 			@PathVariable("owner") String repoOwner, 
 			@PathVariable("repo") String repoName,
+			//@PathVariable("branch") String repoBranch,
 			@RequestBody String repoContentsJson,
 			HttpServletResponse response,
 			Map<String,Object> map,

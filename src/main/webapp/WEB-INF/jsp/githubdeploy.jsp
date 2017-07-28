@@ -160,11 +160,6 @@
 			// Repository owner
 			owner: 'FieloIncentiveAutomation',
 			
-			// Read parameters
-			getParameters: function() { // TODO: Read from file
-				GitHubDeploy.packages = [['fielocms',false],['apexpatterns', false],['deployELR', true],['deployPLT', true]];
-				},
-
 			// Render GitHub repository contents
 			render: function(container) {
 					if(container.repositoryItem!=null)
@@ -181,13 +176,23 @@
 									container.repositoryItems[fileIdx].repositoryItem.path + '</a></div>');
 				},		
 			
+				
 			// Start deploys
-			initDeploy: function(packages) {
+			initDeploy: function() {
 				$('#deploystatus').empty();
-				GitHubDeploy.getParameters();
-				if(GitHubDeploy.packages.length > 0)
-					GitHubDeploy.deploy();
-				},
+	            $.getJSON('/fielodeploy/deploys.json', function(config) {
+	            	var deploys = [];
+	            	alert(config.length);
+	            	$.each(config,function(key, value){
+	            		//alert(value.name + ' - ' + value.branch);
+	            		deploys.push([value.name, value.branch]);
+	            	});
+					//GitHubDeploy.packages = [['fielocms-fieloelr', 'develop'],['fielocms-fieloplt', 'v1.2.1'],['deployELR', null],['deployCMS', null],['deployPLT', null]];
+					GitHubDeploy.packages = deploys;           	
+					if(GitHubDeploy.packages.length > 0)
+						GitHubDeploy.deploy();
+					});
+				},				
 				
 			// Control deploys
 			deploy: function() {
@@ -195,9 +200,9 @@
 					//alert(pack);
 					//alert(GitHubDeploy.packages.length);
 					var name = pack[0];
-					var isPackage = pack[1];
+					var branch = pack[1];
 
-					if(isPackage)
+					if(branch == null)
 						GitHubDeploy.deployPackage(name);
 					else {
 						//window.location = '/fielodeploy/app/githubdeploy/' + GitHubDeploy.owner + '/' + name;
@@ -207,13 +212,14 @@
 
 			// Deploy from Git repository
 			deployRepository: function(repoName) {
+					alert(GitHubDeploy.contents);
 					$('#deploy').attr('disabled', 'disabled');
 					/////$('#deploystatus').empty();
 					$('#deploystatus').show();
 					$('#deploystatus').append('Repository Deployment Started: ' + repoName);
 		            $.ajax({
 		                type: 'POST',
-		                url: window.pathname + '/repository/' + repoName,
+		                url: window.pathname + '/repository/' + repoName, // +'/' + branch,
 		                processData : false,
 		                data : JSON.stringify(GitHubDeploy.contents),
 		                contentType : "application/json; charset=utf-8",
