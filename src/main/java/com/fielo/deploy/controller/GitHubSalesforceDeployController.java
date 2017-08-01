@@ -75,11 +75,6 @@ public class GitHubSalesforceDeployController {
 	
 	private static final String ZIP_FILE = "C:\\Users\\admin\\GitHub\\fielodeploy\\Packages\\"; //TODO: remove absolute path
 	
-	private enum DeployType {
-	    REPOSITORY,
-	    PACKAGE;
-	}
-
 	@RequestMapping(method = RequestMethod.GET, value="/logoutgh")
 	public String logoutgh(HttpSession session,@RequestParam(required=false) final String retUrl)
 	{
@@ -119,7 +114,7 @@ public class GitHubSalesforceDeployController {
 		return "redirect:" + redirectUrl;
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/{owner}/{repo}")
+	//@RequestMapping(method = RequestMethod.GET, value = "/{owner}/{repo}")
 	public String confirm(HttpServletRequest request,
 			@PathVariable("owner") String repoOwner, 
 			@PathVariable("repo") String repoName, 
@@ -241,6 +236,18 @@ public class GitHubSalesforceDeployController {
 		return "githubdeploy";
 	}
 	
+	@RequestMapping(method = RequestMethod.GET, value = "/deploy")
+	public String home(HttpServletRequest request,
+			HttpSession session ,Map<String, Object> map) throws Exception
+	{
+		// Display user info
+		ForceServiceConnector forceConnector = new ForceServiceConnector(ForceServiceConnector.getThreadLocalConnectorConfig());
+
+		map.put("userContext", forceConnector.getConnection().getUserInfo());
+
+		return "deploy";
+	}
+	
 	//@ResponseBody
 	//@RequestMapping(method = RequestMethod.POST, value = "/{owner}/{repo}")
 	/*
@@ -265,11 +272,11 @@ public class GitHubSalesforceDeployController {
 	*/
 	
 	@ResponseBody
-	@RequestMapping(method = RequestMethod.POST, value = "/{owner}/{initialRepo}/repository/{repo}")	
+	@RequestMapping(method = RequestMethod.POST, value = "/deploy/{owner}/{repo}")	
 	public String deployRepository(
 			@PathVariable("owner") String repoOwner, 
 			@PathVariable("repo") String repoName,
-			//@PathVariable("branch") String repoBranch,
+			@RequestParam(defaultValue="master", required=false) String ref,			
 			@RequestBody String repoContentsJson,
 			HttpServletResponse response,
 			Map<String,Object> map,
@@ -447,7 +454,7 @@ public class GitHubSalesforceDeployController {
 	}
 
 	@ResponseBody
-	@RequestMapping(method = RequestMethod.POST, value = "/{owner}/{repo}/package/{package}")
+	@RequestMapping(method = RequestMethod.POST, value = "/deploy/package/{package}")
 	private String deployPackage(@PathVariable("package") String packageName) throws Exception
 	{
 		// Connect to Salesforce Metadata API

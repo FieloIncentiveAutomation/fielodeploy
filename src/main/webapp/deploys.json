@@ -1,7 +1,3 @@
 [
-	{"name":"fielocms-fieloelr", "branch":"develop"},
-	{"name":"fielocms-fieloplt", "branch":"v1.2.1"},
-	{"name":"deployELR", "branch":null},
-	{"name":"deployCMS", "branch":null},
-	{"name":"deployPLT", "branch":null}
+	{"name":"fielocms-fieloelr", "branch":"develop"}
 ]

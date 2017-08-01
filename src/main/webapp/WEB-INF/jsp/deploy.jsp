@@ -22,7 +22,7 @@
 </c:if>
 &nbsp;
 
-<div class="slds-card">
+<!--div class="slds-card">
 	<div class="slds-card__header slds-grid">
 		<div class="slds-media slds-media--center slds-has-flexi-truncate">
 			<div class="slds-media__figure">
@@ -86,7 +86,7 @@
 			</li>
 		</ul>
 	</div>
-</div>
+</div-->
 <div class="slds-card">
 	<div class="slds-card__header slds-grid">
 		<div class="slds-media slds-media--center slds-has-flexi-truncate">
@@ -179,7 +179,6 @@
 				$('#deploystatus').empty();
 	            $.getJSON('/fielodeploy/deploys.json', function(config) {
 	            	var deploys = [];
-	            	//alert(config.length);
 	            	$.each(config,function(key, value){
 	            		deploys.push([value.name, value.branch]);
 	            	});
@@ -194,27 +193,29 @@
 					var pack = GitHubDeploy.packages.pop();
 					var name = pack[0];
 					var ref = pack[1];
-					alert(name);
-					alert(ref);
+					//alert(name);
+					//alert(ref);
 					if(ref == null)
 						GitHubDeploy.deployPackage(name);
 					else {
-						//window.location = '/fielodeploy/app/deploy/' + GitHubDeploy.owner + '/' + name;
-						GitHubDeploy.deployRepository('', 'Fielo-Plugins', name, ref);
+						//window.location = '/fielodeploy/app/githubdeploy/' + GitHubDeploy.owner + '/' + name;
+						GitHubDeploy.deployRepository('Fielo-Plugins', name, ref);
 					}
 				},
 
 			// Deploy from Git repository
-			deployRepository: function(repoOwner, repoOwner, repoName, ref) {
-					//alert('/repository/' + repoName + (ref!='' ? '&ref=' + ref : ''));
-					//alert(GitHubDeploy.contents);
+			deployRepository: function(repoOwner, repoName, ref) {
+					alert(repoOwner);
+					alert(repoName);
+					alert(ref);
+					alert(window.pathname);
 					$('#deploy').attr('disabled', 'disabled');
 					/////$('#deploystatus').empty();
 					$('#deploystatus').show();
 					$('#deploystatus').append('Repository Deployment Started: ' + repoName);
 		            $.ajax({
 		                type: 'POST',
-		                url: window.pathname + '/repository/' + repoOwner + '/' + repoName, // + (ref!='' ? '&ref=' + ref : ''),
+		                url: window.pathname + repoOwner + '/' + repoName, // + (ref!='' ? '&ref=' + ref : ''),
 		                processData : false,
 		                data : JSON.stringify(GitHubDeploy.contents),
 		                contentType : "application/json; charset=utf-8",
@@ -294,7 +295,6 @@
 
 			// Check Deploy
 			checkDeploy: function() {
-					//alert(GitHubDeploy.packages);
 					$('#deploystatus').append('<div>Deployment Complete</div>');
 					$('#deploystatus').append('<div>=======================================</div>');					
 					$('#deploy').attr('disabled', null);	

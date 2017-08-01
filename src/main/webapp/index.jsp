@@ -16,11 +16,13 @@ function githubdeploy()
 		$('#production').attr('checked') ?
 			'https://fielodeploy.herokuapp.com/app/githubdeploy' :
 			'/fielodeploy/app/githubdeploy';
-	sfdeployurl+= '/' + $('#owner').val() + '/' + $('#repo').val() + (ref != '' ? '?ref=' + ref : '');
+	//sfdeployurl+= '/' + $('#owner').val() + '/' + $('#repo').val() + (ref != '' ? '?ref=' + ref : '');
 	//alert(sfdeployurl);
+	sfdeployurl+= '/' + 'deploy';
 	window.location = sfdeployurl;
 }
-
+//'https://githubsfdeploy.herokuapp.com/app/githubdeploy'
+//'https://githubsfdeploy-sandbox.herokuapp.com/app/githubdeploy'
 function togglebuttoncode()
 {
 	updatebuttonhtml();
@@ -114,18 +116,18 @@ function load()
 	<legend class="form-element__legend slds-form-element__label">Deploy with:</legend>
 	<div class="slds-form-element__control">
 	<label class="slds-radio">
-		<input type="radio" id="production" name="environment" checked="true" value="production">
+		<input type="radio" id="production" name="environment" value="production">
 		<span class="slds-radio--faux"></span>
 		<span class="slds-form-element__label">Heroku</span>
 	</label>
 	<label class="slds-radio">
-		<input type="radio" id="sandbox" name="environment" value="sandbox">
+		<input type="radio" id="sandbox" name="environment" checked="true" value="sandbox">
 		<span class="slds-radio--faux"></span>
 		<span class="slds-form-element__label">Local</span>
 	</label>
 	</div>
 </div>
-<div class="slds-form-element">
+<!-- <div class="slds-form-element">
 	<label class="slds-form-element__label">Owner:</label>
 	<div class="slds-form-element__control">
 		<input id="owner" oninput="updatebuttonhtml();"/>
@@ -167,7 +169,7 @@ function load()
 	</div>
 	<pre id="buttonhtml"></pre>
 	<p><img src="/fielodeploy/resources/img/deploy.png"/></p>
-</div>
+</div>-->
 
 </form>
 
