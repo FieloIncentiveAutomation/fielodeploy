@@ -244,6 +244,8 @@ public class GitHubSalesforceDeployController {
 		ForceServiceConnector forceConnector = new ForceServiceConnector(ForceServiceConnector.getThreadLocalConnectorConfig());
 
 		map.put("userContext", forceConnector.getConnection().getUserInfo());
+		
+		map.put("githubcontents", "{}");
 
 		return "deploy";
 	}

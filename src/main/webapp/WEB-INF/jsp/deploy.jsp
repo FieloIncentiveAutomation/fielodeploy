@@ -193,7 +193,7 @@
 					var pack = GitHubDeploy.packages.pop();
 					var name = pack[0];
 					var ref = pack[1];
-					//alert(name);
+					alert(GitHubDeploy.packages.length);
 					//alert(ref);
 					if(ref == null)
 						GitHubDeploy.deployPackage(name);
@@ -208,7 +208,6 @@
 					alert(repoOwner);
 					alert(repoName);
 					alert(ref);
-					alert(window.pathname);
 					$('#deploy').attr('disabled', 'disabled');
 					/////$('#deploystatus').empty();
 					$('#deploystatus').show();
