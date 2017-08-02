@@ -180,7 +180,7 @@
 	            $.getJSON('/fielodeploy/deploys.json', function(config) {
 	            	var deploys = [];
 	            	$.each(config,function(key, value){
-	            		deploys.push([value.name, value.branch]);
+	            		deploys.push([value.name, value.repoData]);
 	            	});
 					GitHubDeploy.packages = deploys;           	
 					if(GitHubDeploy.packages.length > 0)
@@ -192,29 +192,32 @@
 			deploy: function() {
 					var pack = GitHubDeploy.packages.pop();
 					var name = pack[0];
-					var ref = pack[1];
-					alert(GitHubDeploy.packages.length);
-					//alert(ref);
-					if(ref == null)
+					var repoData = pack[1];
+					//alert(GitHubDeploy.packages.length);
+					//alert(name);
+					if(repoData == null)
 						GitHubDeploy.deployPackage(name);
 					else {
-						//window.location = '/fielodeploy/app/githubdeploy/' + GitHubDeploy.owner + '/' + name;
-						GitHubDeploy.deployRepository('Fielo-Plugins', name, ref);
+						var repoOwner = repoData.owner;
+						//alert(repoOwner);
+						var ref = (repoData.branch == null ? 'master' : repoData.branch);
+						//alert(ref);
+						GitHubDeploy.deployRepository(repoOwner, name, ref);
 					}
 				},
 
 			// Deploy from Git repository
 			deployRepository: function(repoOwner, repoName, ref) {
-					alert(repoOwner);
-					alert(repoName);
-					alert(ref);
+					//alert(repoOwner);
+					//alert(repoName);
+					//alert(ref);
 					$('#deploy').attr('disabled', 'disabled');
 					/////$('#deploystatus').empty();
 					$('#deploystatus').show();
 					$('#deploystatus').append('Repository Deployment Started: ' + repoName);
 		            $.ajax({
 		                type: 'POST',
-		                url: window.pathname + repoOwner + '/' + repoName, // + (ref!='' ? '&ref=' + ref : ''),
+		                url: window.location.pathname + '/' + repoOwner + '/' + repoName + '/' + ref, // + (ref!='' ? '&ref=' + ref : ''),
 		                processData : false,
 		                data : JSON.stringify(GitHubDeploy.contents),
 		                contentType : "application/json; charset=utf-8",
@@ -235,13 +238,14 @@
 
 			// Deploy managed package
 			deployPackage: function(packageName) {
+					//alert(window.location.pathname);
 					$('#deploy').attr('disabled', 'disabled');
 					/////$('#deploystatus').empty();
 					$('#deploystatus').show();
 					$('#deploystatus').append('<div>Package Deployment Started: ' + packageName + '</div>');
 		            $.ajax({
 		                type: 'POST',
-		                url: window.pathname + '/package/' + packageName,
+		                url: window.location.pathname + '/' + packageName,
 		                processData : false,
 		                data : JSON.stringify(GitHubDeploy.contents),
 		                contentType : "application/json; charset=utf-8",
@@ -274,7 +278,7 @@
 			checkStatus: function() {
 		            $.ajax({
 		                type: 'GET',
-		                url: window.pathname + '/checkstatus/' + GitHubDeploy.asyncResult.id,
+		                url: window.location.pathname + '/checkstatus/' + GitHubDeploy.asyncResult.id,
 		                contentType : 'application/json; charset=utf-8',
 		                dataType : 'json',
 		                success: function(data, textStatus, jqXHR) {
@@ -299,7 +303,7 @@
 					$('#deploy').attr('disabled', null);	
 		            $.ajax({
 		                type: 'GET',
-		                url: window.pathname + '/checkdeploy/' + GitHubDeploy.asyncResult.id,
+		                url: window.location.pathname + '/checkdeploy/' + GitHubDeploy.asyncResult.id,
 		                contentType : 'application/json; charset=utf-8',
 		                dataType : 'json',
 		                success: function(data, textStatus, jqXHR) {

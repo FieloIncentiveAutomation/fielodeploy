@@ -114,7 +114,7 @@ public class GitHubSalesforceDeployController {
 		return "redirect:" + redirectUrl;
 	}
 	
-	//@RequestMapping(method = RequestMethod.GET, value = "/{owner}/{repo}")
+	@RequestMapping(method = RequestMethod.GET, value = "/{owner}/{repo}")
 	public String confirm(HttpServletRequest request,
 			@PathVariable("owner") String repoOwner, 
 			@PathVariable("repo") String repoName, 
@@ -233,7 +233,7 @@ public class GitHubSalesforceDeployController {
 			map.put("error", "Unhandled Exception : " + e.toString());
 			e.printStackTrace();
 		}
-		return "githubdeploy";
+		return "deploy";
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/deploy")
@@ -274,11 +274,11 @@ public class GitHubSalesforceDeployController {
 	*/
 	
 	@ResponseBody
-	@RequestMapping(method = RequestMethod.POST, value = "/deploy/{owner}/{repo}")	
+	@RequestMapping(method = RequestMethod.POST, value = "/deploy/{owner}/{repo}/{ref}")	
 	public String deployRepository(
 			@PathVariable("owner") String repoOwner, 
 			@PathVariable("repo") String repoName,
-			@RequestParam(defaultValue="master", required=false) String ref,			
+			@PathVariable("ref") String ref,		
 			@RequestBody String repoContentsJson,
 			HttpServletResponse response,
 			Map<String,Object> map,
@@ -456,8 +456,8 @@ public class GitHubSalesforceDeployController {
 	}
 
 	@ResponseBody
-	@RequestMapping(method = RequestMethod.POST, value = "/deploy/package/{package}")
-	private String deployPackage(@PathVariable("package") String packageName) throws Exception
+	@RequestMapping(method = RequestMethod.POST, value = "/deploy/{package}")
+	public String deployPackage(@PathVariable("package") String packageName) throws Exception
 	{
 		// Connect to Salesforce Metadata API
 		ForceServiceConnector connector = new ForceServiceConnector(ForceServiceConnector.getThreadLocalConnectorConfig());
@@ -504,7 +504,8 @@ public class GitHubSalesforceDeployController {
     }
 			
 	@ResponseBody
-	@RequestMapping(method = RequestMethod.GET, value = "/{owner}/{repo}/checkstatus/{asyncId}")
+	@RequestMapping(method = RequestMethod.GET, value = "/deploy/checkstatus/{asyncId}")
+	//@RequestMapping(method = RequestMethod.GET, value = "/{owner}/{repo}/checkstatus/{asyncId}")
 	public String checkStatus(@PathVariable("asyncId") String asyncId) throws Exception
 	{
 		// Connect to Metadata API, check async status and return to client
@@ -517,7 +518,8 @@ public class GitHubSalesforceDeployController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(method = RequestMethod.GET, value = "/{owner}/{repo}/checkdeploy/{asyncId}")
+	@RequestMapping(method = RequestMethod.GET, value = "/deploy/checkdeploy/{asyncId}")
+	//@RequestMapping(method = RequestMethod.GET, value = "/{owner}/{repo}/checkdeploy/{asyncId}")
 	public String checkDeploy(@PathVariable("asyncId") String asyncId) throws Exception
 	{
 		// Connect to Metadata API, check async status and return to client

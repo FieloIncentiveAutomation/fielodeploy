@@ -1,7 +1,7 @@
 [
-	{"name":"fielocms-fieloelr", "branch":"develop"},
-	{"name":"fielocms-fieloplt", "branch":"v1.2.1"},
-	{"name":"deployELR", "branch":null},
-	{"name":"deployCMS", "branch":null},
-	{"name":"deployPLT", "branch":null}
+	{"name":"fielocms-fieloelr", "repoData":{"owner":"Fielo-Plugins", "branch":"develop"}},
+	{"name":"fielocms-fieloplt", "repoData":{"owner":"Fielo-Plugins", "branch":"v1.2.1"}},
+	{"name":"apexpatterns", "repoData":{"owner":"FieloIncentiveAutomation", "branch":null}},
+	{"name":"deployCMS", "repoData":null},
+	{"name":"deployPLT", "repoData":null}
 ]
