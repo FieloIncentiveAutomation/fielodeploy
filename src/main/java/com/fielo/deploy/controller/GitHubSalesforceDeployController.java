@@ -23,6 +23,20 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -170,7 +184,7 @@ public class GitHubSalesforceDeployController {
 				}
 			}
 
-			// Prepare Salesforce metadata metadata for repository scan
+			// Prepare Salesforce metadata for repository scan
 			RepositoryScanResult repositoryScanResult = new RepositoryScanResult();
 			RepositoryItem repositoryContainer = new RepositoryItem();
 			repositoryContainer.repositoryItems = new ArrayList<RepositoryItem>();
@@ -592,6 +606,8 @@ public class GitHubSalesforceDeployController {
 		ForceServiceConnector connector = new ForceServiceConnector(ForceServiceConnector.getThreadLocalConnectorConfig());
 
 		MetadataConnection metadataConnection = connector.getMetadataConnection();
+		
+		Boolean xmlFile = createXmlFile(packageName, "666");
 
 		// Deploy to Salesforce
         byte zipBytes[] = readZipFile(packageName);
@@ -606,31 +622,83 @@ public class GitHubSalesforceDeployController {
 		return objectMapper.writeValueAsString(asyncResult);		
 	}
 	
-    /**
-     * Read the zip file contents into a byte array.
-     * @return byte[]
-     * @throws Exception - if cannot find the zip file to deploy
-     */
-    private byte[] readZipFile(String packageName)
-        throws Exception
-    {
-        // We assume here that you have a deploy.zip file.
-        // See the retrieve sample for how to retrieve a zip file.
-        File deployZip = new File(ZIP_FILE + packageName + ".zip");
-        if (!deployZip.exists() || !deployZip.isFile())
-            throw new Exception("Cannot find the zip file to deploy. Looking for " +
-                    deployZip.getAbsolutePath());
-        
-        FileInputStream fos = new FileInputStream(deployZip);
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        int readbyte = -1;
-        while ((readbyte = fos.read()) != -1)  {
-            bos.write(readbyte);
-        }
-        fos.close();
-        bos.close();
-        return bos.toByteArray();
-    }
+	/**
+	 * Create the XML file for package deploying.
+	 * 
+	 * @return Boolean
+	 * @throws Exception 
+	 *             - if cannot generate the XML file
+	 */
+	private Boolean createXmlFile(String packageName, String packageVersion) throws Exception {
+		Boolean result = false;
+
+		try {
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+
+			// Root element
+			Document doc = docBuilder.newDocument();
+			//doc.setXmlStandalone(true);
+			Element rootElement = doc.createElement("InstalledPackage");
+			doc.appendChild(rootElement);
+
+			// Set attribute to root element
+			Attr attr = doc.createAttribute("xmlns");
+			attr.setValue("http://soap.sforce.com/2006/04/metadata");
+			rootElement.setAttributeNode(attr);
+
+			// Version number
+			Element versionNumber = doc.createElement("versionNumber");
+			versionNumber.appendChild(doc.createTextNode(packageVersion));
+			rootElement.appendChild(versionNumber);
+
+			// write the content into xml file
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
+			DOMSource source = new DOMSource(doc);
+			StreamResult file = new StreamResult(new File("C:\\Users\\admin\\GitHub\\fielodeploy\\Packages\\file.xml"));
+
+			transformer.transform(source, file);
+
+			// System.out.println("File saved!");
+			result = true;
+
+		} catch (ParserConfigurationException pce) {
+			pce.printStackTrace();
+		} catch (TransformerException tfe) {
+			tfe.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
+	 * Read the zip file contents into a byte array.
+	 * 
+	 * @return byte[]
+	 * @throws Exception
+	 *             - if cannot find the zip file to deploy
+	 */
+	private byte[] readZipFile(String packageName) throws Exception {
+		// We assume here that you have a deploy.zip file.
+		// See the retrieve sample for how to retrieve a zip file.
+		File deployZip = new File(ZIP_FILE + packageName + ".zip");
+		if (!deployZip.exists() || !deployZip.isFile())
+			throw new Exception("Cannot find the zip file to deploy. Looking for " + deployZip.getAbsolutePath());
+
+		FileInputStream fos = new FileInputStream(deployZip);
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		int readbyte = -1;
+		while ((readbyte = fos.read()) != -1) {
+			bos.write(readbyte);
+		}
+		fos.close();
+		bos.close();
+		return bos.toByteArray();
+	}
 			
 	@ResponseBody
 	@RequestMapping(method = RequestMethod.GET, value = "/deploy/checkstatus/{asyncId}")
@@ -768,8 +836,6 @@ public class GitHubSalesforceDeployController {
 			return request;
 		}
 	}
-
-
 
 	/**
 	 * Discovers the contents of a GitHub repository
