@@ -73,6 +73,7 @@ public class GitHubSalesforceDeployController {
 	private static String GITHUB_CLIENT_SECRET = "GITHUB_CLIENT_SECRET";
 	private static String GITHUB_TOKEN = "ghtoken";
 	
+	HttpServletRequest servletRequest;
 	ForceServiceConnector forceConnector;
 	
 	private static final String ZIP_FILE = "C:\\Users\\admin\\GitHub\\fielodeploy\\Packages\\"; //TODO: remove absolute path
@@ -242,6 +243,8 @@ public class GitHubSalesforceDeployController {
 	public String home(HttpServletRequest request,
 			HttpSession session ,Map<String, Object> map) throws Exception
 	{
+		servletRequest = request;
+		
 		// Display user info
 		forceConnector = new ForceServiceConnector(ForceServiceConnector.getThreadLocalConnectorConfig());
 
@@ -252,8 +255,30 @@ public class GitHubSalesforceDeployController {
 		return "deploy";
 	}
 	
+	//@ResponseBody
+	//@RequestMapping(method = RequestMethod.POST, value = "/{owner}/{repo}")
+	/*
+	public String deploy(
+			@PathVariable("owner") String repoOwner, 
+			@PathVariable("repo") String repoName,
+			@RequestBody String repoContentsJson,
+			HttpServletResponse response,
+			Map<String,Object> map,
+			HttpSession session) throws Exception
+	{
+		DeployType deployType = DeployType.PACKAGE;	// TODO: Parameterise 
+		String resp;
+		
+		if (deployType == DeployType.PACKAGE)
+		{
+			return deployPackage("deployPLT");
+		}
+		else
+			return deployRepository(repoOwner, repoName, repoContentsJson, response, map, session);
+		}
+	*/
+	
 	public Map<String, Object> getGitHubData(
-			HttpServletRequest request,
 			String repoOwner, 
 			String repoName, 
 			String ref,
@@ -291,8 +316,8 @@ public class GitHubSalesforceDeployController {
 			catch(Exception e)
 			{
 				if(accessToken == null) {
-					StringBuffer requestURL = request.getRequestURL();
-				    String queryString = request.getQueryString();
+					StringBuffer requestURL = servletRequest.getRequestURL();
+				    String queryString = servletRequest.getQueryString();
 				    String redirectUrl = queryString == null ? requestURL.toString() : requestURL.append('?').append(queryString).toString();
 					//return "redirect:" + "https://github.com/login/oauth/authorize?client_id=" + System.getenv(GITHUB_CLIENT_ID) + "&scope=repo&state=" + redirectUrl;					
 					map.put("redirect", "https://github.com/login/oauth/authorize?client_id=" + System.getenv(GITHUB_CLIENT_ID) + "&scope=repo&state=" + redirectUrl);
@@ -375,29 +400,6 @@ public class GitHubSalesforceDeployController {
 		return map;
 	}
 	
-	//@ResponseBody
-	//@RequestMapping(method = RequestMethod.POST, value = "/{owner}/{repo}")
-	/*
-	public String deploy(
-			@PathVariable("owner") String repoOwner, 
-			@PathVariable("repo") String repoName,
-			@RequestBody String repoContentsJson,
-			HttpServletResponse response,
-			Map<String,Object> map,
-			HttpSession session) throws Exception
-	{
-		DeployType deployType = DeployType.PACKAGE;	// TODO: Parameterise 
-		String resp;
-		
-		if (deployType == DeployType.PACKAGE)
-		{
-			return deployPackage("deployPLT");
-		}
-		else
-			return deployRepository(repoOwner, repoName, repoContentsJson, response, map, session);
-		}
-	*/
-	
 	@ResponseBody
 	@RequestMapping(method = RequestMethod.POST, value = "/deploy/{owner}/{repo}/{ref}")	
 	public String deployRepository(
@@ -425,10 +427,12 @@ public class GitHubSalesforceDeployController {
 			client.setOAuth2Token(accessToken);
 		}
 
-
+		// Get map with repo information
+		Map<String, Object> repoMap = getGitHubData(repoOwner, repoName, ref, session);
+		
 		// Repository files to deploy
 		ObjectMapper mapper = new ObjectMapper();
-		RepositoryItem repositoryContainer = (RepositoryItem) mapper.readValue(repoContentsJson, RepositoryItem.class);
+		RepositoryItem repositoryContainer = (RepositoryItem) mapper.readValue(repoMap.get("githubcontents").toString(), RepositoryItem.class);
 
 		// Performing a package deployment from a package manifest in the repository?
 		String repoPackagePath = null;
