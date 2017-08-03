@@ -22,7 +22,8 @@
 </c:if>
 &nbsp;
 
-<!--div class="slds-card">
+<!-- -->
+<div class="slds-card">
 	<div class="slds-card__header slds-grid">
 		<div class="slds-media slds-media--center slds-has-flexi-truncate">
 			<div class="slds-media__figure">
@@ -86,7 +87,8 @@
 			</li>
 		</ul>
 	</div>
-</div-->
+</div>
+<!-- -->
 <div class="slds-card">
 	<div class="slds-card__header slds-grid">
 		<div class="slds-media slds-media--center slds-has-flexi-truncate">

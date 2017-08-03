@@ -73,6 +73,8 @@ public class GitHubSalesforceDeployController {
 	private static String GITHUB_CLIENT_SECRET = "GITHUB_CLIENT_SECRET";
 	private static String GITHUB_TOKEN = "ghtoken";
 	
+	ForceServiceConnector forceConnector;
+	
 	private static final String ZIP_FILE = "C:\\Users\\admin\\GitHub\\fielodeploy\\Packages\\"; //TODO: remove absolute path
 	
 	@RequestMapping(method = RequestMethod.GET, value="/logoutgh")
@@ -241,13 +243,136 @@ public class GitHubSalesforceDeployController {
 			HttpSession session ,Map<String, Object> map) throws Exception
 	{
 		// Display user info
-		ForceServiceConnector forceConnector = new ForceServiceConnector(ForceServiceConnector.getThreadLocalConnectorConfig());
+		forceConnector = new ForceServiceConnector(ForceServiceConnector.getThreadLocalConnectorConfig());
 
 		map.put("userContext", forceConnector.getConnection().getUserInfo());
 		
 		map.put("githubcontents", "{}");
 
 		return "deploy";
+	}
+	
+	public Map<String, Object> getGitHubData(
+			HttpServletRequest request,
+			String repoOwner, 
+			String repoName, 
+			String ref,
+			HttpSession session) throws Exception
+	{
+		Map<String, Object> map = new HashMap<String, Object>();
+		try
+		{
+			map.put("repo", null);
+			map.put("githubcontents", null);
+			String accessToken = (String)session.getAttribute(GITHUB_TOKEN);
+			// Repository name
+			RepositoryId repoId = RepositoryId.create(repoOwner, repoName);
+			map.put("repositoryName", repoId.generateId());
+			map.put("ref", ref);
+
+			// Display repo info
+			GitHubClient client;
+			if(accessToken == null)
+			{
+				client = new GitHubClientOAuthServer(System.getenv(GITHUB_CLIENT_ID), System.getenv(GITHUB_CLIENT_SECRET) );
+			}
+			else
+			{
+				client = new GitHubClient();
+				client.setOAuth2Token(accessToken);
+				map.put("githuburl","https://github.com/settings/connections/applications/" + System.getenv(GITHUB_CLIENT_ID));
+			}
+
+			RepositoryService service = new RepositoryService(client);
+			try
+			{
+			  map.put("repo", service.getRepository(repoId));
+			}
+			catch(Exception e)
+			{
+				if(accessToken == null) {
+					StringBuffer requestURL = request.getRequestURL();
+				    String queryString = request.getQueryString();
+				    String redirectUrl = queryString == null ? requestURL.toString() : requestURL.append('?').append(queryString).toString();
+					//return "redirect:" + "https://github.com/login/oauth/authorize?client_id=" + System.getenv(GITHUB_CLIENT_ID) + "&scope=repo&state=" + redirectUrl;					
+					map.put("redirect", "https://github.com/login/oauth/authorize?client_id=" + System.getenv(GITHUB_CLIENT_ID) + "&scope=repo&state=" + redirectUrl);
+				}
+				else {
+					map.put("error", "Failed to retrieve GitHub repository details : " + e.toString());					
+				}
+			}
+
+			// Prepare Salesforce metadata for repository scan
+			RepositoryScanResult repositoryScanResult = new RepositoryScanResult();
+			RepositoryItem repositoryContainer = new RepositoryItem();
+			repositoryContainer.repositoryItems = new ArrayList<RepositoryItem>();
+			repositoryScanResult.metadataDescribeBySuffix = new HashMap<String, DescribeMetadataObject>();
+			repositoryScanResult.metadataDescribeByFolder = new HashMap<String, DescribeMetadataObject>();
+			DescribeMetadataResult metadataDescribeResult = forceConnector.getMetadataConnection().describeMetadata(36.0); // TODO: Make version configurable / auto
+			for(DescribeMetadataObject describeObject : metadataDescribeResult.getMetadataObjects())
+			{
+				if(describeObject.getSuffix()==null) {
+					repositoryScanResult.metadataDescribeByFolder.put(describeObject.getDirectoryName(), describeObject);
+				} else {
+					repositoryScanResult.metadataDescribeBySuffix.put(describeObject.getSuffix(), describeObject);
+					if(describeObject.getMetaFile())
+						repositoryScanResult.metadataDescribeBySuffix.put(describeObject.getSuffix() + "-meta.xml", describeObject);					
+				}
+			}
+
+			// Retrieve repository contents applicable for deploy
+			ContentsServiceEx contentService = new ContentsServiceEx(client);
+
+			try
+			{
+				scanRepository(
+					contentService,
+					repoId,
+					ref,
+					contentService.getContents(repoId, null, ref),
+					repositoryContainer,
+					repositoryScanResult
+				);
+
+				// Determine correct root to emit to the page
+				RepositoryItem githubcontents = null;
+				if(repositoryScanResult.pacakgeRepoDirectory!=null) {
+					githubcontents = repositoryScanResult.pacakgeRepoDirectory;
+				} else if(repositoryContainer.repositoryItems.size()>0) {
+					githubcontents = repositoryContainer;
+				}
+				
+				// Serialize JSON to page
+				if(githubcontents!=null) {
+					githubcontents.ref = ref; // Remember branch/tag/commit reference
+					map.put("githubcontents", new ObjectMapper().writeValueAsString(githubcontents));
+				} else {
+					map.put("error", "No Salesforce files found in repository.");
+				}
+			}
+			catch (RequestException e)
+			{
+				if (e.getStatus() == 404)
+					map.put("error", "Could not find the repository '" + repoName + "'. Ensure it is spelt correctly and that it is owned by '" + repoOwner + "'");
+				else
+					map.put("error", "Failed to scan the repository '" + repoName + "'. Callout to Github failed with status code " + e.getStatus());
+			}
+		}
+		catch (ForceOAuthSessionExpirationException e)
+		{
+			//return "redirect:/logout";			
+			// Handle error
+			map.put("error", "Session Expiration Exception : " + e.toString());
+			e.printStackTrace();
+			
+		}
+		catch (Exception e)
+		{
+			// Handle error
+			map.put("error", "Unhandled Exception : " + e.toString());
+			e.printStackTrace();
+		}
+		return map;
 	}
 	
 	//@ResponseBody
