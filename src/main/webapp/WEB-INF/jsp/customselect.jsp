@@ -50,11 +50,6 @@ function continueRedirect()
 		</div>
 			&nbsp;
 			
-			
-			test ${reposList}
-			<br/>
-			test ${reposMap}
-			
 			<div id="reposDiv" class="slds-form--horizontal">
 				
 				
