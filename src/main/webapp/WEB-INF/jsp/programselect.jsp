@@ -49,27 +49,24 @@ function continueRedirect()
 			</div>
 		</div>
 			&nbsp;
-			
-			
-			test ${items}
-			
+						
 			<div class="slds-form--horizontal">
 				<div class="slds-form-element">
 					<legend class="form-element__legend slds-form-element__label">Select program type:</legend>
 					<div id="programs" class="slds-form-element__control">
-						<!-- <label class="slds-radio">
+						<!--<label class="slds-checkbox">
 							<input type="checkbox" id="programs" name="environment" value="manufacturing">
-							<span class="slds-radio--faux"></span>
+							<span class="slds-checkbox--faux"></span>
 							<span class="slds-form-element__label">Manufacturing</span>
 						</label>
-						<!-- <label class="slds-radio">
+						<label class="slds-radio">
 							<input type="radio" id="custom" name="environment" checked="true" value="custom">
 							<span class="slds-radio--faux"></span>
 							<span class="slds-form-element__label">Custom</span>
 						</label>-->
 					</div>
 				</div>
-		
+						
 <script src="/fielodeploy/resources/js/jquery-1.7.1.min.js"></script>
 <c:if test="${items != null}">
 	<script type="text/javascript">
@@ -83,8 +80,8 @@ function continueRedirect()
 			render: function(container) {
 					for(fileIdx in container)
 						$('#programs').append(
-								'<label class="slds-radio"><input type="checkbox" id="' + container[fileIdx].fullName + '" name="environment" value="' + container[fileIdx].fullName + '">' +
-								'<span class="slds-radio--faux"></span>' +
+								'<label class="slds-checkbox"><input type="checkbox" id="' + container[fileIdx].fullName + '" name="environment" value="' + container[fileIdx].fullName + '">' +
+								'<span class="slds-checkbox--faux"></span>' +
 								'<span class="slds-form-element__label">' + container[fileIdx].name + '</span></label>');
 				}		
 		}
