@@ -49,9 +49,7 @@ function continueRedirect()
 			</div>
 		</div>
 			&nbsp;
-			
-			<br/>
-			
+		
 			<div id="reposDiv" class="slds-form--horizontal">
 				
 				

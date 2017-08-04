@@ -49,7 +49,7 @@ function continueRedirect()
 			</div>
 		</div>
 			&nbsp;
-						
+
 			<div class="slds-form--horizontal">
 				<div class="slds-form-element">
 					<legend class="form-element__legend slds-form-element__label">Select program type:</legend>
