@@ -16,7 +16,8 @@ public class OAuthConfigChecker implements Filter {
             ((HttpServletResponse)servletResponse).sendRedirect("/fielodeploy/sfdcSetup.html");
             return;
         }
-        filterChain.doFilter(servletRequest, servletResponse);
+        
+    	filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override

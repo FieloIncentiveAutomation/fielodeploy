@@ -15,10 +15,9 @@ function githubdeploy()
 	var sfdeployurl =
 		$('#production').attr('checked') ?
 			'https://fielodeploy.herokuapp.com/app/githubdeploy' :
-			'/fielodeploy/app/githubdeploy';
-	//sfdeployurl+= '/' + $('#owner').val() + '/' + $('#repo').val() + (ref != '' ? '?ref=' + ref : '');
-	//alert(sfdeployurl);
-	sfdeployurl+= '/' + 'deploy';
+				'/fielodeploy/app/home';
+				//'/fielodeploy/app/githubdeploy/deploy';
+	
 	window.location = sfdeployurl;
 }
 //'https://githubsfdeploy.herokuapp.com/app/githubdeploy'
