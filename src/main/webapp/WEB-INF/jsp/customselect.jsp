@@ -49,7 +49,7 @@ function continueRedirect()
 			</div>
 		</div>
 			&nbsp;
-			
+		
 			<div id="reposDiv" class="slds-form--horizontal">
 				
 				
@@ -91,8 +91,8 @@ function continueRedirect()
 					'<div id="repos" class="slds-form-element__control">';
 					
 					for(fileIdx in map[repo])
-						htmlString += '<label class="slds-radio"><input type="checkbox" id="' + map[repo][fileIdx].fullName + '" name="environment" value="' + map[repo][fileIdx].fullName + '">' +
-								'<span class="slds-radio--faux"></span>' +
+						htmlString += '<label class="slds-checkbox"><input type="checkbox" id="' + map[repo][fileIdx].fullName + '" name="environment" value="' + map[repo][fileIdx].fullName + '">' +
+								'<span class="slds-checkbox--faux"></span>' +
 								'<span class="slds-form-element__label">' + map[repo][fileIdx].name + '</span></label>';
 						
 					htmlString += '</div></div>';
