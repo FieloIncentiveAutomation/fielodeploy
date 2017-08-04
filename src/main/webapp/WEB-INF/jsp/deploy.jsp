@@ -182,7 +182,8 @@
 	            $.getJSON('/fielodeploy/deploys.json', function(config) {
 	            	var deploys = [];
 	            	$.each(config,function(key, value){
-	            		deploys.push([value.name, value.repoData]);
+	            		deploys.push(value);
+	            		//alert(value.version);
 	            	});
 					GitHubDeploy.packages = deploys;           	
 					if(GitHubDeploy.packages.length > 0)
@@ -192,19 +193,18 @@
 				
 			// Control deploys
 			deploy: function() {
-					var pack = GitHubDeploy.packages.pop();
-					var name = pack[0];
-					var repoData = pack[1];
+					var value = GitHubDeploy.packages.pop();
+					//var value = pack[0];
+					//var repoData = pack[1];
 					//alert(GitHubDeploy.packages.length);
 					//alert(name);
-					if(repoData == null)
-						GitHubDeploy.deployPackage(name);
+					if(value.repoOwner == null)
+						GitHubDeploy.deployPackage(value.name, value.version);
 					else {
-						var repoOwner = repoData.owner;
 						//alert(repoOwner);
-						var ref = (repoData.branch == null ? 'master' : repoData.branch);
+						var ref = (value.version == null ? 'master' : value.version);
 						//alert(ref);
-						GitHubDeploy.deployRepository(repoOwner, name, ref);
+						GitHubDeploy.deployRepository(value.repoOwner, value.name, ref);
 					}
 				},
 
@@ -239,15 +239,15 @@
 				},
 
 			// Deploy managed package
-			deployPackage: function(packageName) {
-					//alert(window.location.pathname);
+			deployPackage: function(packageName, packageVersion) {
+					//alert(packageVersion);
 					$('#deploy').attr('disabled', 'disabled');
 					/////$('#deploystatus').empty();
 					$('#deploystatus').show();
 					$('#deploystatus').append('<div>Package Deployment Started: ' + packageName + '</div>');
 		            $.ajax({
 		                type: 'POST',
-		                url: window.location.pathname + '/' + packageName,
+		                url: window.location.pathname + '/' + packageName + '/' + packageVersion,
 		                processData : false,
 		                data : JSON.stringify(GitHubDeploy.contents),
 		                contentType : "application/json; charset=utf-8",

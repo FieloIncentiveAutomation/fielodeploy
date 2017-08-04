@@ -599,15 +599,16 @@ public class GitHubSalesforceDeployController {
 	}
 
 	@ResponseBody
-	@RequestMapping(method = RequestMethod.POST, value = "/deploy/{package}")
-	public String deployPackage(@PathVariable("package") String packageName) throws Exception
+	@RequestMapping(method = RequestMethod.POST, value = "/deploy/{package}/{version}")
+	public String deployPackage(@PathVariable("package") String packageName,
+			@PathVariable("version") String packageVersion) throws Exception
 	{
 		// Connect to Salesforce Metadata API
 		ForceServiceConnector connector = new ForceServiceConnector(ForceServiceConnector.getThreadLocalConnectorConfig());
 
 		MetadataConnection metadataConnection = connector.getMetadataConnection();
 		
-		Boolean xmlFile = createXmlFile(packageName, "666");
+		Boolean xmlFile = createXmlFile(packageName, packageVersion);
 
 		// Deploy to Salesforce
         byte zipBytes[] = readZipFile(packageName);
