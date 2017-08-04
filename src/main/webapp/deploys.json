@@ -1,5 +1,5 @@
 [
 	{"name":"apexpatterns", "repoOwner":"FieloIncentiveAutomation", "version":null},
-	{"name":"deployCMS", "repoOwner":null, "version":"1.70.1"},
-	{"name":"deployPLT", "repoOwner":null, "version":"2.25.5"}
+	{"name":"FieloCMS", "repoOwner":null, "version":"1.70.1"},
+	{"name":"FieloPLT", "repoOwner":null, "version":"2.25.5"}
 ]

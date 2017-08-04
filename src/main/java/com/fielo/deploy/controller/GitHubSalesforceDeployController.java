@@ -37,6 +37,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -53,6 +54,7 @@ import org.eclipse.egit.github.core.client.GitHubRequest;
 import org.eclipse.egit.github.core.client.GitHubResponse;
 import org.eclipse.egit.github.core.service.ContentsService;
 import org.eclipse.egit.github.core.service.RepositoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -81,6 +83,9 @@ import com.sforce.ws.parser.XmlOutputStream;
 @Controller
 @RequestMapping("/githubdeploy")
 public class GitHubSalesforceDeployController {
+	
+    @Autowired
+    ServletContext context;
 
 	// Allocated via your GitHub Account Settings, set as environment vars, provides increased limits per hour for GitHub API calls
 	private static String GITHUB_CLIENT_ID = "GITHUB_CLIENT_ID";
@@ -90,7 +95,7 @@ public class GitHubSalesforceDeployController {
 	HttpServletRequest servletRequest;
 	ForceServiceConnector forceConnector;
 	
-	private static final String ZIP_FILE = "C:\\Users\\admin\\GitHub\\fielodeploy\\Packages\\"; //TODO: remove absolute path
+	private static final String ZIP_FILE = "packages/"; //TODO: remove absolute path
 	
 	@RequestMapping(method = RequestMethod.GET, value="/logoutgh")
 	public String logoutgh(HttpSession session,@RequestParam(required=false) final String retUrl)
@@ -661,7 +666,7 @@ public class GitHubSalesforceDeployController {
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
 			DOMSource source = new DOMSource(doc);
-			StreamResult file = new StreamResult(new File("C:\\Users\\admin\\GitHub\\fielodeploy\\Packages\\file.xml"));
+			StreamResult file = new StreamResult(new File(context.getRealPath("/") + ZIP_FILE + "installedPackages/" + packageName + ".installedPackage"));
 
 			transformer.transform(source, file);
 
