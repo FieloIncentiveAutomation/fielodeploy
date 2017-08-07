@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 
 import java.io.ByteArrayOutputStream;
@@ -95,7 +96,7 @@ public class GitHubSalesforceDeployController {
 	HttpServletRequest servletRequest;
 	ForceServiceConnector forceConnector;
 	
-	private static final String ZIP_FILE = "packages/"; //TODO: remove absolute path
+	private static final String ZIP_FILE = "packages" + File.separator; //TODO: remove absolute path
 	
 	@RequestMapping(method = RequestMethod.GET, value="/logoutgh")
 	public String logoutgh(HttpSession session,@RequestParam(required=false) final String retUrl)
@@ -604,7 +605,7 @@ public class GitHubSalesforceDeployController {
 	}
 
 	@ResponseBody
-	@RequestMapping(method = RequestMethod.POST, value = "/deploy/{package}/{version}")
+	@RequestMapping(method = RequestMethod.POST, value = "/deploy/{package}/{version:.+}")
 	public String deployPackage(@PathVariable("package") String packageName,
 			@PathVariable("version") String packageVersion) throws Exception
 	{
@@ -613,10 +614,16 @@ public class GitHubSalesforceDeployController {
 
 		MetadataConnection metadataConnection = connector.getMetadataConnection();
 		
-		Boolean xmlFile = createXmlFile(packageName, packageVersion);
-
+		String packagePath = context.getRealPath("/") + ZIP_FILE;
+		
+		if (!writeXmlFile(packagePath, packageName, packageVersion)) {
+			throw new Exception("Cannot create the XML file to deploy. Tried to create " + packagePath + "installedPackages" + File.separator + packageName + ".installedPackage");
+		}
+		if (!writeZipFile(packagePath, packageName)) {
+			throw new Exception("Cannot create the ZIP file to deploy. Tried to create " + packagePath + packageName + ".zip");
+		}
 		// Deploy to Salesforce
-        byte zipBytes[] = readZipFile(packageName);
+        byte zipBytes[] = readZipFile(packagePath, packageName);
         DeployOptions deployOptions = new DeployOptions();
         deployOptions.setPerformRetrieve(false);
         deployOptions.setRollbackOnError(true);
@@ -635,7 +642,7 @@ public class GitHubSalesforceDeployController {
 	 * @throws Exception 
 	 *             - if cannot generate the XML file
 	 */
-	private Boolean createXmlFile(String packageName, String packageVersion) throws Exception {
+	private Boolean writeXmlFile(String packagePath, String packageName, String packageVersion) throws Exception {
 		Boolean result = false;
 
 		try {
@@ -666,7 +673,7 @@ public class GitHubSalesforceDeployController {
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
 			DOMSource source = new DOMSource(doc);
-			StreamResult file = new StreamResult(new File(context.getRealPath("/") + ZIP_FILE + "installedPackages/" + packageName + ".installedPackage"));
+			StreamResult file = new StreamResult(new File(packagePath + "installedPackages" + File.separator + packageName + ".installedPackage"));
 
 			transformer.transform(source, file);
 
@@ -682,16 +689,48 @@ public class GitHubSalesforceDeployController {
 	}
 	
 	/**
+	 * Create the zip file for package deploy.
+	 * 
+	 * @return byte[]
+	 * @throws Exception
+	 *             - if cannot find the zip file to deploy
+	 */
+	private boolean writeZipFile(String packagePath, String packageName) throws Exception {
+		
+		boolean result = false;
+		byte[] buffer = new byte[1024];
+    	int len;
+
+		// Input files /
+        String[] fileNames = new String[] {"package.xml", "installedPackages" + File.separator + packageName + ".installedPackage"};
+       
+        // Output file 
+        ZipOutputStream out = new ZipOutputStream(new FileOutputStream(packagePath + packageName + ".zip"));
+
+        for(String fileName : fileNames) {
+	        FileInputStream in = new FileInputStream(packagePath + fileName);     
+	        out.putNextEntry(new ZipEntry(fileName));
+	    	while ((len = in.read(buffer)) > 0) {
+	    		out.write(buffer, 0, len);
+	    	}
+	    	out.closeEntry();
+	    	in.close();       
+        }
+    	out.close();
+    	return true;
+}
+	
+	/**
 	 * Read the zip file contents into a byte array.
 	 * 
 	 * @return byte[]
 	 * @throws Exception
 	 *             - if cannot find the zip file to deploy
 	 */
-	private byte[] readZipFile(String packageName) throws Exception {
+	private byte[] readZipFile(String packagePath, String packageName) throws Exception {
 		// We assume here that you have a deploy.zip file.
 		// See the retrieve sample for how to retrieve a zip file.
-		File deployZip = new File(ZIP_FILE + packageName + ".zip");
+		File deployZip = new File(packagePath  + packageName + ".zip");
 		if (!deployZip.exists() || !deployZip.isFile())
 			throw new Exception("Cannot find the zip file to deploy. Looking for " + deployZip.getAbsolutePath());
 
