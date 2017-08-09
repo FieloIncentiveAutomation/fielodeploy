@@ -9,14 +9,14 @@
 
 <script>
 var appName = ''
-function githubdeploy()
+function deploy()
 {
 	var ref = $('#ref').val();    
 	var sfdeployurl =
 		$('#production').attr('checked') ?
-			'https://fielodeploy.herokuapp.com/app/githubdeploy' :
+			'https://fielodeploy.herokuapp.com/app/deploy' :
 				'/fielodeploy/app/home';
-				//'/fielodeploy/app/githubdeploy/deploy';
+				//'/fielodeploy/app/deploy';
 	
 	window.location = sfdeployurl;
 }
@@ -104,7 +104,7 @@ function load()
 		</div>
 	   	<div class="slds-col slds-no-flex slds-align-bottom">
 	      <div class="slds-button-group" role="group">
-	      	<input type="submit" id="login" value="Login to Salesforce" class="slds-button slds-button--neutral" onclick="githubdeploy();return false;"/>
+	      	<input type="submit" id="login" value="Login to Salesforce" class="slds-button slds-button--neutral" onclick="deploy();return false;"/>
 	      </div>
 	    </div>				
 	</div>

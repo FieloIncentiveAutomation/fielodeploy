@@ -10,6 +10,8 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
 
 import java.io.ByteArrayOutputStream;
@@ -55,6 +57,7 @@ import org.eclipse.egit.github.core.client.GitHubRequest;
 import org.eclipse.egit.github.core.client.GitHubResponse;
 import org.eclipse.egit.github.core.service.ContentsService;
 import org.eclipse.egit.github.core.service.RepositoryService;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,6 +67,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fielo.deploy.utils.GithubUtil;
 import com.force.sdk.connector.ForceServiceConnector;
 import com.force.sdk.oauth.exception.ForceOAuthSessionExpirationException;
 import com.sforce.soap.metadata.AsyncResult;
@@ -82,7 +86,7 @@ import com.sforce.ws.bind.TypeMapper;
 import com.sforce.ws.parser.XmlOutputStream;
 
 @Controller
-@RequestMapping("/githubdeploy")
+@RequestMapping("/deploy")
 public class GitHubSalesforceDeployController {
 	
     @Autowired
@@ -259,7 +263,7 @@ public class GitHubSalesforceDeployController {
 		return "deploy";
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/deploy")
+	@RequestMapping(method = RequestMethod.GET, value = "")
 	public String home(HttpServletRequest request,
 			HttpSession session ,Map<String, Object> map) throws Exception
 	{
@@ -268,10 +272,27 @@ public class GitHubSalesforceDeployController {
 		// Display user info
 		forceConnector = new ForceServiceConnector(ForceServiceConnector.getThreadLocalConnectorConfig());
 
-		map.put("userContext", forceConnector.getConnection().getUserInfo());
-		
+		map.put("userContext", forceConnector.getConnection().getUserInfo());	
 		map.put("githubcontents", "{}");
-
+			
+		String reposList = "";
+		File file = new File("/Users/admin/GitHub/fielodeploy/src/main/webapp/deploys.json"); //TODO: Fix path
+		if(!file.exists()) {
+			throw new Exception("Deployment list not found.");
+		} else {
+			//get file
+			JSONParser parser = new JSONParser();
+			try{
+				reposList = parser.parse(new FileReader(file.getAbsolutePath())).toString().replace("\\","");
+			}catch(java.io.FileNotFoundException e){
+				System.out.println(e.getMessage());
+			}
+		}
+		
+		System.out.println(reposList);
+		
+		map.put("deployList", reposList);
+		
 		return "deploy";
 	}
 	
@@ -605,7 +626,7 @@ public class GitHubSalesforceDeployController {
 	}
 
 	@ResponseBody
-	@RequestMapping(method = RequestMethod.POST, value = "/deploy/{package}/{version:.+}")
+	@RequestMapping(method = RequestMethod.POST, value = "/{package}/{version:.+}")
 	public String deployPackage(@PathVariable("package") String packageName,
 			@PathVariable("version") String packageVersion) throws Exception
 	{

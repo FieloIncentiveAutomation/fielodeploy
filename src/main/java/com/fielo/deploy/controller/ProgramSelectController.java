@@ -37,6 +37,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -61,6 +62,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 
@@ -93,11 +95,14 @@ import com.fielo.deploy.utils.GithubUtil;
 @RequestMapping("/programselect")
 public class ProgramSelectController {
 	
+    @Autowired
+    ServletContext context;		
+	
 	@RequestMapping(method = RequestMethod.GET, value="")
 	public String confirm(HttpSession session, Map<String, Object> map) throws Exception {
 		
 		String reposList = "";
-		File file = new File("/Users/Lenovo/fieloRepos/fielodeploy/src/main/webapp/Fielo-ProgramTypes.txt");
+		File file = new File(context.getRealPath("/") + "Fielo-ProgramTypes.txt");
 		if(!file.exists() || ((System.currentTimeMillis() - file.lastModified())/3600000) > 0){
 			//llamo github
 			reposList = new ObjectMapper().writeValueAsString(GithubUtil.getJsonFromGithub("Fielo-ProgramTypes"));

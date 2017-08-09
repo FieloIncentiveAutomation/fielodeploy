@@ -14,8 +14,8 @@ function continueRedirect()
 	var ref = $('#ref').val();    
 	var continueUrl =
 		$('#app').attr('checked') ?
-			'/fielodeploy/app/githubdeploy/deploy' :
-			'/fielodeploy/app/githubdeploy/deploy';
+			'/fielodeploy/app/deploy' :
+			'/fielodeploy/app/deploy';
 	
 	//sfdeployurl+= '/' + 'deploy';
 	window.location = continueUrl;

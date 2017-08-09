@@ -24,6 +24,7 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import javax.xml.namespace.QName;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -41,6 +42,7 @@ import org.eclipse.egit.github.core.client.GitHubResponse;
 import org.eclipse.egit.github.core.service.ContentsService;
 import org.eclipse.egit.github.core.service.RepositoryService;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -76,6 +78,9 @@ import com.fielo.deploy.utils.GithubUtil;
 @RequestMapping("/customselect")
 public class CustomSelectController {
 	
+    @Autowired
+    ServletContext context;	
+	
 	@RequestMapping(method = RequestMethod.GET, value="")
 	public String confirm(HttpSession session, Map<String, Object> map) throws Exception {
 		
@@ -92,7 +97,7 @@ public class CustomSelectController {
 			//String reposList = "";
 			ArrayList<GithubUtil.RepoWrapper> items = new ArrayList<GithubUtil.RepoWrapper>();
 			
-			File file = new File("/Users/Lenovo/fieloRepos/fielodeploy/src/main/webapp/" + owner + ".txt");
+			File file = new File(context.getRealPath("/") + owner + ".txt");
 			if(!file.exists() || ((System.currentTimeMillis() - file.lastModified())/3600000) > 0){
 				//llamo github
 				items = GithubUtil.getJsonFromGithub(owner);

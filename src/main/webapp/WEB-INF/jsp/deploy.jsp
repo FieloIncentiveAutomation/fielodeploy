@@ -34,8 +34,7 @@
           	</svg>
 			</div>
 			<div class="slds-media__body">
-				<h2 class="slds-text-heading--small slds-truncate">From GitHub
-					Repository</h2>
+				<h2 class="slds-text-heading--small slds-truncate">Deployment List</h2>
 			</div>
 		</div>
 	</div>
@@ -54,7 +53,7 @@
 								</p>
 							</dd>
 						</c:if>
-						<dt class="slds-dl--horizontal__label">
+						<!-- dt class="slds-dl--horizontal__label">
 							<p class="slds-truncate">Name:</p>
 						</dt>
 						<dd class="slds-dl--horizontal__detail slds-tile__meta">
@@ -65,7 +64,7 @@
                         </dt>
                         <dd class="slds-dl--horizontal__detail slds-tile__meta">
                             <p class="slds-truncate">${ref}</p>
-                        </dd>                        
+                        </dd-->                        
 						<c:if test="${repo != null}">
 							<dt class="slds-dl--horizontal__label">
 								<p class="slds-truncate">Description:</p>
@@ -81,9 +80,12 @@
                                     <a href="${repo.getHtmlUrl()}/tree/${ref}" target="_new">${repo.getHtmlUrl()}/tree/${ref}</a>
 								</p>
 							</dd>
-						</c:if>
+						</c:if>				
 					</dl>
 				</div>
+				<c:if test="${deployList != null}">
+					<div class="slds-tile__detail" id="deployList"></div>
+				</c:if>
 			</li>
 		</ul>
 	</div>
@@ -146,6 +148,9 @@
 
 			// Contents of the GitHub repository
 			contents: ${githubcontents},
+			
+			// Contents to deploy
+			deployList: ${deployList},
 
 			// Async result from Salesforce Metadata API
 			asyncResult : null,
@@ -175,6 +180,37 @@
 									container.repositoryItems[fileIdx].repositoryItem.path + '</a></div>');
 				},		
 			
+
+			// Render deployment list
+			renderDeployList: function(container) {
+					var deploy;
+					var isRepo;
+					var first = true;
+					for(fileIdx in container) {
+						if (first) {
+							deploy = '';
+							first = false;
+						} else {
+							deploy = '<br>';
+						}
+						isRepo = (container[fileIdx].repoOwner != null);
+						deploy += '<dl class="slds-dl--horizontal slds-text-body--small">';
+						deploy += '<dt class="slds-dl--horizontal__label">' + 
+                            	  	'<p class="slds-truncate">' + (isRepo ? 'Repository ' : 'Package ') + 'name:' + '</p></dt>' +
+                            	  '<dd class="slds-dl--horizontal__detail slds-tile__meta">' +
+                            	  	'<p class="slds-truncate">' + container[fileIdx].name + '</p></dd>';
+						deploy += '<dt class="slds-dl--horizontal__label">' + 
+                	  				'<p class="slds-truncate">' + (isRepo ? 'Owner: ' : '')  + '</p></dt>' +
+                                   '<dd class="slds-dl--horizontal__detail slds-tile__meta">' +
+                            	  	'<p class="slds-truncate">' + (isRepo ? container[fileIdx].repoOwner : '') + '</p></dd>';
+                	  	deploy += '<dt class="slds-dl--horizontal__label">' + 
+    	  							'<p class="slds-truncate">' + (isRepo ? 'Branch: ' : 'Version: ')  + '</p></dt>' +
+                        		  '<dd class="slds-dl--horizontal__detail slds-tile__meta">' +
+                 	  				'<p class="slds-truncate">' + ((container[fileIdx].version != null) ? container[fileIdx].version : 'master') + '</p></dd>'; 
+						deploy += '</dl>';
+						$('#deployList').append(deploy);
+					}
+				},
 				
 			// Start deploys
 			initDeploy: function() {
@@ -322,6 +358,8 @@
 
 		// Render files selected to deploy
 		GitHubDeploy.render(GitHubDeploy.contents);
+		
+		GitHubDeploy.renderDeployList(GitHubDeploy.deployList);
 
 	</script>
 </c:if>
