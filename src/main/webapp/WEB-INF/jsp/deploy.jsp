@@ -5,7 +5,7 @@
 	    <c:if test="${githubcontents != null}">
 	   	<div class="slds-col slds-no-flex slds-align-bottom">
 	      <div class="slds-button-group" role="group">    
-	        <button id="deploy" class="slds-button slds-button--neutral" onclick="GitHubDeploy.initDeploy();">Deploy</button>
+	        <button id="deploy" class="slds-button slds-button--neutral" onclick="GitHubDeploy.initDeploy(GitHubDeploy.deployList);">Deploy</button>
 	      </div>
 	    </div>		
 	    </c:if>
@@ -213,9 +213,19 @@
 				},
 				
 			// Start deploys
-			initDeploy: function() {
+			initDeploy: function(container) {
 				$('#deploystatus').empty();
-	            $.getJSON('/fielodeploy/deploys.json', function(config) {
+            	var deploys = [];
+            	$.each(container,function(key, value){
+            		deploys.push(value);
+            		alert(value.version);
+            	});
+            	deploys.reverse();
+				GitHubDeploy.packages = deploys;           	
+				if(GitHubDeploy.packages.length > 0)
+					GitHubDeploy.deploy();
+				
+	            /*$.getJSON('/fielodeploy/deploys.json', function(config) {
 	            	var deploys = [];
 	            	$.each(config,function(key, value){
 	            		deploys.push(value);
@@ -225,7 +235,7 @@
 					GitHubDeploy.packages = deploys;           	
 					if(GitHubDeploy.packages.length > 0)
 						GitHubDeploy.deploy();
-					});
+					});*/
 				},				
 				
 			// Control deploys
