@@ -221,6 +221,7 @@
 	            		deploys.push(value);
 	            		//alert(value.version);
 	            	});
+	            	deploys.reverse();
 					GitHubDeploy.packages = deploys;           	
 					if(GitHubDeploy.packages.length > 0)
 						GitHubDeploy.deploy();

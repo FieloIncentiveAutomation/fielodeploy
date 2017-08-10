@@ -13,10 +13,15 @@ import org.springframework.web.client.RestTemplate;
 
 public class GithubUtil {
 	
+	// Allocated via your GitHub Account Settings, set as environment vars, provides increased limits per hour for GitHub API calls
+	public static String GITHUB_CLIENT_ID = "GITHUB_CLIENT_ID";
+	public static String GITHUB_CLIENT_SECRET = "GITHUB_CLIENT_SECRET";
+	public static String GITHUB_TOKEN = "ghtoken";
+	
 	public static ArrayList<RepoWrapper> getJsonFromGithub(String owner){
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<ArrayList<RepoWrapper>> repoResponse =
-		        restTemplate.exchange("https://api.github.com/users/" + owner + "/repos",
+		        restTemplate.exchange("https://api.github.com/users/" + owner + "/repos?client_id=" + System.getenv(GITHUB_CLIENT_ID) + "&client_secret=" + System.getenv(GITHUB_CLIENT_SECRET),
 		                    HttpMethod.GET, null, new ParameterizedTypeReference<ArrayList<RepoWrapper>>() {});
 		
 		ArrayList<RepoWrapper> items = repoResponse.getBody();

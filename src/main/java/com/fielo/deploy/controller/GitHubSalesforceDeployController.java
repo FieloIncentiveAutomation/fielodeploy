@@ -91,11 +91,6 @@ public class GitHubSalesforceDeployController {
 	
     @Autowired
     ServletContext context;
-
-	// Allocated via your GitHub Account Settings, set as environment vars, provides increased limits per hour for GitHub API calls
-	private static String GITHUB_CLIENT_ID = "GITHUB_CLIENT_ID";
-	private static String GITHUB_CLIENT_SECRET = "GITHUB_CLIENT_SECRET";
-	private static String GITHUB_TOKEN = "ghtoken";
 	
 	HttpServletRequest servletRequest;
 	ForceServiceConnector forceConnector;
@@ -105,7 +100,7 @@ public class GitHubSalesforceDeployController {
 	@RequestMapping(method = RequestMethod.GET, value="/logoutgh")
 	public String logoutgh(HttpSession session,@RequestParam(required=false) final String retUrl)
 	{
-		session.removeAttribute(GITHUB_TOKEN);
+		session.removeAttribute(GithubUtil.GITHUB_TOKEN);
 		return retUrl != null ? "redirect:" + retUrl : "redirect:/index.jsp";
 	}
 
@@ -116,7 +111,7 @@ public class GitHubSalesforceDeployController {
 		HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
 		connection.setRequestMethod("POST");
 		connection.setRequestProperty("Accept", "application/json");
-		String urlParameters = "client_id=" + System.getenv(GITHUB_CLIENT_ID) + "&client_secret=" + System.getenv(GITHUB_CLIENT_SECRET)
+		String urlParameters = "client_id=" + System.getenv(GithubUtil.GITHUB_CLIENT_ID) + "&client_secret=" + System.getenv(GithubUtil.GITHUB_CLIENT_SECRET)
 					 +"&code=" + code;
 		// Send post request
 		connection.setDoOutput(true);
@@ -136,7 +131,7 @@ public class GitHubSalesforceDeployController {
 
 		ObjectMapper mapper = new ObjectMapper();
 		TokenResult tokenResult = (TokenResult) mapper.readValue(gitHubResponse.toString(), TokenResult.class);
-		session.setAttribute(GITHUB_TOKEN, tokenResult.access_token);
+		session.setAttribute(GithubUtil.GITHUB_TOKEN, tokenResult.access_token);
 		String redirectUrl = state;
 		return "redirect:" + redirectUrl;
 	}
@@ -152,7 +147,7 @@ public class GitHubSalesforceDeployController {
 		{
 			map.put("repo", null);
 			map.put("githubcontents", null);
-			String accessToken = (String)session.getAttribute(GITHUB_TOKEN);
+			String accessToken = (String)session.getAttribute(GithubUtil.GITHUB_TOKEN);
 			// Repository name
 			RepositoryId repoId = RepositoryId.create(repoOwner, repoName);
 			map.put("repositoryName", repoId.generateId());
@@ -167,13 +162,13 @@ public class GitHubSalesforceDeployController {
 			GitHubClient client;
 			if(accessToken == null)
 			{
-				client = new GitHubClientOAuthServer(System.getenv(GITHUB_CLIENT_ID), System.getenv(GITHUB_CLIENT_SECRET) );
+				client = new GitHubClientOAuthServer(System.getenv(GithubUtil.GITHUB_CLIENT_ID), System.getenv(GithubUtil.GITHUB_CLIENT_SECRET) );
 			}
 			else
 			{
 				client = new GitHubClient();
 				client.setOAuth2Token(accessToken);
-				map.put("githuburl","https://github.com/settings/connections/applications/" + System.getenv(GITHUB_CLIENT_ID));
+				map.put("githuburl","https://github.com/settings/connections/applications/" + System.getenv(GithubUtil.GITHUB_CLIENT_ID));
 			}
 
 			RepositoryService service = new RepositoryService(client);
@@ -187,7 +182,7 @@ public class GitHubSalesforceDeployController {
 					StringBuffer requestURL = request.getRequestURL();
 				    String queryString = request.getQueryString();
 				    String redirectUrl = queryString == null ? requestURL.toString() : requestURL.append('?').append(queryString).toString();
-					return "redirect:" + "https://github.com/login/oauth/authorize?client_id=" + System.getenv(GITHUB_CLIENT_ID) + "&scope=repo&state=" + redirectUrl;					
+					return "redirect:" + "https://github.com/login/oauth/authorize?client_id=" + System.getenv(GithubUtil.GITHUB_CLIENT_ID) + "&scope=repo&state=" + redirectUrl;					
 				}
 				else {
 					map.put("error", "Failed to retrive GitHub repository details : " + e.toString());					
@@ -276,7 +271,7 @@ public class GitHubSalesforceDeployController {
 		map.put("githubcontents", "{}");
 			
 		String reposList = "";
-		File file = new File("/Users/admin/GitHub/fielodeploy/src/main/webapp/deploys.json"); //TODO: Fix path
+		File file = new File(context.getRealPath("/") + "deploys.json");
 		if(!file.exists()) {
 			throw new Exception("Deployment list not found.");
 		} else {
@@ -330,7 +325,7 @@ public class GitHubSalesforceDeployController {
 		{
 			map.put("repo", null);
 			map.put("githubcontents", null);
-			String accessToken = (String)session.getAttribute(GITHUB_TOKEN);
+			String accessToken = (String)session.getAttribute(GithubUtil.GITHUB_TOKEN);
 			// Repository name
 			RepositoryId repoId = RepositoryId.create(repoOwner, repoName);
 			map.put("repositoryName", repoId.generateId());
@@ -340,13 +335,13 @@ public class GitHubSalesforceDeployController {
 			GitHubClient client;
 			if(accessToken == null)
 			{
-				client = new GitHubClientOAuthServer(System.getenv(GITHUB_CLIENT_ID), System.getenv(GITHUB_CLIENT_SECRET) );
+				client = new GitHubClientOAuthServer(System.getenv(GithubUtil.GITHUB_CLIENT_ID), System.getenv(GithubUtil.GITHUB_CLIENT_SECRET) );
 			}
 			else
 			{
 				client = new GitHubClient();
 				client.setOAuth2Token(accessToken);
-				map.put("githuburl","https://github.com/settings/connections/applications/" + System.getenv(GITHUB_CLIENT_ID));
+				map.put("githuburl","https://github.com/settings/connections/applications/" + System.getenv(GithubUtil.GITHUB_CLIENT_ID));
 			}
 
 			RepositoryService service = new RepositoryService(client);
@@ -361,7 +356,7 @@ public class GitHubSalesforceDeployController {
 				    String queryString = servletRequest.getQueryString();
 				    String redirectUrl = queryString == null ? requestURL.toString() : requestURL.append('?').append(queryString).toString();
 					//return "redirect:" + "https://github.com/login/oauth/authorize?client_id=" + System.getenv(GITHUB_CLIENT_ID) + "&scope=repo&state=" + redirectUrl;					
-					map.put("redirect", "https://github.com/login/oauth/authorize?client_id=" + System.getenv(GITHUB_CLIENT_ID) + "&scope=repo&state=" + redirectUrl);
+					map.put("redirect", "https://github.com/login/oauth/authorize?client_id=" + System.getenv(GithubUtil.GITHUB_CLIENT_ID) + "&scope=repo&state=" + redirectUrl);
 				}
 				else {
 					map.put("error", "Failed to retrieve GitHub repository details : " + e.toString());					
@@ -442,7 +437,7 @@ public class GitHubSalesforceDeployController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(method = RequestMethod.POST, value = "/deploy/{owner}/{repo}/{ref}")	
+	@RequestMapping(method = RequestMethod.POST, value = "/{owner}/{repo}/{ref}")	
 	public String deployRepository(
 			@PathVariable("owner") String repoOwner, 
 			@PathVariable("repo") String repoName,
@@ -452,14 +447,14 @@ public class GitHubSalesforceDeployController {
 			Map<String,Object> map,
 			HttpSession session) throws Exception
 	{
-		String accessToken = (String)session.getAttribute(GITHUB_TOKEN);
+		String accessToken = (String)session.getAttribute(GithubUtil.GITHUB_TOKEN);
 
 		GitHubClient client;
 
 		if(accessToken == null)
 		{
 			// Connect via oAuth client and secret to get greater request limits
-			client = new GitHubClientOAuthServer(System.getenv(GITHUB_CLIENT_ID), System.getenv(GITHUB_CLIENT_SECRET) );
+			client = new GitHubClientOAuthServer(System.getenv(GithubUtil.GITHUB_CLIENT_ID), System.getenv(GithubUtil.GITHUB_CLIENT_SECRET) );
 		}
 		else
 		{
@@ -523,7 +518,7 @@ public class GitHubSalesforceDeployController {
 		   zipIS = contentService.getArchiveAsZip(repoId, repositoryContainer.ref);
 		}catch(RequestException e)
 		{
-			session.removeAttribute(GITHUB_TOKEN);
+			session.removeAttribute(GithubUtil.GITHUB_TOKEN);
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"GitHub Token Invalid" );
 			return "";
 		}
@@ -767,7 +762,7 @@ public class GitHubSalesforceDeployController {
 	}
 			
 	@ResponseBody
-	@RequestMapping(method = RequestMethod.GET, value = "/deploy/checkstatus/{asyncId}")
+	@RequestMapping(method = RequestMethod.GET, value = "/checkstatus/{asyncId}")
 	//@RequestMapping(method = RequestMethod.GET, value = "/{owner}/{repo}/checkstatus/{asyncId}")
 	public String checkStatus(@PathVariable("asyncId") String asyncId) throws Exception
 	{
@@ -781,7 +776,7 @@ public class GitHubSalesforceDeployController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(method = RequestMethod.GET, value = "/deploy/checkdeploy/{asyncId}")
+	@RequestMapping(method = RequestMethod.GET, value = "/checkdeploy/{asyncId}")
 	//@RequestMapping(method = RequestMethod.GET, value = "/{owner}/{repo}/checkdeploy/{asyncId}")
 	public String checkDeploy(@PathVariable("asyncId") String asyncId) throws Exception
 	{
