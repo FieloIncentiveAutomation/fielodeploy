@@ -48,6 +48,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jettison.json.JSONObject;
 import org.eclipse.egit.github.core.IRepositoryIdProvider;
 import org.eclipse.egit.github.core.RepositoryContents;
 import org.eclipse.egit.github.core.RepositoryId;
@@ -258,8 +259,9 @@ public class GitHubSalesforceDeployController {
 		return "deploy";
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "")
-	public String home(HttpServletRequest request,
+	@RequestMapping(method = { RequestMethod.POST }, value = "")
+	public String home(@RequestBody String deployList,
+			HttpServletRequest request,
 			HttpSession session ,Map<String, Object> map) throws Exception
 	{
 		servletRequest = request;
@@ -270,6 +272,7 @@ public class GitHubSalesforceDeployController {
 		map.put("userContext", forceConnector.getConnection().getUserInfo());	
 		map.put("githubcontents", "{}");
 			
+		/*
 		String reposList = "";
 		File file = new File(context.getRealPath("/") + "deploys.json");
 		if(!file.exists()) {
@@ -283,10 +286,18 @@ public class GitHubSalesforceDeployController {
 				System.out.println(e.getMessage());
 			}
 		}
+		*/
+		System.out.println(deployList);
 		
-		System.out.println(reposList);
+		map.put("deployList", deployList);
+
+		JSONObject result = new JSONObject();
+		result.put("redirect", true);
 		
-		map.put("deployList", reposList);
+		JSONObject jobj = new JSONObject();
+				String urlToRedirect = "deploy.jsp";
+				jobj.put("url",urlToRedirect);
+				//response.getWriter().write(jobj.toString());		
 		
 		return "deploy";
 	}

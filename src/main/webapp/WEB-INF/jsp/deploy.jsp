@@ -269,8 +269,8 @@
 		                url: window.location.pathname + '/' + repoOwner + '/' + repoName + '/' + ref, // + (ref!='' ? '&ref=' + ref : ''),
 		                processData : false,
 		                data : JSON.stringify(GitHubDeploy.contents),
-		                contentType : "application/json; charset=utf-8",
-		                dataType : "json",
+		                contentType : 'application/json; charset=utf-8',
+		                dataType : 'json',
 		                success: function(data, textStatus, jqXHR) {
 		                    GitHubDeploy.asyncResult = data;
 		                    GitHubDeploy.renderAsync();

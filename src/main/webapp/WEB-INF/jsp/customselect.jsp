@@ -11,14 +11,35 @@
 var appName = '';
 function continueRedirect()
 {
-	var ref = $('#ref').val();    
+	var ref = $('#ref').val(); 
+	var selected = [];
+	$('#reposDiv input:checked').each(function() {	
+		var deploys = ($(this).attr('id')).split('/', 2);
+	    selected.push({name: deploys[1], repoOwner: deploys[0], version: 'master'});
+	});
 	var continueUrl =
 		$('#app').attr('checked') ?
 			'/fielodeploy/app/deploy' :
 			'/fielodeploy/app/deploy';
 	
 	//sfdeployurl+= '/' + 'deploy';
-	window.location = continueUrl;
+	//window.location = continueUrl;
+
+	$.ajax({
+	    type: 'POST',
+	    url: continueUrl, //window.location.pathname + '/' + packageName + '/' + packageVersion,
+	    processData : false,
+	    data : JSON.stringify(selected),
+	    contentType : "application/json; charset=utf-8",
+	    dataType : "html",
+	    success: function(data, textStatus, jqXHR) {
+	    	document.open();
+	    	document.write(data);
+	    	document.close();	    },
+	    error: function(jqXHR, textStatus, errorThrown) {
+	        alert('Failed!' + textStatus + errorThrown);
+	    }
+	});
 }
 
 
@@ -91,7 +112,7 @@ function continueRedirect()
 					'<div id="repos" class="slds-form-element__control">';
 					
 					for(fileIdx in map[repo])
-						htmlString += '<label class="slds-checkbox"><input type="checkbox" id="' + map[repo][fileIdx].fullName + '" name="environment" value="' + map[repo][fileIdx].fullName + '">' +
+						htmlString += '<label class="slds-checkbox"><input type="checkbox" id="' + map[repo][fileIdx].full_name + '" name="environment" value="' + map[repo][fileIdx].full_name + '">' +
 								'<span class="slds-checkbox--faux"></span>' +
 								'<span class="slds-form-element__label">' + map[repo][fileIdx].name + '</span></label>';
 						
