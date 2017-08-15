@@ -22,9 +22,38 @@ function continueRedirect()
 			'/fielodeploy/app/deploy' :
 			'/fielodeploy/app/deploy';
 	
+	/*
+	var form = $('<form action="' + continueUrl + '" method="POST">' + 
+	    '<input type="hidden" name="deploy" value="' + JSON.stringify(selected) + '">' +
+	    '</form>');
+	document.body.appendChild(form);
+	form.submit();
+	*/
+	/*
+	$('<form method="post"><input type="submit"/><input type="hidden" name="deploy" /></form>').attr('action', continueUrl);
+	document.body.appendChild(form);
+	$('input[name="deploy"]', form).val(JSON.stringify(selected));
+    $('input[type="submit"]', form).click();    
+	*/
+	
+    var deployForm = document.createElement('FORM');
+	deployForm.name = 'myForm';
+	deployForm.method = 'POST';
+	deployForm.action = continueUrl;
+	
+	deployInput = document.createElement('INPUT');
+	deployInput.enctype = 'text/plain';
+	deployInput.type = 'HIDDEN';
+	deployInput.name = 'deployInput';
+	deployInput.value = JSON.stringify(selected);
+	deployForm.appendChild(deployInput);	
+	
+	document.body.appendChild(deployForm);
+	deployForm.submit();
+	
 	//sfdeployurl+= '/' + 'deploy';
 	//window.location = continueUrl;
-
+	/*
 	$.ajax({
 	    type: 'POST',
 	    url: continueUrl, //window.location.pathname + '/' + packageName + '/' + packageVersion,
@@ -35,11 +64,13 @@ function continueRedirect()
 	    success: function(data, textStatus, jqXHR) {
 	    	document.open();
 	    	document.write(data);
-	    	document.close();	    },
+	    	document.close();	    
+	    },
 	    error: function(jqXHR, textStatus, errorThrown) {
 	        alert('Failed!' + textStatus + errorThrown);
 	    }
 	});
+	*/
 }
 
 

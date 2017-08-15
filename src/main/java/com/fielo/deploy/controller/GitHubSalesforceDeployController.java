@@ -3,8 +3,7 @@ package com.fielo.deploy.controller;
 import static org.eclipse.egit.github.core.client.IGitHubConstants.SEGMENT_REPOS;
 
 import java.net.URL;
-
-
+import java.net.URLDecoder;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -264,6 +263,7 @@ public class GitHubSalesforceDeployController {
 			HttpServletRequest request,
 			HttpSession session ,Map<String, Object> map) throws Exception
 	{
+		deployList = URLDecoder.decode(deployList, "UTF-8"); //.substring(deployList.indexOf('['));	
 		servletRequest = request;
 		
 		// Display user info
@@ -290,14 +290,6 @@ public class GitHubSalesforceDeployController {
 		System.out.println(deployList);
 		
 		map.put("deployList", deployList);
-
-		JSONObject result = new JSONObject();
-		result.put("redirect", true);
-		
-		JSONObject jobj = new JSONObject();
-				String urlToRedirect = "deploy.jsp";
-				jobj.put("url",urlToRedirect);
-				//response.getWriter().write(jobj.toString());		
 		
 		return "deploy";
 	}
