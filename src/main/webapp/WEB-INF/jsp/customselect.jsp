@@ -15,27 +15,13 @@ function continueRedirect()
 	var selected = [];
 	$('#reposDiv input:checked').each(function() {	
 		var deploys = ($(this).attr('id')).split('/', 2);
-	    selected.push({name: deploys[1], repoOwner: deploys[0], version: 'master'});
+	    selected.push({name: deploys[1], repoOwner: deploys[0]});
 	});
 	var continueUrl =
 		$('#app').attr('checked') ?
 			'/fielodeploy/app/deploy' :
 			'/fielodeploy/app/deploy';
-	
-	/*
-	var form = $('<form action="' + continueUrl + '" method="POST">' + 
-	    '<input type="hidden" name="deploy" value="' + JSON.stringify(selected) + '">' +
-	    '</form>');
-	document.body.appendChild(form);
-	form.submit();
-	*/
-	/*
-	$('<form method="post"><input type="submit"/><input type="hidden" name="deploy" /></form>').attr('action', continueUrl);
-	document.body.appendChild(form);
-	$('input[name="deploy"]', form).val(JSON.stringify(selected));
-    $('input[type="submit"]', form).click();    
-	*/
-	
+		
     var deployForm = document.createElement('FORM');
 	deployForm.name = 'myForm';
 	deployForm.method = 'POST';

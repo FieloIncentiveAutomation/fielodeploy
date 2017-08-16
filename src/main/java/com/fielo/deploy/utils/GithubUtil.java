@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,18 @@ public class GithubUtil {
 		
 		return items;
 	}
+	
+	public static JSONObject getJsonFromGithub(String owner, String repo){
+		JSONObject json = new JSONObject(); 
+		try {
+			json = (JSONObject) (new JSONParser()).parse("https://raw.githubusercontent.com/" + owner + "/" + repo + "/master/config.json");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
+	
+	
 	
 	public class RepoWrapper{
 		public String name;

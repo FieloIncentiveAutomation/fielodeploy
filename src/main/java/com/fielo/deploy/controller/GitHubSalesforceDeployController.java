@@ -57,6 +57,7 @@ import org.eclipse.egit.github.core.client.GitHubRequest;
 import org.eclipse.egit.github.core.client.GitHubResponse;
 import org.eclipse.egit.github.core.service.ContentsService;
 import org.eclipse.egit.github.core.service.RepositoryService;
+import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -263,7 +264,12 @@ public class GitHubSalesforceDeployController {
 			HttpServletRequest request,
 			HttpSession session ,Map<String, Object> map) throws Exception
 	{
-		deployList = URLDecoder.decode(deployList, "UTF-8"); //.substring(deployList.indexOf('['));	
+		deployList = URLDecoder.decode(deployList, "UTF-8"); 
+		deployList = deployList.substring(deployList.indexOf('['));
+		JSONArray selection = (JSONArray) (new JSONParser()).parse(deployList);
+		
+		
+		
 		servletRequest = request;
 		
 		// Display user info
