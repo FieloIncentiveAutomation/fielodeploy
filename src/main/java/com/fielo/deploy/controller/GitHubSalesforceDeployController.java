@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -47,7 +48,6 @@ import javax.net.ssl.HttpsURLConnection;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jettison.json.JSONObject;
 import org.eclipse.egit.github.core.IRepositoryIdProvider;
 import org.eclipse.egit.github.core.RepositoryContents;
 import org.eclipse.egit.github.core.RepositoryId;
@@ -57,6 +57,7 @@ import org.eclipse.egit.github.core.client.GitHubRequest;
 import org.eclipse.egit.github.core.client.GitHubResponse;
 import org.eclipse.egit.github.core.service.ContentsService;
 import org.eclipse.egit.github.core.service.RepositoryService;
+import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -260,16 +261,16 @@ public class GitHubSalesforceDeployController {
 	}
 	
 	@RequestMapping(method = { RequestMethod.POST }, value = "")
-	public String home(@RequestBody String deployList,
+	public String home(@RequestBody String selectionList,
 			HttpServletRequest request,
 			HttpSession session ,Map<String, Object> map) throws Exception
 	{
-		deployList = URLDecoder.decode(deployList, "UTF-8"); 
-		deployList = deployList.substring(deployList.indexOf('['));
-		JSONArray selection = (JSONArray) (new JSONParser()).parse(deployList);
+		selectionList = URLDecoder.decode(selectionList, "UTF-8"); 
+		selectionList = selectionList.substring(selectionList.indexOf('['));
+		JSONArray selection = (JSONArray) (new JSONParser()).parse(selectionList);
 		
-		
-		
+		JSONArray deployList = GithubUtil.getDeployList(selection);
+				
 		servletRequest = request;
 		
 		// Display user info
@@ -293,9 +294,9 @@ public class GitHubSalesforceDeployController {
 			}
 		}
 		*/
-		System.out.println(deployList);
+		System.out.println(selectionList);
 		
-		map.put("deployList", deployList);
+		map.put("deployList", deployList.toString());
 		
 		return "deploy";
 	}

@@ -218,7 +218,7 @@
             	var deploys = [];
             	$.each(container,function(key, value){
             		deploys.push(value);
-            		alert(value.version);
+            		//alert(value.version);
             	});
             	deploys.reverse();
 				GitHubDeploy.packages = deploys;           	

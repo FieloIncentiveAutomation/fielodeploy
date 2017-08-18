@@ -14,8 +14,8 @@ function continueRedirect()
 	var ref = $('#ref').val(); 
 	var selected = [];
 	$('#reposDiv input:checked').each(function() {	
-		var deploys = ($(this).attr('id')).split('/', 2);
-	    selected.push({name: deploys[1], repoOwner: deploys[0]});
+		//var deploys = ($(this).attr('id')).split('/', 2);
+	    selected.push({type:"linkRepository", name: $(this).attr('id')});
 	});
 	var continueUrl =
 		$('#app').attr('checked') ?
