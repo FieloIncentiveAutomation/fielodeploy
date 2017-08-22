@@ -41,9 +41,13 @@ public class GithubUtil {
 
 		return items;
 	}
+	
+	public static JSONArray getDeployList(JSONArray selection) throws IOException, ParseException {
+		return removeDuplicates(getFullDeployList(selection));
+	}
 
 	@SuppressWarnings("unchecked")
-	public static JSONArray getDeployList(JSONArray selection) throws IOException, ParseException {
+	private static JSONArray getFullDeployList(JSONArray selection) throws IOException, ParseException {
 		JSONArray deployList = new JSONArray();
 		
 		Iterator<?> iterator = selection.iterator();
@@ -66,7 +70,7 @@ public class GithubUtil {
 		        JSONArray dependencies = GithubUtil.getDependencies(repoInfo);
 		        repoInfo.remove("dependencies");
 	    		deployList.add(repoInfo); 
-		        deployList = concatenateStart(deployList, getDeployList(dependencies));
+		        deployList = concatenateStart(deployList, getFullDeployList(dependencies));
 	    		break;
 		    // If type of resource is package, just add it to the list
 	    	case "package":
@@ -76,9 +80,13 @@ public class GithubUtil {
                 throw new IllegalArgumentException("Invalid source type: " + type);
 	    	}
    	    }		
-	    // Remove duplicates
-	    /*
-		iterator = deployList.iterator();
+	    
+    	return deployList;    
+	}
+    
+	private static JSONArray removeDuplicates(JSONArray deployList) {  
+		JSONArray result = new JSONArray();
+		Iterator<?> iterator = deployList.iterator();
 		Map<String, JSONObject> control = new HashMap<String, JSONObject>();
 	    while (iterator.hasNext()) {
 	    	JSONObject deployItem = (JSONObject) iterator.next();
@@ -87,16 +95,15 @@ public class GithubUtil {
 	    	// 	- Not considering repo owners
 	    	//	- Removing first occurrence of duplicates
 	    	String name = deployItem.get("name").toString();
-	    	if (!control.containsKey(name)) {
-	    		control.put(deployItem.get("name").toString(), deployItem);
-	    	} else {
-	    		deployList.remove(deployItem);
+	    	String fullName = deployItem.get("type").toString().equals("repository") ? deployItem.get("repoOwner").toString() + "/" + name : name;
+	    	if (!control.containsKey(fullName)) {
+	    		control.put(fullName, deployItem);
+	    		result.add(deployItem);
 	    	}
 	    }	    
-	    */
-    	return deployList;    
+		return result;
 	}
-    
+	
 	private static JSONObject getRepoInfo(String name) throws IOException, ParseException {
 		// TODO: REMOVE IT AFTER ADJUSTING FILE NAME ON REPOSITORY!!!
 		if (name.equals("Fielo-Plugins/fielocms-fieloplt")) {

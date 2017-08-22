@@ -17,6 +17,10 @@ function continueRedirect()
 		//var deploys = ($(this).attr('id')).split('/', 2);
 	    selected.push({type:"linkRepository", name: $(this).attr('id')});
 	});
+	if (selected.length == 0) {
+		alert("Please select at least one of the sources.");
+		return;
+	}
 	var continueUrl =
 		$('#app').attr('checked') ?
 			'/fielodeploy/app/deploy' :
