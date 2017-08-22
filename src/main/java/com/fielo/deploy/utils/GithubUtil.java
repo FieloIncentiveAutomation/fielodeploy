@@ -69,8 +69,20 @@ public class GithubUtil {
 		        }
 		        JSONArray dependencies = GithubUtil.getDependencies(repoInfo);
 		        repoInfo.remove("dependencies");
-	    		deployList.add(repoInfo); 
-		        deployList = concatenateStart(deployList, getFullDeployList(dependencies));
+	    		deployList.add(repoInfo);     		
+	    		JSONArray deepDependecies = getFullDeployList(dependencies);
+	    		//deepDependecies.add(repoInfo); //TODO: REMOVE
+	    		
+	    		// Checks for circular dependencies - if in the inheritance tree of a source it appears again
+    	    	String repoFullName = getFullName(repoInfo);
+	    		Iterator<?> dependenciesIterator = deepDependecies.iterator();
+	    	    while (dependenciesIterator.hasNext()) {
+	    	    	if (getFullName((JSONObject) dependenciesIterator.next()).equals(repoFullName)) {
+	                    throw new IllegalArgumentException("Circular dependency found in: " + repoFullName);	    	    		
+	    	    	}
+	    	    }	    
+	    		
+		        deployList = concatenateStart(deployList, deepDependecies );
 	    		break;
 		    // If type of resource is package, just add it to the list
 	    	case "package":
@@ -84,6 +96,11 @@ public class GithubUtil {
     	return deployList;    
 	}
     
+	private static String getFullName(JSONObject deployItem) {
+    	String name = deployItem.get("name").toString();
+		return deployItem.get("type").toString().equals("repository") ? deployItem.get("repoOwner").toString() + "/" + name : name;
+	}
+	
 	private static JSONArray removeDuplicates(JSONArray deployList) {  
 		JSONArray result = new JSONArray();
 		Iterator<?> iterator = deployList.iterator();
@@ -92,8 +109,6 @@ public class GithubUtil {
 	    	JSONObject deployItem = (JSONObject) iterator.next();
 	    	// TODO: Adjust this first, basic version: 
 	    	// 	- Not considering version possible differences
-	    	// 	- Not considering repo owners
-	    	//	- Removing first occurrence of duplicates
 	    	String name = deployItem.get("name").toString();
 	    	String fullName = deployItem.get("type").toString().equals("repository") ? deployItem.get("repoOwner").toString() + "/" + name : name;
 	    	if (!control.containsKey(fullName)) {
