@@ -43,7 +43,7 @@ public class GithubUtil {
 	}
 	
 	public static JSONArray getDeployList(JSONArray selection) throws IOException, ParseException {
-		return removeDuplicates(getFullDeployList(selection));
+		return handleDuplicates(getFullDeployList(selection));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -71,9 +71,8 @@ public class GithubUtil {
 		        repoInfo.remove("dependencies");
 	    		deployList.add(repoInfo);     		
 	    		JSONArray deepDependecies = getFullDeployList(dependencies);
-	    		//deepDependecies.add(repoInfo); //TODO: REMOVE
 	    		
-	    		// Checks for circular dependencies - if in the inheritance tree of a source it appears again
+	    		// Checks for circular dependencies - if an original source appears again in its inheritance tree
     	    	String repoFullName = getFullName(repoInfo);
 	    		Iterator<?> dependenciesIterator = deepDependecies.iterator();
 	    	    while (dependenciesIterator.hasNext()) {
@@ -101,19 +100,36 @@ public class GithubUtil {
 		return deployItem.get("type").toString().equals("repository") ? deployItem.get("repoOwner").toString() + "/" + name : name;
 	}
 	
-	private static JSONArray removeDuplicates(JSONArray deployList) {  
+	private static JSONArray handleDuplicates(JSONArray deployList) {  
 		JSONArray result = new JSONArray();
 		Iterator<?> iterator = deployList.iterator();
-		Map<String, JSONObject> control = new HashMap<String, JSONObject>();
+		Map<String, JSONObject> control = new HashMap<String, JSONObject>(); // Control map showing the unique items added to the list
 	    while (iterator.hasNext()) {
 	    	JSONObject deployItem = (JSONObject) iterator.next();
-	    	// TODO: Adjust this first, basic version: 
-	    	// 	- Not considering version possible differences
-	    	String name = deployItem.get("name").toString();
-	    	String fullName = deployItem.get("type").toString().equals("repository") ? deployItem.get("repoOwner").toString() + "/" + name : name;
+	    	String fullName = getFullName(deployItem);
+	    	// If item is not repeated, it is added to the list
 	    	if (!control.containsKey(fullName)) {
 	    		control.put(fullName, deployItem);
 	    		result.add(deployItem);
+	    	} else {
+	    		// If repeated item is a package, the newest version is used
+	    		if (deployItem.get("type").toString().equals("package")) {
+	    			String currentVersion = deployItem.get("version").toString();
+	    			JSONObject controlDeployItem = control.get(fullName);
+	    			// If version in the control map (and consequently in the result list) is smaller
+	    			if (controlDeployItem.get("version").toString().compareTo(currentVersion) < 0) { 
+	    				// Update the control map
+	    				control.put(fullName, deployItem);
+	    				// Update version in the result list
+	    				for (int i = 0; i < result.size(); i++) {
+	    				    JSONObject resultItem = (JSONObject) result.get(i);
+	    				    if(resultItem.get("name").toString().equals(fullName)) {
+	    				    	resultItem.put("version", currentVersion);
+	    				    	break;
+	    				    }
+	    				}	    			
+	    			}
+	    		}
 	    	}
 	    }	    
 		return result;
