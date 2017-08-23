@@ -268,7 +268,6 @@ public class GitHubSalesforceDeployController {
 		selectionList = URLDecoder.decode(selectionList, "UTF-8"); 
 		selectionList = selectionList.substring(selectionList.indexOf('['));
 		JSONArray selection = (JSONArray) (new JSONParser()).parse(selectionList);
-		//selection = (JSONArray) (new JSONParser()).parse("[{\"name\":\"Fielo-Plugins/fielocms-fieloelr\",\"type\":\"linkRepository\"},{\"name\":\"Fielo-Plugins/fielocms-fieloprp\",\"type\":\"linkRepository\"},{\"name\":\"Fielo-Apps/fieloelr\",\"type\":\"linkRepository\"},{\"name\":\"Fielo-Apps/fieloprp\",\"type\":\"linkRepository\"},{\"name\":\"Fielo-Connectors/fielogrs\",\"type\":\"linkRepository\"},{\"name\":\"Fielo-Themes/origin\",\"type\":\"linkRepository\"},{\"name\":\"Fielo-Plugins/fielocms-fieloplt\",\"type\":\"linkRepository\"}]");
 		JSONArray deployList = GithubUtil.getDeployList(selection);
 				
 		servletRequest = request;

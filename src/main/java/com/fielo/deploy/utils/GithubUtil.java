@@ -184,5 +184,6 @@ public class GithubUtil {
 	public class RepoWrapper{
 		public String name;
 		public String full_name;
+		public String description;
 	}
 }

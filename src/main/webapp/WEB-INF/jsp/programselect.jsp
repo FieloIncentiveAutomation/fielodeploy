@@ -11,14 +11,38 @@
 var appName = '';
 function continueRedirect()
 {
-	var ref = $('#ref').val();    
+	var ref = $('#ref').val(); 
+	var selected = [];
+	$('#programs input:checked').each(function() {	
+		//var deploys = ($(this).attr('id')).split('/', 2);
+	    selected.push({type:"linkRepository", name: $(this).attr('id')});
+	});
+	if (selected.length == 0) {
+		alert("Please select at least one of the sources.");
+		return;
+	}
 	var continueUrl =
-		$('#manufacturing').attr('checked') ?
+		$('#app').attr('checked') ?
 			'/fielodeploy/app/deploy' :
 			'/fielodeploy/app/deploy';
+		
+    var deployForm = document.createElement('FORM');
+	deployForm.name = 'myForm';
+	deployForm.method = 'POST';
+	deployForm.action = continueUrl;
+	
+	deployInput = document.createElement('INPUT');
+	deployInput.enctype = 'text/plain';
+	deployInput.type = 'HIDDEN';
+	deployInput.name = 'deployInput';
+	deployInput.value = JSON.stringify(selected);
+	deployForm.appendChild(deployInput);	
+	
+	document.body.appendChild(deployForm);
+	deployForm.submit();
 	
 	//sfdeployurl+= '/' + 'deploy';
-	window.location = continueUrl;
+	//window.location = continueUrl;
 }
 
 
@@ -78,11 +102,13 @@ function continueRedirect()
 
 			// Render GitHub repository contents
 			render: function(container) {
-					for(fileIdx in container)
+					for(fileIdx in container) {
+						var repoItem = container[fileIdx];
 						$('#programs').append(
-								'<label class="slds-checkbox"><input type="checkbox" id="' + container[fileIdx].fullName + '" name="environment" value="' + container[fileIdx].fullName + '">' +
+								'<label class="slds-checkbox"><input type="checkbox" id="' + repoItem.full_name + '" name="environment" value="' + repoItem.full_name + '">' +
 								'<span class="slds-checkbox--faux"></span>' +
-								'<span class="slds-form-element__label">' + container[fileIdx].name + '</span></label>');
+								'<span class="slds-form-element__label" title="' + repoItem.name + '">' + (repoItem.description != null ? repoItem.description : repoItem.name) + '</span></label>');
+					}
 				}		
 		}
 		

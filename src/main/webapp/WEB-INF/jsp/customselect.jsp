@@ -132,11 +132,12 @@ function continueRedirect()
 					var htmlString = '<div class="slds-form-element"><legend class="form-element__legend slds-form-element__label">' + repo + '</legend>' +
 					'<div id="repos" class="slds-form-element__control">';
 					
-					for(fileIdx in map[repo])
-						htmlString += '<label class="slds-checkbox"><input type="checkbox" id="' + map[repo][fileIdx].full_name + '" name="environment" value="' + map[repo][fileIdx].full_name + '">' +
+					for(fileIdx in map[repo]) {
+						var repoItem = map[repo][fileIdx];
+						htmlString += '<label class="slds-checkbox"><input type="checkbox" id="' + repoItem.full_name + '" name="environment" value="' + repoItem.full_name + '">' +
 								'<span class="slds-checkbox--faux"></span>' +
-								'<span class="slds-form-element__label">' + map[repo][fileIdx].name + '</span></label>';
-						
+								'<span class="slds-form-element__label" title="' + repoItem.name + '">' + (repoItem.description != null ? repoItem.description : repoItem.name) + '</span></label>';
+					}
 					htmlString += '</div></div>';
 					$('#reposDiv').append(htmlString);
 				})

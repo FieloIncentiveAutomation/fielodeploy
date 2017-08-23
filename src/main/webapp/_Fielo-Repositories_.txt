@@ -1,0 +1,133 @@
+Fielo-ProgramTypes
+	Manufacturing
+	{
+		"type":"repository",
+		"version":"master",
+		"dependencies":[
+			{
+				"type":"linkRepository",
+				"name":"Fielo-Connectors/fielogrs"
+			},
+			{
+				"type":"linkRepository",
+				"name":"Fielo-Plugins/fielocms-fieloprp"
+			},
+			{
+				"type":"linkRepository",
+				"name":"Fielo-Plugins/fielocms-fieloelr"
+			},
+			{
+				"type":"linkRepository",
+				"name":"Fielo-Themes/origin"
+			}
+		]
+	}
+
+Fielo-Apps
+	fieloelr
+	{
+		"type":"package",
+		"version":"1.17",
+		"name":"FieloELR",
+		"dependencies":[
+			{
+				"type":"package",
+				"version":"1.26",
+				"name":"FieloPLT"
+			}
+		]
+	}
+		
+	fieloprp
+	{
+		"type":"package",
+		"version":"1.4",
+		"name":"FieloPRP",
+		"dependencies":[
+			{
+				"type":"package",
+				"version":"1.26",
+				"name":"FieloPLT"
+			}
+		]
+	}	
+
+Fielo-Plugins
+	fielocms-fieloelr
+	{
+		"type":"repository",
+		"version":"master",
+		"dependencies":[
+			{
+				"type":"linkRepository",
+				"name":"Fielo-Apps/fieloelr"
+			},
+			{
+				"type":"linkRepository",
+				"name":"Fielo-Plugins/fielocms-fieloplt"
+			}
+		]
+	}
+
+	fielocms-fieloplt
+	{
+		"type":"repository",
+		"version":"master",
+		"dependencies":[
+			{
+				"type":"package",
+				"version":"1.26",
+				"name":"FieloPLT"
+			},
+			{
+				"type":"package",
+				"version":"1.52",
+				"name":"FieloCMS"
+			}
+		]
+	}
+
+	fielocms-fieloprp
+	{
+		"type":"repository",
+		"version":"master",
+		"dependencies":[
+			{
+				"type":"linkRepository",
+				"name":"Fielo-Apps/fieloprp"
+			},
+			{
+				"type":"linkRepository",
+				"name":"Fielo-Plugins/fielocms-fieloplt"
+			}
+		]
+	}
+
+Fielo-Connectors
+	fielogrs
+	{
+		"type":"package",
+		"version":"1.0",
+		"name":"FieloGRS",
+		"dependencies":[
+			{
+				"type":"package",
+				"version":"1.26",
+				"name":"FieloPLT"
+			}
+		]
+	}
+
+Fielo-Themes
+	origin
+	{
+		"type":"repository",
+		"version":"master",
+		"dependencies":[
+			{
+				"type":"package",
+				"version":"1.52",
+				"name":"FieloCMS"
+			}
+		]
+	}
