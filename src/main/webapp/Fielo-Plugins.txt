@@ -1,1 +1,0 @@
-[{"name":"fielocms-fieloelr","full_name":"Fielo-Plugins/fielocms-fieloelr"},{"name":"fielocms-fieloplt","full_name":"Fielo-Plugins/fielocms-fieloplt"},{"name":"fielocms-fieloprp","full_name":"Fielo-Plugins/fielocms-fieloprp"},{"name":"invoice-upload","full_name":"Fielo-Plugins/invoice-upload"}]
