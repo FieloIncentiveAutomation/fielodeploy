@@ -1100,7 +1100,8 @@ public class GitHubSalesforceDeployController {
 				buf.append(" -- " + ccw.getMessage() + "\n");
 			}
 		}
-
+		//System.out.println("Result: " + result.toString());
+		//System.out.println("Errors: " + buf.toString());
 		return buf.toString();
 	}
 }

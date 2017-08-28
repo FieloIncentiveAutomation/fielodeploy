@@ -349,13 +349,18 @@
 			checkDeploy: function() {
 					$('#deploystatus').append('<div>Deployment Complete</div>');
 					$('#deploystatus').append('<div>=======================================</div>');					
-					$('#deploy').attr('disabled', null);	
+					$('#deploy').attr('disabled', null);
+					//var errors = false;
 		            $.ajax({
 		                type: 'GET',
 		                url: window.location.pathname + '/checkdeploy/' + GitHubDeploy.asyncResult.id,
 		                contentType : 'application/json; charset=utf-8',
 		                dataType : 'json',
 		                success: function(data, textStatus, jqXHR) {
+		                	if (data.substr(1, 9) == 'Failures:') {
+		                		alert('Deployment error!');
+		                		GitHubDeploy.packages = [];
+		                	}
 		                	$('#deploystatus').append(data);               	
 		                },
 		                error: function(jqXHR, textStatus, errorThrown) {
