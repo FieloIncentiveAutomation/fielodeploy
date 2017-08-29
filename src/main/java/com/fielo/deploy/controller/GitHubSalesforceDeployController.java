@@ -631,8 +631,10 @@ public class GitHubSalesforceDeployController {
 
 	@ResponseBody
 	@RequestMapping(method = RequestMethod.POST, value = "/{package}/{version:.+}")
-	public String deployPackage(@PathVariable("package") String packageName,
-			@PathVariable("version") String packageVersion) throws Exception
+	public String deployPackage(
+			@PathVariable("package") String packageName,
+			@PathVariable("version") String packageVersion,
+			HttpServletResponse response) throws Exception
 	{
 		// Connect to Salesforce Metadata API
 		ForceServiceConnector connector = new ForceServiceConnector(ForceServiceConnector.getThreadLocalConnectorConfig());
