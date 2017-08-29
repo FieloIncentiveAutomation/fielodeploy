@@ -281,6 +281,7 @@
 		                },
 		                error: function(jqXHR, textStatus, errorThrown) {
 		                    alert('Failed with status: ' + jqXHR.status + '\n\n' + $(jqXHR.responseText).filter('h1').text());
+							$('#deploy').attr('disabled', null);                    
 		                    //alert('Failed ' + textStatus + errorThrown);
 		                }
 		            });
@@ -310,8 +311,8 @@
 		                    	GitHubDeploy.intervalId = window.setInterval(GitHubDeploy.checkStatus, 2000);
 		                },
 		                error: function(jqXHR, textStatus, errorThrown) {
-		                    //alert(jqXHR.status); //This will be 500
 		                    alert('Failed with status: ' + jqXHR.status + '\n\n' + $(jqXHR.responseText).filter('h1').text());
+							$('#deploy').attr('disabled', null);
 		                    //$('#deploystatus').append(jqXHR.responseText);
 		                    //alert('Failed ' + textStatus + errorThrown);
 		                }

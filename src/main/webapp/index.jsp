@@ -14,8 +14,8 @@ function deploy()
 	var ref = $('#ref').val();    
 	var sfdeployurl =
 		$('#production').attr('checked') ?
-			'https://fielodeploy.herokuapp.com/app/deploy' :
-				'/fielodeploy/app/home';
+				'/fielodeploy/app/home' :
+				'https://sf-deployer-sandbox.herokuapp.com/app/deploy';
 				//'/fielodeploy/app/deploy';
 	
 	window.location = sfdeployurl;
@@ -115,14 +115,14 @@ function load()
 	<legend class="form-element__legend slds-form-element__label">Deploy with:</legend>
 	<div class="slds-form-element__control">
 	<label class="slds-radio">
-		<input type="radio" id="production" name="environment" value="production">
-		<span class="slds-radio--faux"></span>
-		<span class="slds-form-element__label">Sandbox</span>
-	</label>
-	<label class="slds-radio">
-		<input type="radio" id="sandbox" name="environment" checked="true" value="sandbox">
+		<input type="radio" id="production" name="environment" checked="true" value="production">
 		<span class="slds-radio--faux"></span>
 		<span class="slds-form-element__label">Production/Development</span>
+	</label>
+	<label class="slds-radio">
+		<input type="radio" id="sandbox" name="environment" value="sandbox">
+		<span class="slds-radio--faux"></span>
+		<span class="slds-form-element__label">Sandbox</span>
 	</label>
 	</div>
 </div>
