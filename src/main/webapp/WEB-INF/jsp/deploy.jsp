@@ -30,7 +30,7 @@
 				<svg aria-hidden="true"
 					class="slds-icon slds-icon-action-share slds-icon--small">
             	<use
-						xlink:href="/fielodeploy/resources/assets/icons/action-sprite/svg/symbols.svg#share"></use>
+						xlink:href="/resources/assets/icons/action-sprite/svg/symbols.svg#share"></use>
           	</svg>
 			</div>
 			<div class="slds-media__body">
@@ -98,7 +98,7 @@
 				<svg aria-hidden="true"
 					class="slds-icon icon-utility-salesforce-1 slds-icon-text-default slds-icon--small">
             		<use
-						xlink:href="/fielodeploy/resources/assets/icons/utility-sprite/svg/symbols.svg#salesforce1"></use>
+						xlink:href="/resources/assets/icons/utility-sprite/svg/symbols.svg#salesforce1"></use>
           		</svg>
 			</div>
 			<div class="slds-media__body">
@@ -140,7 +140,7 @@
 	<div id="githubcontents"></div>
 </c:if>
 
-<script src="/fielodeploy/resources/js/jquery-1.7.1.min.js"></script>
+<script src="/resources/js/jquery-1.7.1.min.js"></script>
 <c:if test="${githubcontents != null}">
 	<script type="text/javascript">
 

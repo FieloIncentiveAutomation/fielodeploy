@@ -2,9 +2,9 @@
 <html>
 <head>
     <title>Fielo Deployment Tool</title>
-	<script src="/fielodeploy/resources/js/jquery-1.7.1.min.js"></script>
-	<script src="/fielodeploy/resources/js/purl.js"></script>
-	<link rel="stylesheet" type="text/css" href="/fielodeploy/resources/assets/styles/salesforce-lightning-design-system.css">
+	<script src="/resources/js/jquery-1.7.1.min.js"></script>
+	<script src="/resources/js/purl.js"></script>
+	<link rel="stylesheet" type="text/css" href="/resources/assets/styles/salesforce-lightning-design-system.css">
 </head>
 
 <script>
@@ -23,8 +23,8 @@ function continueRedirect()
 	}
 	var continueUrl =
 		$('#app').attr('checked') ?
-			'/fielodeploy/app/deploy' :
-			'/fielodeploy/app/deploy';
+			'/app/deploy' :
+			'/app/deploy';
 		
     var deployForm = document.createElement('FORM');
 	deployForm.name = 'myForm';
@@ -74,7 +74,7 @@ function continueRedirect()
 					<div class="slds-media">
 						<div class="slds-media__figure">
 						  	<svg aria-hidden="true" class="slds-icon slds-icon-action-upload slds-icon--large slds-p-around--x-small">
-						    	<use xlink:href="/fielodeploy/resources/assets/icons/action-sprite/svg/symbols.svg#upload"></use>
+						    	<use xlink:href="/resources/assets/icons/action-sprite/svg/symbols.svg#upload"></use>
 						  	</svg>
 						</div>
 						<div class="slds-media__body">
@@ -112,7 +112,7 @@ function continueRedirect()
 					<!-- </div>
 				</div>-->
 
-<script src="/fielodeploy/resources/js/jquery-1.7.1.min.js"></script>
+<script src="/resources/js/jquery-1.7.1.min.js"></script>
 <c:if test="${reposList != null}">
 	<script type="text/javascript">
 

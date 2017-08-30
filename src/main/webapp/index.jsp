@@ -14,9 +14,9 @@ function deploy()
 	var ref = $('#ref').val();    
 	var sfdeployurl =
 		$('#production').attr('checked') ?
-				'/fielodeploy/app/home' :
+				'/app/home' :
 				'https://sf-deployer-sandbox.herokuapp.com/app/deploy';
-				//'/fielodeploy/app/deploy';
+				//'/app/deploy';
 	
 	window.location = sfdeployurl;
 }
@@ -93,7 +93,7 @@ function load()
 			<div class="slds-media">
 				<div class="slds-media__figure">
 				  <svg aria-hidden="true" class="slds-icon slds-icon-action-upload slds-icon--large slds-p-around--x-small">
-				    <use xlink:href="/fielodeploy/resources/assets/icons/action-sprite/svg/symbols.svg#upload"></use>
+				    <use xlink:href="/resources/assets/icons/action-sprite/svg/symbols.svg#upload"></use>
 				  </svg>
 				</div>
 				<div class="slds-media__body">
