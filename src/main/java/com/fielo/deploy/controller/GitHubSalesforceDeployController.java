@@ -97,7 +97,7 @@ public class GitHubSalesforceDeployController {
 	HttpServletRequest servletRequest;
 	ForceServiceConnector forceConnector;
 	
-	private static final String ZIP_FILE = "packages" + File.separator; //TODO: remove absolute path
+	private static final String ZIP_FILE = "packages" + File.separator;
 	
 	@RequestMapping(method = RequestMethod.GET, value="/logoutgh")
 	public String logoutgh(HttpSession session,@RequestParam(required=false) final String retUrl)
@@ -642,6 +642,7 @@ public class GitHubSalesforceDeployController {
 		MetadataConnection metadataConnection = connector.getMetadataConnection();
 		
 		String packagePath = context.getRealPath("/") + ZIP_FILE;
+		System.out.println("Zip file path: " + packagePath);
 		
 		if (!writeXmlFile(packagePath, packageName, packageVersion)) {
 			throw new Exception("Cannot create the XML file to deploy. Tried to create " + packagePath + "installedPackages" + File.separator + packageName + ".installedPackage");
@@ -720,7 +721,7 @@ public class GitHubSalesforceDeployController {
 	 * 
 	 * @return byte[]
 	 * @throws Exception
-	 *             - if cannot find the zip file to deploy
+	 *             - if cannot create the zip file to deploy
 	 */
 	private boolean writeZipFile(String packagePath, String packageName) throws Exception {
 		
@@ -735,7 +736,8 @@ public class GitHubSalesforceDeployController {
         ZipOutputStream out = new ZipOutputStream(new FileOutputStream(packagePath + packageName + ".zip"));
 
         for(String fileName : fileNames) {
-	        FileInputStream in = new FileInputStream(packagePath + fileName);     
+	        FileInputStream in = new FileInputStream(packagePath + fileName); 
+	        System.out.println("File to zip: " + packagePath + fileName);
 	        out.putNextEntry(new ZipEntry(fileName));
 	    	while ((len = in.read(buffer)) > 0) {
 	    		out.write(buffer, 0, len);
