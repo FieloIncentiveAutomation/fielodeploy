@@ -655,7 +655,9 @@ public class GitHubSalesforceDeployController {
         DeployOptions deployOptions = new DeployOptions();
         deployOptions.setPerformRetrieve(false);
         deployOptions.setRollbackOnError(true);
+        System.out.println("Starting to deploy " + packagePath + packageName);
         AsyncResult asyncResult = metadataConnection.deploy(zipBytes, deployOptions);
+        System.out.println("Finished deploying " + packagePath + packageName);       
 
 		// Given the client the AysncResult to poll for the result of the deploy
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -743,7 +745,8 @@ public class GitHubSalesforceDeployController {
 	    		out.write(buffer, 0, len);
 	    	}
 	    	out.closeEntry();
-	    	in.close();       
+	    	in.close();     
+	        System.out.println("Zipped: " + packagePath + fileName);    	
         }
     	out.close();
     	return true;
