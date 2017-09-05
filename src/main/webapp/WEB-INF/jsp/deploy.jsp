@@ -366,14 +366,14 @@
 		                		alert('Deployment error!');
 		                		GitHubDeploy.packages = [];
 		                	}
-		                	$('#deploystatus').append(data);               	
+		                	$('#deploystatus').append(data);   
+							if(GitHubDeploy.packages.length > 0)
+								GitHubDeploy.deploy();	                	
 		                },
 		                error: function(jqXHR, textStatus, errorThrown) {
 		                	$('#deploystatus').append('<div>Error: ' + textStatus + errorThrown + '</div>');
 		                }
 		            });
-					if(GitHubDeploy.packages.length > 0)
-						GitHubDeploy.deploy();
 				}
 		}
 
