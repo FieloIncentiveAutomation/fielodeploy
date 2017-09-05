@@ -652,6 +652,7 @@ public class GitHubSalesforceDeployController {
 		}
 		// Deploy to Salesforce
         byte zipBytes[] = readZipFile(packagePath, packageName);
+        System.out.println("zipBytes: " + zipBytes.length);
         DeployOptions deployOptions = new DeployOptions();
         deployOptions.setPerformRetrieve(false);
         deployOptions.setRollbackOnError(true);
@@ -1068,11 +1069,12 @@ public class GitHubSalesforceDeployController {
 	 */
 	private static String printErrors(DeployResult result)
 	{
+		System.out.println("DeployResult: " + result.toString());
 		DeployMessage messages[] = result.getMessages();
 		StringBuilder buf = new StringBuilder();
 		for (DeployMessage message : messages) {
 			if (!message.isSuccess()) {
-				System.out.println(message.toString());
+				System.out.println("printErrors: " + message.toString());
 				if(buf.length()==0)
 					buf = new StringBuilder("\nFailures:\n");
 				String loc = (message.getLineNumber() == 0 ? "" :
