@@ -1072,6 +1072,7 @@ public class GitHubSalesforceDeployController {
 		StringBuilder buf = new StringBuilder();
 		for (DeployMessage message : messages) {
 			if (!message.isSuccess()) {
+				System.out.println(message.toString());
 				if(buf.length()==0)
 					buf = new StringBuilder("\nFailures:\n");
 				String loc = (message.getLineNumber() == 0 ? "" :
