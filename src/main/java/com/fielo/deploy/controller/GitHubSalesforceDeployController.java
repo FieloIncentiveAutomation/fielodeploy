@@ -656,9 +656,9 @@ public class GitHubSalesforceDeployController {
         DeployOptions deployOptions = new DeployOptions();
         deployOptions.setPerformRetrieve(false);
         deployOptions.setRollbackOnError(true);
-        System.out.println("Starting to deploy " + packagePath + packageName);
+        System.out.println("Starting to deploy " + packagePath + packageName + ".zip");
         AsyncResult asyncResult = metadataConnection.deploy(zipBytes, deployOptions);
-        System.out.println("Finished deploying " + packagePath + packageName);       
+        System.out.println("Finished deploying " + packagePath + packageName + ".zip");       
 
 		// Given the client the AysncResult to poll for the result of the deploy
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -740,16 +740,16 @@ public class GitHubSalesforceDeployController {
 
         for(String fileName : fileNames) {
 	        FileInputStream in = new FileInputStream(packagePath + fileName); 
-	        System.out.println("File to zip: " + packagePath + fileName);
 	        out.putNextEntry(new ZipEntry(fileName));
 	    	while ((len = in.read(buffer)) > 0) {
 	    		out.write(buffer, 0, len);
 	    	}
 	    	out.closeEntry();
 	    	in.close();     
-	        System.out.println("Zipped: " + packagePath + fileName);    	
+	        System.out.println("Added: " + packagePath + fileName);    	
         }
     	out.close();
+    	System.out.println("Zipped: " + packagePath + packageName + ".zip");
     	return true;
 }
 	
