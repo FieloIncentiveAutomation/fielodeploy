@@ -643,7 +643,7 @@ public class GitHubSalesforceDeployController {
 		
 		String packagePath = context.getRealPath("/") + ZIP_FILE;
 		System.out.println("Zip file path: " + packagePath);
-		packageName += "Heroku";
+		packageName += "Heroku"; //TODO: remove
 		
 		if (!writeXmlFile(packagePath, packageName, packageVersion)) {
 			throw new Exception("Cannot create the XML file to deploy. Tried to create " + packagePath + "installedPackages" + File.separator + packageName + ".installedPackage");
