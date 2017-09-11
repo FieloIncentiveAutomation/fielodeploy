@@ -743,15 +743,14 @@ public class GitHubSalesforceDeployController {
     	int len;
 
 		// Input files /
-    	// File.separator was replaced by "\\" because the Metadata API didn't recognise the format utilised on Heroku ("/" instead of "\")
-        String[] fileNames = new String[] {"package.xml", "installedPackages" + "\\" + packageName + ".installedPackage"};
+        String[] fileNames = new String[] {"package.xml", "installedPackages" + File.separator + packageName + ".installedPackage"};
        
         // Output file 
         ZipOutputStream out = new ZipOutputStream(new FileOutputStream(packagePath + packageName + ".zip"));
 
         for(String fileName : fileNames) {
 	        FileInputStream in = new FileInputStream(packagePath + fileName); 
-	        out.putNextEntry(new ZipEntry(fileName));
+	        out.putNextEntry(new ZipEntry(fileName.replace('/', '\\')));
 	    	while ((len = in.read(buffer)) > 0) {
 	    		out.write(buffer, 0, len);
 	    	}
