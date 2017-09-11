@@ -643,14 +643,14 @@ public class GitHubSalesforceDeployController {
 		
 		String packagePath = context.getRealPath("/") + ZIP_FILE;
 		System.out.println("Zip file path: " + packagePath);
-		/*
+		
 		if (!writeXmlFile(packagePath, packageName, packageVersion)) {
 			throw new Exception("Cannot create the XML file to deploy. Tried to create " + packagePath + "installedPackages" + File.separator + packageName + ".installedPackage");
 		}
 		if (!writeZipFile(packagePath, packageName)) {
 			throw new Exception("Cannot create the ZIP file to deploy. Tried to create " + packagePath + packageName + ".zip");
 		}
-		*/
+		
 		// Deploy to Salesforce
         byte zipBytes[] = readZipFile(packagePath, packageName);
         System.out.println("zipBytes: " + zipBytes.length);
@@ -743,7 +743,8 @@ public class GitHubSalesforceDeployController {
     	int len;
 
 		// Input files /
-        String[] fileNames = new String[] {"package.xml", "installedPackages" + File.separator + packageName + ".installedPackage"};
+    	// File.separator was replaced by "\\" because the Metadata API didn't recognise the format utilised on Heroku ("/" instead of "\")
+        String[] fileNames = new String[] {"package.xml", "installedPackages" + "\\" + packageName + ".installedPackage"};
        
         // Output file 
         ZipOutputStream out = new ZipOutputStream(new FileOutputStream(packagePath + packageName + ".zip"));
