@@ -679,8 +679,9 @@ public class GitHubSalesforceDeployController {
 
 		try {
 			String lineSeparator = System.getProperty("line.separator");
-			System.out.println("Line separator length: " + lineSeparator.length());
+			System.out.println("Line separator length before: " + lineSeparator.length());
 			System.setProperty("line.separator", "\r\n");
+			System.out.println("Line separator length during: " + lineSeparator.length());		
 			
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -714,6 +715,7 @@ public class GitHubSalesforceDeployController {
 			transformer.transform(source, file);
 
 			System.setProperty("line.separator", lineSeparator);
+			System.out.println("Line separator length after: " + lineSeparator.length());			
 			// System.out.println("File saved!");
 			result = true;
 
