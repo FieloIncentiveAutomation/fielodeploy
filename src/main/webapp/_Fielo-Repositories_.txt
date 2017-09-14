@@ -27,12 +27,12 @@ Fielo-Apps
 	fieloelr
 	{
 		"type":"package",
-		"version":"1.17",
+		"version":"1.19",
 		"name":"FieloELR",
 		"dependencies":[
 			{
 				"type":"package",
-				"version":"1.26",
+				"version":"2.29.2",
 				"name":"FieloPLT"
 			}
 		]
@@ -41,16 +41,16 @@ Fielo-Apps
 	fieloprp
 	{
 		"type":"package",
-		"version":"1.4",
+		"version":"1.5",
 		"name":"FieloPRP",
 		"dependencies":[
 			{
 				"type":"package",
-				"version":"1.26",
+				"version":"2.29.2",
 				"name":"FieloPLT"
 			}
 		]
-	}	
+	}
 
 Fielo-Plugins
 	fielocms-fieloelr
@@ -76,12 +76,12 @@ Fielo-Plugins
 		"dependencies":[
 			{
 				"type":"package",
-				"version":"1.26",
+				"version":"2.29.2",
 				"name":"FieloPLT"
 			},
 			{
 				"type":"package",
-				"version":"1.52",
+				"version":"1.75",
 				"name":"FieloCMS"
 			}
 		]
@@ -107,12 +107,12 @@ Fielo-Connectors
 	fielogrs
 	{
 		"type":"package",
-		"version":"1.0",
+		"version":"1.2",
 		"name":"FieloGRS",
 		"dependencies":[
 			{
 				"type":"package",
-				"version":"1.26",
+				"version":"2.29.2",
 				"name":"FieloPLT"
 			}
 		]

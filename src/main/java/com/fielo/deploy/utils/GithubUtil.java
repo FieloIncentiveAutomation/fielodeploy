@@ -136,10 +136,6 @@ public class GithubUtil {
 	}
 	
 	private static JSONObject getRepoInfo(String name) throws IOException, ParseException {
-		// TODO: REMOVE IT AFTER ADJUSTING FILE NAME ON REPOSITORY!!!
-		if (name.equals("Fielo-Plugins/fielocms-fieloplt")) {
-			return readJsonFromUrl("https://raw.githubusercontent.com/" + name + "/master/config,json");
-		}
 		return readJsonFromUrl("https://raw.githubusercontent.com/" + name + "/master/config.json");
 	}
 
