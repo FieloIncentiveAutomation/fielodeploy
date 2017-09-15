@@ -750,7 +750,7 @@ public class GitHubSalesforceDeployController {
 
         for(String fileName : fileNames) {
 	        FileInputStream in = new FileInputStream(packagePath + fileName); 
-	        out.putNextEntry(new ZipEntry(fileName.replace('/', '\\')));
+	        out.putNextEntry(new ZipEntry(packageName + "/" + fileName.replace('\\', '/')));
 	    	while ((len = in.read(buffer)) > 0) {
 	    		out.write(buffer, 0, len);
 	    	}
