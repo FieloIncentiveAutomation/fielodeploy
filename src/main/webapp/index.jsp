@@ -15,7 +15,7 @@ function deploy()
 	var sfdeployurl =
 		$('#production').attr('checked') ?
 				'/app/home' :
-				'https://sf-deployer-sandbox.herokuapp.com/app/deploy';
+				'https://sf-deployer-sandbox.herokuapp.com/app/home';
 				//'/app/deploy';
 	
 	window.location = sfdeployurl;
