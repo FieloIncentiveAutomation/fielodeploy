@@ -446,7 +446,7 @@ public class GitHubSalesforceDeployController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(method = RequestMethod.POST, value = "/{owner}/{repo}/{ref}")	
+	@RequestMapping(method = RequestMethod.POST, value = "/{owner}/{repo}/{ref:.+}")	
 	public String deployRepository(
 			@PathVariable("owner") String repoOwner, 
 			@PathVariable("repo") String repoName,
