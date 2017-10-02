@@ -163,7 +163,10 @@
 			
 			// Packages to deploy
 			packages: null,
-					
+
+			// Dots for showing status progress
+			dots: 0,
+			
 			// Render GitHub repository contents
 			render: function(container) {
 					if(container.repositoryItem!=null)
@@ -263,7 +266,8 @@
 					$('#deploy').attr('disabled', 'disabled');
 					/////$('#deploystatus').empty();
 					$('#deploystatus').show();
-					$('#deploystatus').append('Repository Deployment Started: ' + repoName);
+					$('#deploystatus').append('<div>Repository Deployment Started: ' + repoName + '</div>');
+					$('#deploystatus').append('<div>Status: Connecting</div>');
 		            $.ajax({
 		                type: 'POST',
 		                url: window.location.pathname + '/' + repoOwner + '/' + repoName + '/' + ref, // + (ref!='' ? '&ref=' + ref : ''),
@@ -294,6 +298,7 @@
 					/////$('#deploystatus').empty();
 					$('#deploystatus').show();
 					$('#deploystatus').append('<div>Package Deployment Started: ' + packageName + '</div>');
+					$('#deploystatus').append('<div>Status: Connecting</div>');
 		            $.ajax({
 		                type: 'POST',
 		                url: window.location.pathname + '/' + packageName + '/' + packageVersion,
@@ -319,14 +324,23 @@
 		            });
 				},		
 				
-			// Render Async
-			renderAsync: function() {
-					$('#deploystatus').append(
-						'<div>Status: '+
-							GitHubDeploy.asyncResult.state + ' ' +
-							(GitHubDeploy.asyncResult.message != null ? GitHubDeploy.asyncResult.message : '') +
-						'</div>');
-				},
+				// Render Async
+				renderAsync: function() {
+						$('div:last-child', '#deploystatus').remove();
+						var completed = (GitHubDeploy.asyncResult.state == 'Completed');
+						if (completed) {
+							GitHubDeploy.dots = 0;
+						}
+						$('#deploystatus').append(
+							'<div>Status: '+
+								GitHubDeploy.asyncResult.state + '.'.repeat(GitHubDeploy.dots) +
+								(GitHubDeploy.asyncResult.message != null ? GitHubDeploy.asyncResult.message : '') + 
+							'</div>');
+						// GitHubDeploy.dots - [0..3]
+						if (!completed) {
+							GitHubDeploy.dots = (++GitHubDeploy.dots) % 4;	
+						}
+					},
 
 			// Check Status
 			checkStatus: function() {
