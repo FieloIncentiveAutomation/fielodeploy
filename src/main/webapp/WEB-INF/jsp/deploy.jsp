@@ -366,6 +366,7 @@
 
 			// Check Deploy
 			checkDeploy: function() {
+					$('div:last-child', '#deploystatus').remove();
 					$('#deploystatus').append('<div>Deployment Complete</div>');
 					$('#deploystatus').append('<div>=======================================</div>');					
 					$('#deploy').attr('disabled', null);
