@@ -377,10 +377,10 @@
 		                contentType : 'application/json; charset=utf-8',
 		                dataType : 'json',
 		                success: function(data, textStatus, jqXHR) {
-		                	if (data.substr(1, 9) == 'Failures:') {
+		                	if (data.substr(1, 9) == 'Failures:' && data.indexOf('A newer version of this package is currently installed') != -1) {
 		                		alert('Deployment error!');
-		                		GitHubDeploy.packages = [];
-		                	}
+			                	GitHubDeploy.packages = [];		                			
+			                }
 		                	$('#deploystatus').append(data);   
 							if(GitHubDeploy.packages.length > 0)
 								GitHubDeploy.deploy();	                	
