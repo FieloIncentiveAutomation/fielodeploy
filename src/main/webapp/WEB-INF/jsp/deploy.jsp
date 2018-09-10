@@ -204,7 +204,7 @@
 								} else {
 									deploy = '<br>';
 								}
-								
+								$('#dropdownInfo').empty();
 								$('#dropdownInfo').append(packages);
 							}
 							
@@ -214,6 +214,8 @@
 					initDeploy: function(container) {
 						
 						$('#deploystatus').empty();
+						$('#openInfoPackages').removeClass('slds-is-open');
+			            $('#openInfoPackages').addClass('slds-is-closed');
 		            	var deploys = [];
 		            	$.each(container,function(key, value){
 		            		deploys.push(value);
@@ -369,7 +371,7 @@
 				                    if(GitHubDeploy.asyncResult.state == 'Completed')
 				                    {		                    	
 				                     	while (minPercentage < maxPercentage){       		
-				                    			 frame(++minPercentage, maxPercentage).delay(500);
+				                    			 frame(++minPercentage, maxPercentage);
 					                    	  }
 				                    	
 				                    	window.clearInterval(GitHubDeploy.intervalId);
