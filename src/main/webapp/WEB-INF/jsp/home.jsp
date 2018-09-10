@@ -1,70 +1,250 @@
-<!doctype html>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<!DOCTYPE html>
 <html>
-<head>
-    <title>Fielo Deployment Tool</title>
-	<script src="/resources/js/jquery-1.7.1.min.js"></script>
-	<script src="/resources/js/purl.js"></script>
-	<link rel="stylesheet" type="text/css" href="/resources/assets/styles/salesforce-lightning-design-system.css">
-</head>
-
-<script>
-var appName = '';
-function continueRedirect()
-{
-	var ref = $('#ref').val();    
-	var continueUrl =
-		$('#programs').attr('checked') ?
-			'/app/programselect' :
-			'/app/customselect';
-	
-	//sfdeployurl+= '/' + 'deploy';
-	window.location = continueUrl;
-}
-
-
-</script>
-
-	<body style="margin:10px" onload="load();">
-		<form >
-			<div class="slds-page-header" role="banner">
-				<div class="slds-grid">
-		    	<div class="slds-col slds-has-flexi-truncate">
-					<div class="slds-media">
-						<div class="slds-media__figure">
-						  	<svg aria-hidden="true" class="slds-icon slds-icon-action-upload slds-icon--large slds-p-around--x-small">
-						    	<use xlink:href="/resources/assets/icons/action-sprite/svg/symbols.svg#upload"></use>
-						  	</svg>
-						</div>
-						<div class="slds-media__body">
-						  	<p class="slds-page-header__title slds-truncate slds-align-middle">Fielo Deployment Tool</p>
-						  	<p class="slds-text-body--small slds-page-header__info">Deploying directly from installed packages or GitHub to Salesforce</p>
-						</div>
-					</div>			
-				</div>
-			   	<div class="slds-col slds-no-flex slds-align-bottom">
-			        <div class="slds-button-group" role="group">
-			      	    <input type="submit" id="continue" value="Continue" class="slds-button slds-button--neutral" onclick="continueRedirect();return false;"/>
-			        </div>
-			    </div>				
-			</div>
-		</div>
-			&nbsp;
-			<div class="slds-form--horizontal">
-				<div class="slds-form-element">
-					<legend class="form-element__legend slds-form-element__label">Mode:</legend>
-					<div class="slds-form-element__control">
-						<label class="slds-radio">
-							<input type="radio" id="programs" name="environment" value="programs">
-							<span class="slds-radio--faux"></span>
-							<span class="slds-form-element__label">Program Types</span>
-						</label>
-						<label class="slds-radio">
-							<input type="radio" id="custom" name="environment" checked="true" value="custom">
-							<span class="slds-radio--faux"></span>
-							<span class="slds-form-element__label">Custom</span>
-						</label>
+  <jsp:include page="header.jsp"/>
+   
+   <body bgcolor="#ffffff">
+      <div class="container">
+         <div class="row">
+            <div class="col-md-12">
+               <p class="header1-padding h1 "><img src="resources/assets/icons/utility/settings.svg" alt="Fielo Plataform Logo" class="icon"> Welcome to Fielo Custom Program Installation </p>
+               <p class="header2-padding h2 ">What do you want to install?</p>
+            </div>
+           
+            <div class="col-sm-6">
+               <div class="borderbox">
+                  <div class ="square">
+                     <img src="resources/img/fielotagline.png" alt="Fielo Plataform Logo" class="img-Fielo">
+                        <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                           <span class="slds-checkbox">
+                           <input type="checkbox" name="options" id="checkboxFieloPlataform" value="checkboxFieloPlataform" />
+                           <label class="slds-checkbox__label" for="checkboxFieloPlataform">
+                           <span class="slds-checkbox_faux customfaux"></span>
+                           <span class="slds-form-element__label customLabelHome">Fielo Plataform</span>
+                           </label>
+                           </span>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-sm-6">
+               <div class="borderbox">
+                  <div class ="square">
+                     <img src="resources/img/salesforcelogo.png" alt="Salesforce Logo" class="img">
+                     <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                           <span class="slds-checkbox">
+                           <input type="checkbox" name="options" id="checkboxSalesCommunities" value="checkboxSalesCommunities" />
+                           <label class="slds-checkbox__label" for="checkboxSalesCommunities">
+                           <span class="slds-checkbox_faux customfaux"></span>
+                           <span class="slds-form-element__label customLabelHome">Salesforce Communities</span>
+                           </label>
+                           </span>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-12">
+               <div id ="alertOrg" class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning alert bodyAlert" role="alert" style="display:none">
+                  <span class="slds-assistive-text">warning</span>
+                  <span class="slds-icon_container slds-icon-utility-warning slds-m-right_x-small icon-left" title="Description of icon when needed">
+                     <svg class="slds-icon slds-icon_x-small iconAlert" aria-hidden="true">
+                        <use xlink:href="resources/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+                     </svg>
+                  </span>
+                  <span class="customAlert">
+                  The installation tool has detected that Communities are not enabled in your org. Before Continuing, <a href="https://support.salesforce.com/articleView?id=networks_enable.htm" target="_blank" ><strong>enable Communities</strong></a> in your org.
+                  </span>
+                  <button id="closeAlert" class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse" title="Close">
+                     <svg class="slds-button__icon iconAlert" aria-hidden="true">
+                        <use xlink:href="resources/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                     </svg>
+                     <span class="slds-assistive-text">Close</span>
+                  </button>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 form-group salesforce">
+               <fieldset class="slds-form-element">
+                  <label class="labeltext labelpadding">Licences</label><br>
+                  <div class="slds-form-element__control">
+                     <span class="slds-radio">
+                     <input type="radio" id="customerCommunity" value="customerCommunity" name="licence"/>
+                     <label class="slds-radio__label radioInline" for="customerCommunity">
+                     <span class="slds-radio_faux customfauxRadio"></span>
+                     <span class="slds-form-element__label customLabel">Customer Community</span>
+                     </label>
+                     </span>
+                     <span class="slds-radio">
+                     <input type="radio" id="partnerCommunity" value="partnerCommunity" name="licence" />
+                     <label class="slds-radio__label radioInline" for="partnerCommunity">
+                     <span class="slds-radio_faux customfauxRadio"></span>
+                     <span class="slds-form-element__label customLabel">Partner Community</span>
+                     </label>
+                     </span>
+                  </div>
+               </fieldset>
+            </div>
+         </div>
+         <div id ="incentivizes" class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+               <label class="labeltext labelpadding">Incentivize Behaviors</label><br>
+               <div class="slds-form-element">
+                  <div class="slds-form-element__control">
+                     <span class="slds-checkbox">
+                     <input type="checkbox" name="options" id="invoicing" value="invoicing" class="classDisable" />
+                     <label class="slds-checkbox__label checkboxInline" for="invoicing">
+                     <span class="slds-checkbox_faux customfaux"></span>
+                     <span class="slds-form-element__label customLabel">Invoicing</span>
+                     </label>
+                     </span>
+                  </div>
+               </div>
+               <div class="slds-form-element">
+                  <div class="slds-form-element__control">
+                     <span class="slds-checkbox">
+                     <input type="checkbox" name="options" id="training" value="training" class="classDisable" />
+                     <label class="slds-checkbox__label checkboxInline" for="training">
+                     <span class="slds-checkbox_faux customfaux"></span>
+                     <span class="slds-form-element__label customLabel">Training</span>
+                     </label>
+                     </span>
+                  </div>
+               </div>
+               <div class="slds-form-element">
+                  <div class="slds-form-element__control">
+                     <span class="slds-checkbox">
+                     <input type="checkbox" name="options" id="registration" value="registration" class="classDisable" />
+                     <label class="slds-checkbox__label checkboxInline" for="registration">
+                     <span class="slds-checkbox_faux customfaux"></span>
+                     <span class="slds-form-element__label customLabel">Registration</span>
+                     </label>
+                     </span>
+                  </div>
+               </div>
+               <div class="slds-form-element">
+                  <div class="slds-form-element__control">
+                     <span class="slds-checkbox salesforceCustomer">
+                     <input type="checkbox" name="options" id="salesforceLeads" value="salesforceLeads"  class="checkBoxsalesforceCustomer"/>
+                     <label class="slds-checkbox__label checkboxInline" for="salesforceLeads">
+                     <span class="slds-checkbox_faux customfaux"></span>
+                     <span class="slds-form-element__label customLabel">Salesforce leads</span>
+                     </label>
+                     </span>
+                  </div>
+               </div>
+               <div class="slds-form-element">
+                  <div class="slds-form-element__control">
+                     <span class="slds-checkbox salesforceCustomer">
+                     <input type="checkbox" name="options" id="salesforceOpportunities" value="salesforceOpportunities" class="checkBoxsalesforceCustomer" />
+                     <label class="slds-checkbox__label checkboxInline" for="salesforceOpportunities">
+                     <span class="slds-checkbox_faux customfaux"></span>
+                     <span class="slds-form-element__label customLabel">Salesforce opportunities</span>
+                     </label>
+                     </span>
+                  </div>
+               </div>
+               <div class="slds-form-element">
+                  <div class="slds-form-element__control">
+                     <span class="slds-checkbox salesforceCustomer">
+                     <input type="checkbox" name="options" id="salesforceOrders" value="salesforceOrders" class="checkBoxsalesforceCustomer"/>
+                     <label class="slds-checkbox__label checkboxInline" for="salesforceOrders">
+                     <span class="slds-checkbox_faux customfaux"></span>
+                     <span class="slds-form-element__label customLabel">Salesforce orders</span>
+                     </label>
+                     </span>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div id ="programtype" class="row">
+            <div class="col-md-3 col-sm-12 col-xs-12 form-group">
+               <label class="labeltext labelpadding">Quick Start Programs</label><br>
+               <div class="slds-form-element">
+                  <div class="slds-form-element__control">
+                     <span class="slds-checkbox">
+                     <input type="checkbox" name="options" id="CIP" value="CIP" />
+                     <label class="slds-checkbox__label" for="CIP">
+                     <span class="slds-checkbox_faux customfaux"></span>
+                     <span class="slds-form-element__label customLabel">CIP(Contractor Incentive Program)</span>
+                     </label>
+                     </span>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-9 col-sm-12 col-xs-12 form-group">
+            <label class="labeltext labelpadding">Connectores</label><br>
+            	<div class="slds-form-element">
+                  <div class="slds-form-element__control">
+                     <span class="slds-checkbox">
+                     <input type="checkbox" name="options" id="grs" value="grs" class="classDisable"/>
+                     <label class="slds-checkbox__label checkboxInline" for="grs">
+                     <span class="slds-checkbox_faux customfaux"></span>
+                     <span class="slds-form-element__label customLabel">GRS (Global Rewards Solutions)</span>
+                     </label>
+                     </span>
+                  </div>
+               </div>  
+              <div class="slds-form-element">
+                  <div class="slds-form-element__control">
+                     <span class="slds-checkbox">
+                     <input type="checkbox" name="options" id="sendgrid" value="sendgrid"  />
+                     <label class="slds-checkbox__label checkboxInline" for="sendgrid">
+                     <span class="slds-checkbox_faux customfaux"></span>
+                     <span class="slds-form-element__label customLabel">SendGrid</span>
+                     </label>
+                     </span>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-12 buttons">
+            <div class="col-md-1" ></div>
+            <div class="col-md-1 col-md-offset-10" >
+               <button id ="nextButton" class="slds-button slds-button_brand buttonBorder">Install</button>           
+            </div>
+         </div>
+	</div>
+	<!-- The Modal -->
+	<div id="myModal" class="modal">
+	 	 <!-- Modal content -->
+		 <div class="modal-content">
+		     <!-- Alert Modal Header -->
+		    <div class="modal-header alertModal">
+		      <p>Alert</p>
+		    </div>
+		    <div class="modal-body">	
+				<div class="row">		
+			   		<!-- Alert Modal -->
+			   		<div class="col-md-12 col-sm-12 col-xs-12 alertModal">
+		               <div id ="alertFielo" class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning alert bodyAlert" role="alert">
+		                  <span class="slds-assistive-text">warning</span>
+		                  <span class="slds-icon_container slds-icon-utility-warning slds-m-right_x-small icon-left" title="Description of icon when needed">
+		                     <svg class="slds-icon slds-icon_x-small iconAlert" aria-hidden="true">
+		                        <use xlink:href="resources/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+		                     </svg>
+		                  </span>
+		                  <span class="customAlert">
+		                  YOUR PLT VERSION IS OLD AND THE INSTALLATION OF THIS BEHAVIOR REQUIRES THE UPGRADE OF FIELO PLT. THIS UGRADE MAY CAUSE PROBLEMS WITH THE CURRENT CUSTOMIZATION IN YOUR ORG. PLEASE CONTACT THE ADMINISTRATION AND AGREE TO CONTINUE THE INSTALLATION
+		                  </span>
+		               </div>
+			   		</div>
+			   		<div class="col-md-6 col-sm-12 col-xs-12 alertModal">
+				   		<button id="cancelDeploy" class="slds-button slds-button_brand buttonComplete">Cancel</button>
 					</div>
-				</div>
-		</form>
-	</body>
+					<div class="col-md-6 col-sm-12 col-xs-12 alertModal">
+						<button id="continueDeploy" class="slds-button slds-button_brand buttonComplete" onclick="continueRedirect();">Ok, continue</button>	
+					</div>
+			   	</div>
+			</div>  
+		</div>  
+	  </div>
+   </body>
 </html>

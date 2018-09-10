@@ -1,0 +1,389 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+#outer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #BADA55;
+}
+
+#container {
+    background-color: #f3f3f3;
+    padding: 15px 25px;
+    width: 100%;
+    max-width: 520px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    border-radius: 3px;
+}
+
+.bodycolor {
+    background-color: #B0C4DF !important;
+}
+
+.header1-padding {
+    background-color: #F7F9FB;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 20px !important;
+    color: #16325C !important;
+    font-family: Salesforce Sans, Regular !important;
+}
+
+.header2-padding {
+    font-size: 18px !important;
+    font-weight: bold !important;
+    font-family: Salesforce Sans, Bold !important;
+    color: #54698D !important;
+}
+
+.icon {
+    width: 25px;
+    background-color: #0070D2;
+    border-radius: 3px;
+    padding: 5px;
+    margin-left: 15px;
+}
+
+.iconAlert {
+    width: 24px !important;
+    height: 20px !important;
+    color: #16325C;
+}
+
+.icon-left {
+    margin-left: 10px;
+}
+
+.borderbox {
+    position: relative;
+    margin: 0 auto;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #D8DDE6;
+    text-align: center;
+    border-radius: 15px;
+    height: 165px;
+    margin-bottom: 10px;
+}
+
+.square {
+    position: relative;
+    display: inline-block;
+    max-width: 30%;
+    margin: 10px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.square img {
+    width: 100%;
+    margin-bottom: 1.125rem;
+}
+
+.square img {
+    width: 100%;
+    margin-bottom: 1.125rem;
+    margin-top: 15px;
+    height: 85px;
+}
+
+.square p {
+    font-family: inherit;
+    padding-top: 15px;
+}
+
+
+/* The container */
+
+.container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.buttons {
+    background-color: #F7F9FB !important;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+/* Lightning Desgin */
+
+span .customLabelHome {
+    font-size: 1.15rem !important;
+    margin-right: -1.25rem;
+    color: #54698D;
+    font-family: Salesforce Sans, Bold;
+}
+
+span .customLabel {
+    font-size: 1.05rem !important;
+    color: #54698D;
+    font-family: Salesforce Sans, Regular;
+}
+
+span .customLabelGRS {
+    font-size: 1.35rem !important;
+    color: #54698D;
+    font-family: Salesforce Sans, Regular;
+}
+
+span .customLabelBold {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.bodyAlert {
+    justify-content: left !important;
+    padding: 5px !important;
+    padding-left: 10px;
+}
+
+.customAlert {
+    font-family: Salesforce Sans, Regular;
+    font-size: 14px;
+    text-align: left;
+    color: #16325C;
+}
+
+.customfaux {
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+}
+
+.customfaux::after {
+    height: 0.40rem !important;
+    width: 0.8rem !important;
+}
+
+.customfauxRadio {
+    width: 1.55rem !important;
+    height: 1.55rem !important;
+}
+
+.customfauxRadio::after {
+    height: 0.80rem !important;
+    width: 0.80rem !important;
+    top: 55% !important;
+    left: 50% !important;
+}
+
+.checkboxInline {
+    float: left;
+    margin-right: 2em;
+}
+
+.radioInline {
+    float: left;
+    margin-right: 1em;
+}
+
+.labelpadding {
+    padding-bottom: 15px;
+    color: #54698D;
+    font-family: Salesforce Sans, Bold;
+    size: 18px;
+    margin-top: 10px;
+}
+
+.labelpaddingLogin {
+    color: #54698D;
+    font-family: Salesforce Sans, Bold;
+    size: 18px;
+    margin-top: 10px;
+}
+
+.buttonBorder {
+    width: 70px;
+    height: 36px;
+}
+
+.buttonComplete {
+    width: 120px;
+    height: 36px;
+}
+
+.backButton {
+    color: #0070D2;
+    font-family: Salesforce Sans, Regular;
+    size: 15px;
+}
+
+.buttonLogin {
+    margin-top: 10px;
+    height: 30px;
+    width: 125px;
+    font-family: Salesforce Sans, Regular;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.login-title {
+    font-family: Salesforce Sans, Semibold;
+    font-size: 18px;
+    margin-bottom: 25px;
+    margin-top: 15px;
+    font-weight: 600 !important;
+}
+
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+
+/* Modal Content */
+
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+    width: 310px;
+}
+
+
+/* Add Animation */
+
+@-webkit-keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+@keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+
+/* The Close Button */
+
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    padding-right: 10px;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    margin-top: 15px;
+    font-family: Salesforce Sans, Light;
+    font-size: 20px;
+    text-align: center;
+    color: #626260;
+    padding: 5px !important;
+    border-bottom: 1px solid #e5e5e5 !important;
+}
+
+.modal-body {
+    padding: 2px 16px;
+}
+
+.modal-label {
+    margin-top: 10px;
+    font-family: Salesforce Sans, Semibold;
+    font-size: 13px;
+    color: #626260;
+}
+
+.modal-description {
+    font-family: Salesforce Sans, Regular;
+    font-size: 13px;
+    color: #626260;
+    margin-bottom: 15px;
+}
+
+
+
+.infoPackageLabel{
+	font-weight: 700;
+	font-family: Salesforce Sans, Semibold;
+    font-size: 13px;
+}
+
+.infoPackageDescription{
+	font-family: Salesforce Sans, Regular;
+    font-size: 13px;
+    color: #626260;
+}
+
+
+.alertModal {
+    display: none;
+}
+
+.progressModal {
+    display: none;
+}
+
+.completeModal {
+    display: none;
+}

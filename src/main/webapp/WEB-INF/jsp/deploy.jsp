@@ -1,411 +1,434 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<jsp:include page="header.jsp"/>
-	    <c:if test="${githubcontents != null}">
-	   	<div class="slds-col slds-no-flex slds-align-bottom">
-	      <div class="slds-button-group" role="group">    
-	        <button id="deploy" class="slds-button slds-button--neutral" onclick="GitHubDeploy.initDeploy(GitHubDeploy.deployList);">Deploy</button>
-	      </div>
-	    </div>		
-	    </c:if>
-	</div>
-</div>
 
-
-<c:if test="${error != null}">
-	<div class="slds-notify_container">
-		<div class="slds-notify slds-notify--alert slds-theme--alert-texture" role="alert">
-			<h2>${error}</h2>
-		</div>
-	</div>
-</c:if>
-&nbsp;
-
-<!-- -->
-<div class="slds-card">
-	<div class="slds-card__header slds-grid">
-		<div class="slds-media slds-media--center slds-has-flexi-truncate">
-			<div class="slds-media__figure">
-				<svg aria-hidden="true"
-					class="slds-icon slds-icon-action-share slds-icon--small">
-            	<use
-						xlink:href="/resources/assets/icons/action-sprite/svg/symbols.svg#share"></use>
-          	</svg>
+<!DOCTYPE html>
+<html>
+   <jsp:include page="header.jsp"/>
+   
+   <body bgcolor="#ffffff">
+		<div class="container">
+			<div class="row">
+			   <div class="col-md-12">
+			      <p class="header1-padding h1 "><img src="resources/assets/icons/utility/settings.svg" alt="Fielo Plataform Logo" class="icon"> Welcome to Fielo Custom Program Installation </p>
+			   </div>
 			</div>
-			<div class="slds-media__body">
-				<h2 class="slds-text-heading--small slds-truncate">Deployment List</h2>
+			<div id="confirmDetails">
+				<div>
+					<div class="modal-header">
+				      <p>Confirm details</p>
+				    </div>
+				    <div class="modal-body">	
+						<div class="row">		
+							<!-- Info Modal -->  
+							<div class="col-md-12 col-sm-12 col-xs-12">
+								<div id ="openInfoPackages" class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-closed">
+								    <button class="slds-button slds-button_icon slds-button_icon-border-filled" aria-haspopup="true" title="Show More">
+								        <svg class="slds-button__icon" aria-hidden="true">
+								            <use xlink:href="resources/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+								        </svg>
+								        <span class="slds-assistive-text">Show More</span>
+								    </button>
+								    <div class="slds-dropdown slds-dropdown_left slds-dropdown_length-5 slds-dropdown_medium">
+								        <ul id="dropdownInfo" class="slds-dropdown__list" role="menu" aria-label="Show More">
+								        </ul>
+								    </div>
+								</div>
+						   		<dl class="slds-list_stacked">
+								  <dt class="slds-item_label slds-text-color_weak slds-truncate modal-label" title="To">To</dt>
+								  <dd class="slds-item_detail slds-truncate modal-description" title="Salesforce Org">Salesforce Org</dd>
+								  <dt class="slds-item_label slds-text-color_weak slds-truncate modal-label" title="Organization">Organization</dt>
+								  <dd id ="organizationDescription" class="slds-item_detail slds-truncate modal-description" title="Organization Description"><c:out value="${userContext.getOrganizationName()}" /></dd>
+								  <dt class="slds-item_label slds-text-color_weak slds-truncate modal-label" title="User">User</dt>
+								  <dd id ="userDescription" class="slds-item_detail slds-truncate modal-description" title="User Description" ><c:out value="${userContext.getUserName()}" /></dd>
+								</dl>
+							</div>
+							<div class="col-md-12 col-sm-12 col-xs-12 buttons infoModal">
+					            <div class="col-md-1 col-sm-6 col-xs-6" style="padding-left: 0px;">
+					            	 <button id="back" class="slds-button slds-button_brand buttonBorder"  onclick="goBack()">Back</button>
+					            </div>
+					            <div class="col-md-1 col-md-offset-10 col-sm-6 col-xs-6" style="padding-right: 0px;">
+					              	 <button id="deploy" class="slds-button slds-button_brand buttonBorder" onclick="GitHubDeploy.initDeploy(GitHubDeploy.deployList);">Install</button>
+					            </div>
+					        </div>
+					   	</div>
+					</div>  
+				</div>  
 			</div>
-		</div>
-	</div>
-	<div class="slds-card__body">
-		<ul>
-			<li class="slds-tile slds-hint-parent">
-				<div class="slds-tile__detail">
-					<dl class="slds-dl--horizontal slds-text-body--small">
-						<c:if test="${githuburl != null}">
-							<dt class="slds-dl--horizontal__label">
-								<p class="slds-truncate">Manage GitHub Permissions:</p>
-							</dt>
-							<dd class="slds-dl--horizontal__detail slds-tile__meta">
-								<p class="slds-truncate">
-									<a href="${githuburl}" target="_new">${githuburl}</a>
-								</p>
-							</dd>
-						</c:if>
-						<!-- dt class="slds-dl--horizontal__label">
-							<p class="slds-truncate">Name:</p>
-						</dt>
-						<dd class="slds-dl--horizontal__detail slds-tile__meta">
-							<p class="slds-truncate">${repositoryName}</p>
-						</dd>
-                        <dt class="slds-dl--horizontal__label">
-                            <p class="slds-truncate">Branch/Tag/Commit:</p>
-                        </dt>
-                        <dd class="slds-dl--horizontal__detail slds-tile__meta">
-                            <p class="slds-truncate">${ref}</p>
-                        </dd-->                        
-						<c:if test="${repo != null}">
-							<dt class="slds-dl--horizontal__label">
-								<p class="slds-truncate">Description:</p>
-							</dt>
-							<dd class="slds-dl--horizontal__detail slds-tile__meta">
-								<p class="slds-truncate">${repo.getDescription()}</p>
-							</dd>
-							<dt class="slds-dl--horizontal__label">
-								<p class="slds-truncate">URL:</p>
-							</dt>
-							<dd class="slds-dl--horizontal__detail slds-tile__meta">
-								<p class="slds-truncate">
-                                    <a href="${repo.getHtmlUrl()}/tree/${ref}" target="_new">${repo.getHtmlUrl()}/tree/${ref}</a>
-								</p>
-							</dd>
-						</c:if>				
-					</dl>
-				</div>
-				<c:if test="${deployList != null}">
-					<div class="slds-tile__detail" id="deployList"></div>
-				</c:if>
-			</li>
-		</ul>
-	</div>
-</div>
-<!-- -->
-<div class="slds-card">
-	<div class="slds-card__header slds-grid">
-		<div class="slds-media slds-media--center slds-has-flexi-truncate">
-			<div class="slds-media__figure">
-				<svg aria-hidden="true"
-					class="slds-icon icon-utility-salesforce-1 slds-icon-text-default slds-icon--small">
-            		<use
-						xlink:href="/resources/assets/icons/utility-sprite/svg/symbols.svg#salesforce1"></use>
-          		</svg>
-			</div>
-			<div class="slds-media__body">
-				<h2 class="slds-text-heading--small slds-truncate">To
-					Salesforce Org</h2>
-			</div>
-		</div>
-	</div>
-	<div class="slds-card__body">
-		<ul>
-			<li class="slds-tile slds-hint-parent">
-				<div class="slds-tile__detail">
-					<dl class="slds-dl--horizontal slds-text-body--small">
-						<dt class="slds-dl--horizontal__label">
-							<p class="slds-truncate">Organization Name:</p>
-						</dt>
-						<dd class="slds-dl--horizontal__detail slds-tile__meta">
-							<p class="slds-truncate">
-								<c:out value="${userContext.getOrganizationName()}" />
-							</p>
-						</dd>
-						<dt class="slds-dl--horizontal__label">
-							<p class="slds-truncate">User Name:</p>
-						</dt>
-						<dd class="slds-dl--horizontal__detail slds-tile__meta">
-							<p class="slds-truncate">
-								<c:out value="${userContext.getUserName()}" />
-							</p>
-						</dd>
-					</dl>
-				</div>
-			</li>
-		</ul>
-	</div>
-</div>
-
-<c:if test="${githubcontents != null}">
-	<pre id="deploystatus" style="display: none"></pre>
-	<div id="githubcontents"></div>
-</c:if>
-
-<script src="/resources/js/jquery-1.7.1.min.js"></script>
-<c:if test="${githubcontents != null}">
-	<script type="text/javascript">
-
-		var GitHubDeploy = {
-
-			// Contents of the GitHub repository
-			contents: ${githubcontents},
-			
-			// Contents to deploy
-			deployList: ${deployList},
-
-			// Async result from Salesforce Metadata API
-			asyncResult : null,
-
-			// Client timer Id used to poll Salesforce Metadata API
-			intervalId : null,
-			
-			// Number of deploys
-			deploys: null,
-			
-			// Packages to deploy
-			packages: null,
-
-			// Dots for showing status progress
-			dots: 0,
-			
-			// Render GitHub repository contents
-			render: function(container) {
-					if(container.repositoryItem!=null)
-						$('#githubcontents').append(
-							'<div><a target="_new" href="${repo.getHtmlUrl()}/blob/${ref}/' +
-								container.repositoryItem.path + '">' + container.repositoryItem.path + '</a></div>');
-					for(fileIdx in container.repositoryItems)
-						if(container.repositoryItems[fileIdx].repositoryItem.type == 'dir')
-							GitHubDeploy.render(container.repositoryItems[fileIdx]);
-						else
-							$('#githubcontents').append(
-								'<div><a target="_new" href="${repo.getHtmlUrl()}/blob/${ref}/' +
-									container.repositoryItems[fileIdx].repositoryItem.path + '">' +
-									container.repositoryItems[fileIdx].repositoryItem.path + '</a></div>');
-				},		
-			
-
-			// Render deployment list
-			renderDeployList: function(container) {
-					var deploy;
-					var isRepo;
-					var first = true;
-					for(fileIdx in container) {
-						if (first) {
-							deploy = '';
-							first = false;
-						} else {
-							deploy = '<br>';
-						}
-						isRepo = (container[fileIdx].repoOwner != null);
-						deploy += '<dl class="slds-dl--horizontal slds-text-body--small">';
-						deploy += '<dt class="slds-dl--horizontal__label">' + 
-                            	  	'<p class="slds-truncate">' + (isRepo ? 'Repository ' : 'Package ') + 'name:' + '</p></dt>' +
-                            	  '<dd class="slds-dl--horizontal__detail slds-tile__meta">' +
-                            	  	'<p class="slds-truncate">' + container[fileIdx].name + '</p></dd>';
-						deploy += '<dt class="slds-dl--horizontal__label">' + 
-                	  				'<p class="slds-truncate">' + (isRepo ? 'Owner: ' : '')  + '</p></dt>' +
-                                   '<dd class="slds-dl--horizontal__detail slds-tile__meta">' +
-                            	  	'<p class="slds-truncate">' + (isRepo ? container[fileIdx].repoOwner : '') + '</p></dd>';
-                	  	deploy += '<dt class="slds-dl--horizontal__label">' + 
-    	  							'<p class="slds-truncate">' + (isRepo ? 'Branch: ' : 'Version: ')  + '</p></dt>' +
-                        		  '<dd class="slds-dl--horizontal__detail slds-tile__meta">' +
-                 	  				'<p class="slds-truncate">' + ((container[fileIdx].version != null) ? container[fileIdx].version : 'master') + '</p></dd>'; 
-						deploy += '</dl>';
-						$('#deployList').append(deploy);
-					}
-				},
-				
-			// Start deploys
-			initDeploy: function(container) {
-				$('#deploystatus').empty();
-            	var deploys = [];
-            	$.each(container,function(key, value){
-            		deploys.push(value);
-            		//alert(value.version);
-            	});
-            	deploys.reverse();
-				GitHubDeploy.packages = deploys;           	
-				if(GitHubDeploy.packages.length > 0)
-					GitHubDeploy.deploy();
-				
-	            /*$.getJSON('/fielodeploy/deploys.json', function(config) {
-	            	var deploys = [];
-	            	$.each(config,function(key, value){
-	            		deploys.push(value);
-	            		//alert(value.version);
-	            	});
-	            	deploys.reverse();
-					GitHubDeploy.packages = deploys;           	
-					if(GitHubDeploy.packages.length > 0)
-						GitHubDeploy.deploy();
-					});*/
-				},				
-				
-			// Control deploys
-			deploy: function() {
-					var value = GitHubDeploy.packages.pop();
-					//var value = pack[0];
-					//var repoData = pack[1];
-					//alert(GitHubDeploy.packages.length);
-					//alert(name);
-					if(value.repoOwner == null)
-						GitHubDeploy.deployPackage(value.name, value.version);
-					else {
-						//alert(repoOwner);
-						var ref = (value.version == null ? 'master' : value.version);
-						//alert(ref);
-						GitHubDeploy.deployRepository(value.repoOwner, value.name, ref);
-					}
-				},
-
-			// Deploy from Git repository
-			deployRepository: function(repoOwner, repoName, ref) {
-					//alert(repoOwner);
-					//alert(repoName);
-					//alert(ref);
-					$('#deploy').attr('disabled', 'disabled');
-					/////$('#deploystatus').empty();
-					$('#deploystatus').show();
-					$('#deploystatus').append('<div>Repository Deployment Started: ' + repoName + '</div>');
-					$('#deploystatus').append('<div>Status: Connecting</div>');
-		            $.ajax({
-		                type: 'POST',
-		                url: window.location.pathname + '/' + repoOwner + '/' + repoName + '/' + ref, // + (ref!='' ? '&ref=' + ref : ''),
-		                processData : false,
-		                data : JSON.stringify(GitHubDeploy.contents),
-		                contentType : 'application/json; charset=utf-8',
-		                dataType : 'json',
-		                success: function(data, textStatus, jqXHR) {
-		                    GitHubDeploy.asyncResult = data;
-		                    GitHubDeploy.renderAsync();
-		                    if(GitHubDeploy.asyncResult.state == 'Completed')
-		                    	GitHubDeploy.checkDeploy();
-		                    else
-		                    	GitHubDeploy.intervalId = window.setInterval(GitHubDeploy.checkStatus, 2000);
-		                },
-		                error: function(jqXHR, textStatus, errorThrown) {
-		                    alert('Failed with status: ' + jqXHR.status + '\n\n' + $(jqXHR.responseText).filter('h1').text());
-							$('#deploy').attr('disabled', null);                    
-		                    //alert('Failed ' + textStatus + errorThrown);
-		                }
-		            });
-				},
-
-			// Deploy managed package
-			deployPackage: function(packageName, packageVersion) {
-					//alert(packageVersion);
-					$('#deploy').attr('disabled', 'disabled');
-					/////$('#deploystatus').empty();
-					$('#deploystatus').show();
-					$('#deploystatus').append('<div>Package Deployment Started: ' + packageName + '</div>');
-					$('#deploystatus').append('<div>Status: Connecting</div>');
-		            $.ajax({
-		                type: 'POST',
-		                url: window.location.pathname + '/' + packageName + '/' + packageVersion,
-		                processData : false,
-		                data : JSON.stringify(GitHubDeploy.contents),
-		                contentType : "application/json; charset=utf-8",
-		                dataType : "json",
-		                success: function(data, textStatus, jqXHR) {
-		                    GitHubDeploy.asyncResult = data;
-		                    GitHubDeploy.renderAsync();
-		                    if(GitHubDeploy.asyncResult.state == 'Completed') {
-		                    	GitHubDeploy.checkDeploy();
-		                    }
-		                    else
-		                    	GitHubDeploy.intervalId = window.setInterval(GitHubDeploy.checkStatus, 2000);
-		                },
-		                error: function(jqXHR, textStatus, errorThrown) {
-		                    alert('Failed with status: ' + jqXHR.status + '\n\n' + $(jqXHR.responseText).filter('h1').text());
-							$('#deploy').attr('disabled', null);
-		                    //$('#deploystatus').append(jqXHR.responseText);
-		                    //alert('Failed ' + textStatus + errorThrown);
-		                }
-		            });
-				},		
-				
-				// Render Async
-				renderAsync: function() {
-						$('div:last-child', '#deploystatus').remove();
-						var completed = (GitHubDeploy.asyncResult.state == 'Completed');
-						if (completed) {
-							GitHubDeploy.dots = 0;
-						}
-						$('#deploystatus').append(
-							'<div>Status: '+
-								GitHubDeploy.asyncResult.state + '.'.repeat(GitHubDeploy.dots) +
-								(GitHubDeploy.asyncResult.message != null ? GitHubDeploy.asyncResult.message : '') + 
-							'</div>');
-						// GitHubDeploy.dots - [0..3]
-						if (!completed) {
-							GitHubDeploy.dots = (++GitHubDeploy.dots) % 4;	
-						}
-					},
-
-			// Check Status
-			checkStatus: function() {
-		            $.ajax({
-		                type: 'GET',
-		                url: window.location.pathname + '/checkstatus/' + GitHubDeploy.asyncResult.id,
-		                contentType : 'application/json; charset=utf-8',
-		                dataType : 'json',
-		                success: function(data, textStatus, jqXHR) {
-		                    GitHubDeploy.asyncResult = data;
-		                    GitHubDeploy.renderAsync();
-		                    if(GitHubDeploy.asyncResult.state == 'Completed')
-		                    {		                    	
-		                    	window.clearInterval(GitHubDeploy.intervalId);
-		                    	GitHubDeploy.checkDeploy();		                    	
-		                    }
-		                },
-		                error: function(jqXHR, textStatus, errorThrown) {
-		                	$('#deploystatus').append('<div>Error: ' + textStatus + errorThrown + '</div>');
-		                }
-		            });
-				},
-
-			// Check Deploy
-			checkDeploy: function() {
-					$('div:last-child', '#deploystatus').remove();
-					$('#deploystatus').append('<div>Deployment Complete</div>');
-					$('#deploystatus').append('<div>=======================================</div>');					
-					$('#deploy').attr('disabled', null);
-					//var errors = false;
-		            $.ajax({
-		                type: 'GET',
-		                url: window.location.pathname + '/checkdeploy/' + GitHubDeploy.asyncResult.id,
-		                contentType : 'application/json; charset=utf-8',
-		                dataType : 'json',
-		                success: function(data, textStatus, jqXHR) {
-		                	var newerVersionText = 'A newer version of this package is currently installed';
-		                	var hasNewerVersion = (data.indexOf(newerVersionText) != -1);
-		                	if (data.substr(1, 9) == 'Failures:' && !hasNewerVersion) {
-		                		alert('Deployment error!');
-			                	GitHubDeploy.packages = [];                			
-			                }
-		                	if (hasNewerVersion) {
-			                	$('#deploystatus').append(data.replace('Failures:', 'Warning:'));  
-								$('#deploystatus').append('<div>=======================================</div>');					
-		                	} else {
-			                	$('#deploystatus').append(data);   
-		                	}
-							if(GitHubDeploy.packages.length > 0)
-								GitHubDeploy.deploy();	                	
-		                },
-		                error: function(jqXHR, textStatus, errorThrown) {
-		                	$('#deploystatus').append('<div>Error: ' + textStatus + errorThrown + '</div>');
-		                }
-		            });
-				}
-		}
-
-		// Render files selected to deploy
-		GitHubDeploy.render(GitHubDeploy.contents);
 		
-		GitHubDeploy.renderDeployList(GitHubDeploy.deployList);
+			<!-- The Modal -->
+			<div id="myModal" class="modal">
+			<c:if test="${error != null}">
+				<div class="slds-notify_container">
+					<div class="slds-notify slds-notify--alert slds-theme--alert-texture" role="alert">
+						<h2>${error}</h2>
+					</div>
+				</div>
+			</c:if>
+		
+		 	 <!-- Modal content -->
+			 <div class="modal-content">
+				 <!-- Progress Modal Header -->
+			    <div class="modal-header progressModal">
+			      <p>Installing...</p>
+			    </div>
+			    <!-- Complete Modal Header -->
+			    <div class="modal-header completeModal">
+			      <p>Complete</p>
+			    </div>
+			     <!-- Alert Modal Header -->
+			    <div class="modal-header alertModal">
+			      <p>Alert</p>
+			    </div>
+			    <div class="modal-body">	
+					<div class="row">		
+						<!-- Progress Modal -->    		
+				   		<div class="col-md-12 col-sm-12 col-xs-12 progressModal">
+						  <div class="slds-grid slds-grid_align-spread slds-p-bottom_x-small" id="progress-bar-label-id-7">
+						    <span aria-hidden="true">
+						      <strong id="progressbarInfo" >0% Complete</strong>
+						    </span>
+						  </div>
+						  <div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="progress-bar-label-id-7" role="progressbar">
+						    <span id="progressbar" class="slds-progress-bar__value" style="width: 0%;">
+						      <span class="slds-assistive-text">Progress: 0%</span>
+						    </span>
+						  </div>
+				   		</div>
+				   		
+				   		<!-- Complete Modal -->
+				   		<div class="col-md-9 col-md-offset-3 completeModal">
+							 <button id="deployFinal" class="slds-button slds-button_brand buttonComplete" onclick="redirectOrg();">Proceed to Org</button>
+				   		</div>
+				   		
+				   		<!-- Alert Modal -->
+				   		<div class="col-md-12 col-sm-12 col-xs-12 alertModal">
+			               <div id ="alertFielo" class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning alert bodyAlert" role="alert">
+			                  <span class="slds-assistive-text">warning</span>
+			                  <span class="slds-icon_container slds-icon-utility-warning slds-m-right_x-small icon-left" title="Description of icon when needed">
+			                     <svg class="slds-icon slds-icon_x-small iconAlert" aria-hidden="true">
+			                        <use xlink:href="resources/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+			                     </svg>
+			                  </span>
+			                  <span class="customAlert">
+			                  YOUR PLT VERSION IS OLD AND THE INSTALLATION OF THIS BEHAVIOR REQUIRES THE UPGRADE OF FIELO PLT. THIS UGRADE MAY CAUSE PROBLEMS WITH THE CURRENT CUSTOMIZATION IN YOUR ORG. PLEASE CONTACT THE ADMINISTRATION AND AGREE TO CONTINUE THE INSTALLATION
+			                  </span>
+			               </div>
+				   		</div>
+				   		<div class="col-md-6 col-sm-12 col-xs-12 alertModal">
+					   		<button id="cancelDeploy" class="slds-button slds-button_brand buttonComplete">Cancel</button>
+						</div>
+						<div class="col-md-6 col-sm-12 col-xs-12 alertModal">
+							<button id="continueDeploy" class="slds-button slds-button_brand buttonComplete">Ok, continue</button>	
+						</div>
+				   	</div>
+				</div>  
+			</div>
+		</div>
+	</div>
 
-	</script>
-</c:if>
+		<c:if test="${githubcontents != null}">
+			<pre id="deploystatus" style="display: none"></pre>
+			<div id="githubcontents"></div>
+		</c:if>
 
-</body>
+		<script src="resources/js/jquery-1.7.1.min.js"></script>
+		<c:if test="${githubcontents != null}">
+			<script type="text/javascript">
+				// Number of packages to be install
+				var maxPackage = 0; 
+				var minPackage = 0; 
+				var minPercentage = 0;
+				var maxPercentage = 0;
+				var GitHubDeploy = {
+		
+					// Contents of the GitHub repository
+					contents: ${githubcontents},
+					
+					// Contents to deploy
+					deployList: ${deployList},
+		
+					// Async result from Salesforce Metadata API
+					asyncResult : null,
+		
+					// Client timer Id used to poll Salesforce Metadata API
+					intervalId : null,
+					
+					// Number of deploys
+					deploys: null,
+					
+					// Packages to deploy
+					packages: null,
+		
+					// Dots for showing status progress
+					dots: 0,
+					
+					// Render GitHub repository contents
+					render: function(container) {
+							if(container.repositoryItem!=null)
+								$('#githubcontents').append(
+									'<div><a target="_new" href="${repo.getHtmlUrl()}/blob/${ref}/' +
+										container.repositoryItem.path + '">' + container.repositoryItem.path + '</a></div>');
+							for(fileIdx in container.repositoryItems)
+								if(container.repositoryItems[fileIdx].repositoryItem.type == 'dir')
+									GitHubDeploy.render(container.repositoryItems[fileIdx]);
+								else
+									$('#githubcontents').append(
+										'<div><a target="_new" href="${repo.getHtmlUrl()}/blob/${ref}/' +
+											container.repositoryItems[fileIdx].repositoryItem.path + '">' +
+											container.repositoryItems[fileIdx].repositoryItem.path + '</a></div>');
+						},		
+					
+		
+					// Render deployment list
+					renderDeployList: function(container) {
+						
+							var deploy;
+							var isRepo;
+							var first = true;
+						    var packages =  '<li class="slds-dropdown__item">' 							 +
+				              '<a href="javascript:void(0);" role="menuitem" tabindex="0">' 							 +
+				                  '<span class="slds-truncate infoPackageLabel">Package</span><span class="slds-truncate infoPackageLabel">Version</span>' +
+				              '</a>' 																					 +
+			               '</li>';
+							for(fileIdx in container) {
+								 packages = packages +
+					        	  '<li class="slds-dropdown__item">' +
+					              '<a href="javascript:void(0);" role="menuitem" tabindex="0">' +
+					                  '<span class="slds-truncate infoPackageDescription">'+ container[fileIdx].name  +'</span>' + '<span class="slds-truncate infoPackageDescription">' + ((container[fileIdx].version != null) ? container[fileIdx].version : 'master') +'</span>' +
+					              '</a></li>';
+					              
+								if (first) {
+									deploy = '';
+									first = false;
+								} else {
+									deploy = '<br>';
+								}
+								
+								$('#dropdownInfo').append(packages);
+							}
+							
+						},
+						
+					// Start deploys
+					initDeploy: function(container) {
+						
+						$('#deploystatus').empty();
+		            	var deploys = [];
+		            	$.each(container,function(key, value){
+		            		deploys.push(value);
+		            		//alert(value.version);
+		            	});
+		            	deploys.reverse();
+						GitHubDeploy.packages = deploys;
+						
+						maxPackage = GitHubDeploy.packages.length;
+						if(GitHubDeploy.packages.length > 0)
+							GitHubDeploy.deploy();
+						
+			            /*$.getJSON('/fielodeploy/deploys.json', function(config) {
+			            	var deploys = [];
+			            	$.each(config,function(key, value){
+			            		deploys.push(value);
+			            		//alert(value.version);
+			            	});
+			            	deploys.reverse();
+							GitHubDeploy.packages = deploys;           	
+							if(GitHubDeploy.packages.length > 0)
+								GitHubDeploy.deploy();
+							});*/
+						},				
+						
+					// Control deploys
+					deploy: function() {
+							//console.log(GitHubDeploy.packages.length);
+							var value = GitHubDeploy.packages.pop();
+							
+							//var value = pack[0];
+							//var repoData = pack[1];
+							//alert(GitHubDeploy.packages.length);
+							//alert(name);
+							if(value.repoOwner == null)
+								GitHubDeploy.deployPackage(value.name, value.version);
+							else {
+								//alert(repoOwner);
+								var ref = (value.version == null ? 'master' : value.version);
+								//alert(ref);
+								GitHubDeploy.deployRepository(value.repoOwner, value.name, ref);
+							}
+						},
+		
+					// Deploy from Git repository
+					deployRepository: function(repoOwner, repoName, ref) {
+							
+							//alert(repoOwner);
+							//alert(repoName);
+							//alert(ref);
+							$('#deploy').attr('disabled', 'disabled');
+							/////$('#deploystatus').empty();
+							$('#deploystatus').show();
+							$('#deploystatus').append('<div>Repository Deployment Started: ' + repoName + '</div>');
+							$('#deploystatus').append('<div>Status: Connecting</div>');
+				            $.ajax({
+				                type: 'POST',
+				                url: window.location.pathname + '/' + repoOwner + '/' + repoName + '/' + ref, // + (ref!='' ? '&ref=' + ref : ''),
+				                processData : false,
+				                data : JSON.stringify(GitHubDeploy.contents),
+				                contentType : 'application/json; charset=utf-8',
+				                dataType : 'json',
+				                success: function(data, textStatus, jqXHR) {
+				                    GitHubDeploy.asyncResult = data;
+				                    GitHubDeploy.renderAsync();
+				                    if(GitHubDeploy.asyncResult.state == 'Completed')
+				                    	GitHubDeploy.checkDeploy();
+				                    else
+				                    	GitHubDeploy.intervalId = window.setInterval(GitHubDeploy.checkStatus, 5000);
+				                },
+				                error: function(jqXHR, textStatus, errorThrown) {
+				                    alert('Failed with status: ' + jqXHR.status + '\n\n' + $(jqXHR.responseText).filter('h1').text());
+									$('#deploy').attr('disabled', null);                    
+				                    //alert('Failed ' + textStatus + errorThrown);
+				                }
+				            });
+						},
+		
+					// Deploy managed package
+					deployPackage: function(packageName, packageVersion ) {
+							//alert(packageVersion);
+							maxPercentage = calcPercentage(++minPackage, maxPackage);
+							 // Get the modal
+							var modal = document.getElementById('myModal');
+							modal.style.display = "block";
+							$('.progressModal').show();
+							
+		            		 
+							//$('#deploy').attr('disabled', 'disabled');
+							/////$('#deploystatus').empty();
+							//$('#deploystatus').show();
+							//$('#deploystatus').append('<div>Package Deployment Started: ' + packageName + '</div>');
+							//$('#deploystatus').append('<div>Status: Connecting</div>');
+				            $.ajax({
+				                type: 'POST',
+				                url: window.location.pathname + '/' + packageName + '/' + packageVersion,
+				                processData : false,
+				                data : JSON.stringify(GitHubDeploy.contents),
+				                contentType : "application/json; charset=utf-8",
+				                dataType : "json",
+				                success: function(data, textStatus, jqXHR) {
+				                    GitHubDeploy.asyncResult = data;
+				                    GitHubDeploy.renderAsync();
+				                    if(GitHubDeploy.asyncResult.state == 'Completed') {
+				                    	GitHubDeploy.checkDeploy();
+				                    }
+				                    else{
+				                    	//console.log('chegou deploypackage');
+				                    	//frame(++minPercentage, maxPercentage);
+				                    	GitHubDeploy.intervalId = window.setInterval(GitHubDeploy.checkStatus, 5000);
+				                    	
+				                    }
+				                },
+				                error: function(jqXHR, textStatus, errorThrown) {
+				                    alert('Failed with status: ' + jqXHR.status + '\n\n' + $(jqXHR.responseText).filter('h1').text());
+									//$('#deploy').attr('disabled', null);
+				                    //$('#deploystatus').append(jqXHR.responseText);
+				                    //alert('Failed ' + textStatus + errorThrown);
+				                }
+				            });
+						},		
+						
+						// Render Async
+						renderAsync: function() {
+								//$('div:last-child', '#deploystatus').remove();
+								var completed = (GitHubDeploy.asyncResult.state == 'Completed');
+								if (completed) {
+									GitHubDeploy.dots = 0;
+								}
+								/*
+								$('#deploystatus').append(
+									'<div>Status: '+
+										GitHubDeploy.asyncResult.state + '.'.repeat(GitHubDeploy.dots) +
+										(GitHubDeploy.asyncResult.message != null ? GitHubDeploy.asyncResult.message : '') + 
+									'</div>');
+								*/
+								// GitHubDeploy.dots - [0..3]
+								if (!completed) {
+									GitHubDeploy.dots = (++GitHubDeploy.dots) % 4;	
+								}
+							},
+		
+					// Check Status
+					checkStatus: function() {
+				            $.ajax({
+				                type: 'GET',
+				                url: window.location.pathname + '/checkstatus/' + GitHubDeploy.asyncResult.id,
+				                contentType : 'application/json; charset=utf-8',
+				                dataType : 'json',
+				                success: function(data, textStatus, jqXHR) {
+				                    GitHubDeploy.asyncResult = data;
+				                    GitHubDeploy.renderAsync();
+				                    if(GitHubDeploy.asyncResult.state == 'Completed')
+				                    {		                    	
+				                     	while (minPercentage < maxPercentage){       		
+				                    			 frame(++minPercentage, maxPercentage).delay(500);
+					                    	  }
+				                    	
+				                    	window.clearInterval(GitHubDeploy.intervalId);
+				                    	GitHubDeploy.checkDeploy();		                    	
+				                    }
+				                    if(minPercentage < maxPercentage -1){
+				                    	frame(++minPercentage, maxPercentage);
+				                    }
+				                    
+				                },
+				                error: function(jqXHR, textStatus, errorThrown) {
+				                	$('#deploystatus').append('<div>Error: ' + textStatus + errorThrown + '</div>');
+				                }
+				            });
+						},
+		
+					// Check Deploy
+					checkDeploy: function() {
+						/*
+							$('div:last-child', '#deploystatus').remove();
+							$('#deploystatus').append('<div>Deployment Complete</div>');
+							$('#deploystatus').append('<div>=======================================</div>');					
+							$('#deploy').attr('disabled', null);
+							*/
+							//var errors = false;
+				            $.ajax({
+				                type: 'GET',
+				                url: window.location.pathname + '/checkdeploy/' + GitHubDeploy.asyncResult.id,
+				                contentType : 'application/json; charset=utf-8',
+				                dataType : 'json',
+				                success: function(data, textStatus, jqXHR) {
+				                	var newerVersionText = 'A newer version of this package is currently installed';
+				                	var hasNewerVersion = (data.indexOf(newerVersionText) != -1);
+				                	if (data.substr(1, 9) == 'Failures:' && !hasNewerVersion) {
+				                		alert('Deployment error!');
+					                	GitHubDeploy.packages = [];                			
+					                }
+				                	if (hasNewerVersion) {
+					                	$('#deploystatus').append(data.replace('Failures:', 'Warning:'));  
+									//	$('#deploystatus').append('<div>=======================================</div>');					
+				                	} else {
+					               // 	$('#deploystatus').append(data);   
+				                	}
+									if(GitHubDeploy.packages.length > 0)
+										GitHubDeploy.deploy();	                	
+				                },
+				                error: function(jqXHR, textStatus, errorThrown) {
+				                	$('#deploystatus').append('<div>Error: ' + textStatus + errorThrown + '</div>');
+				                }
+				            });
+						}
+				}
+		
+				// Render files selected to deploy
+				GitHubDeploy.render(GitHubDeploy.contents);
+				
+				GitHubDeploy.renderDeployList(GitHubDeploy.deployList);
+		
+			</script>
+		</c:if>
+   </body>
 </html>

@@ -2,9 +2,9 @@
 <html>
 <head>
     <title>Fielo Deployment Tool</title>
-	<script src="/resources/js/jquery-1.7.1.min.js"></script>
-	<script src="/resources/js/purl.js"></script>
-	<link rel="stylesheet" type="text/css" href="/resources/assets/styles/salesforce-lightning-design-system.css">
+	<script src="resources/js/jquery-1.7.1.min.js"></script>
+	<script src="resources/js/purl.js"></script>
+	<link rel="stylesheet" type="text/css" href="resources/assets/styles/salesforce-lightning-design-system.css">
 </head>
 
 <script>
@@ -23,8 +23,8 @@ function continueRedirect()
 	}
 	var continueUrl =
 		$('#app').attr('checked') ?
-			'/app/deploy' :
-			'/app/deploy';
+			'deploy' :
+			'deploy';
 		
     var deployForm = document.createElement('FORM');
 	deployForm.name = 'myForm';

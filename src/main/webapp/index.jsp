@@ -1,20 +1,42 @@
 <!doctype html>
 <html>
 <head>
-    <title>Fielo Deployment Tool</title>
-	<script src="/resources/js/jquery-1.7.1.min.js"></script>
-	<script src="/resources/js/purl.js"></script>
-	<link rel="stylesheet" type="text/css" href="/resources/assets/styles/salesforce-lightning-design-system.css">
-</head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Fielo Deploy">
+      <meta name="author" content="Fielo">
+      <title>Fielo Deploy Tool</title>
+      <link rel="shortcut icon" href="resources/img/favicon.ico" />
+      
+      <!-- Custom Styles -->
+      <link rel="stylesheet" href="resources/css/style.css"/>
+      
+      <!-- Lightning Package -->
+      <link rel="stylesheet" type="text/css" href="resources/assets/styles/salesforce-lightning-design-system.css">
+      
+      <!-- Bootstrap --> 
+      <!-- Latest compiled and minified CSS -->
+      <link rel="stylesheet" href="resources/css/bootstrap.min.css">
+      <!-- Optional theme -->
+      <link rel="stylesheet" href="resources/css/bootstrap-theme.min.css">
+      
+      <!-- Latest compiled and minified JavaScript -->
+      <script type="text/javascript" src="resources/js/jquery-latest.min.js" ></script>
+      <script type="text/javascript" src="resources/js/bootstrap.min.js"></script>
+      
+      <!-- Custom Scritps -->
+      <script type="text/javascript" src="resources/js/scripts.js"></script>
+      
+   </head>
 
 <script>
 var appName = ''
 function deploy()
 {
 	var ref = $('#ref').val();    
-	var sfdeployurl =
+	var sfdeployurl = 
 		$('#production').attr('checked') ?
-				'/app/home' :
+				'app/home' :
 				'https://sf-deployer-sandbox.herokuapp.com/app/home';
 				//'/app/deploy';
 	
@@ -47,9 +69,9 @@ function updatebuttonhtml()
 function load()
 {
 	// Default from URL
-	var owner = $.url().param('owner');
-	var repo = $.url().param('repo');
-	var ref = $.url().param('ref');
+	var owner = "Fielo-ProgramTypes";
+	var repo = "PRM";
+	var ref =  "master";
 
 	// Check for GitHub referrer?			
 	if(owner==null && repo==null) {
@@ -84,49 +106,40 @@ function load()
 }
 </script>
 
-<body style="margin:10px" onload="load();">
-<form onsubmit="loginToSalesforce();return false;">
-
-<div class="slds-page-header" role="banner">
-	<div class="slds-grid">
-    	<div class="slds-col slds-has-flexi-truncate">
-			<div class="slds-media">
-				<div class="slds-media__figure">
-				  <svg aria-hidden="true" class="slds-icon slds-icon-action-upload slds-icon--large slds-p-around--x-small">
-				    <use xlink:href="/resources/assets/icons/action-sprite/svg/symbols.svg#upload"></use>
-				  </svg>
+<body class="bodycolor" onload="load();">
+	<form onsubmit="loginToSalesforce();return false;">
+		<div id ="container" class="container">
+			<div class="row">
+				<div class="col-md-11 col-md-offset-1">
+					<div class="login-title">Welcome to Fielo Custom Program Installation</div>
 				</div>
-				<div class="slds-media__body">
-				  <p class="slds-page-header__title slds-truncate slds-align-middle">Fielo Deployment Tool</p>
-				  <p class="slds-text-body--small slds-page-header__info">Deploying directly from installed packages or GitHub to Salesforce</p>
+				<div class="col-md-8 col-md-offset-4">
+					<button class="slds-button slds-button_brand buttonLogin" onclick="deploy();return false;">Proceed to login</button>
 				</div>
-			</div>			
+				<div class="col-md-10 col-md-offset-2 col-sm-12 col-xs-12 form-group" style="display:none">
+					<fieldset class="slds-form-element">
+		                  <label class="labeltext labelpaddingLogin">Deploy with:</label>
+		                  <div class="slds-form-element__control">
+		                     <span class="slds-radio">
+		                     <input type="radio" id="production" name="environment" checked="checked" value="production"/>
+		                     <label class="slds-radio__label radioInline" for="environment">
+		                     <span class="slds-radio_faux customfauxRadio"></span>
+		                     <span class="slds-form-element__label customLabel">Production/Development</span>
+		                     </label>
+		                     </span>
+		                     <span class="slds-radio">
+		                     <input type="radio" id="sandbox" name="environment" value="sandbox"/>
+		                     <label class="slds-radio__label radioInline" for="environment">
+		                     <span class="slds-radio_faux customfauxRadio"></span>
+		                     <span class="slds-form-element__label customLabel">Sandbox</span>
+		                     </label>
+		                     </span>
+		                  </div>
+		               </fieldset>
+		            </div>
+			</div>
 		</div>
-	   	<div class="slds-col slds-no-flex slds-align-bottom">
-	      <div class="slds-button-group" role="group">
-	      	<input type="submit" id="login" value="Login to Salesforce" class="slds-button slds-button--neutral" onclick="deploy();return false;"/>
-	      </div>
-	    </div>				
-	</div>
-</div>
-&nbsp;
-<div class="slds-form--horizontal">
-<div class="slds-form-element">
-	<legend class="form-element__legend slds-form-element__label">Deploy with:</legend>
-	<div class="slds-form-element__control">
-	<label class="slds-radio">
-		<input type="radio" id="production" name="environment" checked="true" value="production">
-		<span class="slds-radio--faux"></span>
-		<span class="slds-form-element__label">Production/Development</span>
-	</label>
-	<label class="slds-radio">
-		<input type="radio" id="sandbox" name="environment" value="sandbox">
-		<span class="slds-radio--faux"></span>
-		<span class="slds-form-element__label">Sandbox</span>
-	</label>
-	</div>
-</div>
-</form>
-
+	</form>
+	<img src="resources/img/lightning_blue_background.png" alt="" style =" height: 360px; width: 100%;">
 </body>
 </html>

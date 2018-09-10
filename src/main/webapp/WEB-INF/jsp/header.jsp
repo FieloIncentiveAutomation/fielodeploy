@@ -1,24 +1,28 @@
-<!doctype html>
-<html>
 <head>
-    <title>Fielo Deployment Tool</title>
-	<link rel="stylesheet" type="text/css" href="/resources/assets/styles/salesforce-lightning-design-system.css">
-</head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Fielo Deploy">
+      <meta name="author" content="Fielo">
+      <title>Fielo Deploy Tool</title>
+      <link rel="shortcut icon" href="resources/img/favicon.ico" />
+      
+      <!-- Custom Styles -->
+      <link rel="stylesheet" href="resources/css/style.css"/>
+      
+      <!-- Lightning Package -->
+      <link rel="stylesheet" type="text/css" href="resources/assets/styles/salesforce-lightning-design-system.css">
+      
+      <!-- Bootstrap --> 
+      <!-- Latest compiled and minified CSS -->
+      <link rel="stylesheet" href="resources/css/bootstrap.min.css">
+      <!-- Optional theme -->
+      <link rel="stylesheet" href="resources/css/bootstrap-theme.min.css">
+      
+      <!-- Latest compiled and minified JavaScript -->
+      <script type="text/javascript" src="resources/js/jquery-latest.min.js" ></script>
+      <script type="text/javascript" src="resources/js/bootstrap.min.js"></script>
 
-<body style="margin:10px">
-
-<div class="slds-page-header" role="banner">
-	<div class="slds-grid">
-    	<div class="slds-col slds-has-flexi-truncate">
-			<div class="slds-media">
-				<div class="slds-media__figure">
-				  <svg aria-hidden="true" class="slds-icon slds-icon-action-upload slds-icon--large slds-p-around--x-small">
-				    <use xlink:href="/resources/assets/icons/action-sprite/svg/symbols.svg#upload"></use>
-				  </svg>
-				</div>
-				<div class="slds-media__body">
-				  <p class="slds-page-header__title slds-truncate slds-align-middle">Fielo Deployment Tool</p>
-				  <p class="slds-text-body--small slds-page-header__info">Deploying directly from installed packages or GitHub to Salesforce</p>
-				</div>
-			</div>
-		</div>
+      
+      <!-- Custom Scritps -->
+      <script type="text/javascript" src="resources/js/scripts.js"></script> 
+   </head>
