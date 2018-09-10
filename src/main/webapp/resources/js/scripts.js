@@ -79,7 +79,7 @@ function continueRedirect() {
 function getInfo(selected) {
     $.ajax({
         type: 'POST',
-        url: '/fielodeploy/app/home/getinfo',
+        url: window.location.pathname  + "/getinfo",
         data: JSON.stringify(selected),
         success: function(data, textStatus, jqXHR) {
             var obj = JSON.parse(data);
@@ -165,7 +165,7 @@ $(document).ready(function($) {
                 $.ajax({
                     // This URL need to be changed before release
                     type: 'POST',
-                    url: "/fielodeploy/app/home/checkcommunity",
+                    url:  window.location.pathname  + "/checkcommunity",
                     cache: false,
                     success: function(result) {
                         console.log(result);
@@ -203,7 +203,7 @@ $(document).ready(function($) {
         if ($('#checkboxFieloPlataform').prop('checked')) {
             $.ajax({
                 type: 'POST',
-                url: '/fielodeploy/app/home/checkversionplt',
+                url:  window.location.pathname  + "/checkversionplt",
                 success: function(result) {
                     console.log(result);
                     if (result == "true") {

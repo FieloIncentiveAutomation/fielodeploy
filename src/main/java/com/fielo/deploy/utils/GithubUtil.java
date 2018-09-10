@@ -57,10 +57,10 @@ public class GithubUtil {
 	    	switch (type) {
 	    	// If type of resource is linkRepository, check the config.json in the URL
 	    	case "linkRepository":
-		        JSONObject repoInfo = GithubUtil.getRepoInfo(deployItem.get("name").toString());
+		        JSONObject repoInfo = GithubUtil.getRepoInfo(getGitHubName(deployItem.get("name").toString()));
 		        // If resource is a repository, separate owner and repository name
 		        if (repoInfo.get("type").toString().equals("repository")) {
-		     		String name = deployItem.get("name").toString();
+		     		String name = getGitHubName(deployItem.get("name").toString());
 		    		int separator = name.indexOf('/');
 		    		String repoName = name.substring(separator + 1);
 		    		String repoOwner = name.substring(0, separator);   		
@@ -85,7 +85,17 @@ public class GithubUtil {
 	    		break;
 		    // If type of resource is package, just add it to the list
 	    	case "package":
-		        deployList.add(deployItem);
+	    		//Change this static resource in new version
+	    		if (deployItem.get("name").toString().equals("checkboxFieloPlataform")) {
+	    			JSONObject packagePLT = new JSONObject(); 
+	    			packagePLT.put("name", "FieloPLT");
+	    			packagePLT.put("type", "package");
+	    			packagePLT.put("version", "2.56.4");
+	    			deployList.add(packagePLT);
+	    		}
+	    		else {
+	    			deployList.add(deployItem);
+	    		}
 	    		break;
     		default:
                 throw new IllegalArgumentException("Invalid source type: " + type);
@@ -138,7 +148,7 @@ public class GithubUtil {
 	private static JSONObject getRepoInfo(String name) throws IOException, ParseException {
 		return readJsonFromUrl("https://raw.githubusercontent.com/" + name + "/master/config.json");
 	}
-
+	
 	private static JSONObject readJsonFromUrl(String url) throws IOException, ParseException {
 		InputStream is = new URL(url).openStream();
 		try {
@@ -181,5 +191,28 @@ public class GithubUtil {
 		public String name;
 		public String full_name;
 		public String description;
+	}
+	
+	public static String getGitHubName(String name) {
+		
+		switch (name) {
+		
+		case "invoicing":
+			name = "Fielo-Apps/fieloprp";
+    		break;
+		case "training":
+			name = "Fielo-Apps/fieloelr";
+    		break;
+		case "CIP":
+			name = "Fielo-ProgramTypes/CIP";
+    		break;
+		case "grs":
+			name = "Fielo-Connectors/fielogrs";
+    		break;
+		case "sendgrid":
+			name = "Fielo-Connectors/fieloplt-sendgrid";
+    		break;
+		} 
+		return name;
 	}
 }
