@@ -28,13 +28,12 @@
     <!--suppress SpringModelInspection -->
     <mvc:resources mapping="/resources/**" location="/resources/" />
 
-	<!--
-    <fss:oauth logout-url="/logout" default-logout-success="/"> 
+    <fss:oauth logout-url="/logout" default-logout-success="/">
         <fss:oauthInfo endpoint="#{systemEnvironment['SFDC_END_POINT']}"
                        oauth-key="#{systemEnvironment['SFDC_OAUTH_CLIENT_ID']}"
                        oauth-secret="#{systemEnvironment['SFDC_OAUTH_CLIENT_SECRET']}"/>
     </fss:oauth>
-	-->
+
     <security:http use-expressions="true">
         <security:intercept-url pattern="/app/**" access="isAuthenticated()" />
     </security:http>
