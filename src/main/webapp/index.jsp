@@ -1,33 +1,6 @@
 <!doctype html>
 <html>
-<head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="description" content="Fielo Deploy">
-      <meta name="author" content="Fielo">
-      <title>Fielo Deploy Tool</title>
-      <link rel="shortcut icon" href="resources/img/favicon.ico" />
-      
-      <!-- Custom Styles -->
-      <link rel="stylesheet" href="resources/css/style.css"/>
-      
-      <!-- Lightning Package -->
-      <link rel="stylesheet" type="text/css" href="resources/assets/styles/salesforce-lightning-design-system.css">
-      
-      <!-- Bootstrap --> 
-      <!-- Latest compiled and minified CSS -->
-      <link rel="stylesheet" href="resources/css/bootstrap.min.css">
-      <!-- Optional theme -->
-      <link rel="stylesheet" href="resources/css/bootstrap-theme.min.css">
-      
-      <!-- Latest compiled and minified JavaScript -->
-      <script type="text/javascript" src="resources/js/jquery-latest.min.js" ></script>
-      <script type="text/javascript" src="resources/js/bootstrap.min.js"></script>
-      
-      <!-- Custom Scritps -->
-      <script type="text/javascript" src="resources/js/scripts.js"></script>
-      
-   </head>
+ <jsp:include page="/WEB-INF/jsp/header.jsp"/>
 
 <script>
 var appName = ''
@@ -36,7 +9,7 @@ function deploy()
 	var ref = $('#ref').val();    
 	var sfdeployurl = 
 		$('#production').attr('checked') ?
-				'app/home' :
+				'/app/home' :
 				'https://sf-deployer-sandbox.herokuapp.com/app/home';
 				//'/app/deploy';
 	
@@ -69,9 +42,9 @@ function updatebuttonhtml()
 function load()
 {
 	// Default from URL
-	var owner = "Fielo-ProgramTypes";
-	var repo = "PRM";
-	var ref =  "master";
+	var owner = $.url().param('owner');
+	var repo = $.url().param('repo');
+	var ref = $.url().param('ref');
 
 	// Check for GitHub referrer?			
 	if(owner==null && repo==null) {
@@ -140,6 +113,6 @@ function load()
 			</div>
 		</div>
 	</form>
-	<img src="resources/img/lightning_blue_background.png" alt="" style =" height: 360px; width: 100%;">
+	<img src="/resources/img/lightning_blue_background.png" alt="" style =" height: 360px; width: 100%;">
 </body>
 </html>
