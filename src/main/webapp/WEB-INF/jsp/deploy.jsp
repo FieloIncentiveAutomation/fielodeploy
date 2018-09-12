@@ -414,12 +414,14 @@
 				                dataType : 'json',
 				                success: function(data, textStatus, jqXHR) {
 				                	var newerVersionText = 'A newer version of this package is currently installed';
-				                	//var newerVersionTextPT = 'Uma versão mais recente deste pacote está instalada';
+				                	var newerVersionTextPT = 'Uma versão mais recente deste pacote está instalada.';
+				                	
 				                	var hasNewerVersion = (data.indexOf(newerVersionText) != -1);
-				                	//var hasNewerVersionPT = (data.indexOf(newerVersionText) != -1);
-				                	//console.log(hasNewerVersion); 
-				                	//console.log(hasNewerVersionPT); 
-				                	if (data.substr(1, 9) == 'Failures:' && (!hasNewerVersion)) {
+				                	var hasNewerVersionPT = (data.indexOf(newerVersionTextPT) != -1);
+				                	console.log(hasNewerVersion); 
+				                	console.log(hasNewerVersionPT); 
+				                	//console.log(data.indexOf(newerVersionText));
+				                	if (data.substr(1, 9) == 'Failures:' && (!hasNewerVersion && !hasNewerVersionPT)) {
 				                		//alert('Deployment error!');
 				                		//console.log(valueAlert);
 				                		flagError = 1;
@@ -436,7 +438,7 @@
 																	  '</div>');
 
 					                }
-				                	if (hasNewerVersion) {
+				                	if (hasNewerVersion || hasNewerVersionPT) {
 				                		var msghasNewerVersion = valueAlert.name + ' version:'+ valueAlert.version +' will not be installed because there is already a newer version installed in your org.';
 				                		$('#' + valueAlert.name).prepend(getAlert(msghasNewerVersion, 'warning'));
 				                		//console.log('entrou aqui');
