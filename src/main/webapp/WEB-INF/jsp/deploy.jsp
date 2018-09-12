@@ -431,7 +431,7 @@
 					                	GitHubDeploy.packages = [];   
 										$('.headerProgressModal').hide();
 										$('.headerCompleteModal').fadeIn("slow");
-										$('#rowModalBody').append('<div class="col-md-10 col-md-offset-4" style="margin-top: 15px;">' +
+										$('#rowModalBody').append('<div class="col-md-10 col-md-offset-4" style="margin-top: 15px;padding-left: 35px;">' +
 																	'<button id="deployFinal" class="slds-button slds-button_brand buttonComplete" onclick="goBack();">Back</button>' + 
 																	  '</div>');
 
@@ -453,7 +453,7 @@
 								
 											$('.headerProgressModal').hide();
 											$('.headerCompleteModal').fadeIn("slow");
-											$('#rowModalBody').append('<div class="col-md-10 col-md-offset-4" style="margin-top: 15px;">' +
+											$('#rowModalBody').append('<div class="col-md-10 col-md-offset-4" style="margin-top: 15px;padding-left: 35px;">' +
 																		'<button id="deployFinal" class="slds-button slds-button_brand buttonComplete" onclick="redirectOrg();">Go to Org</button>' + 
 																		  '</div>');
 										}
