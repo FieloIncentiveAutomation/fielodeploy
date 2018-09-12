@@ -149,7 +149,7 @@ function redirectOrg() {
 // Cookie expiration to be fix
 function errorLogin()
 {
-	console.log('BUFIX');
+	window.location.href = 'https://sf-deployer.herokuapp.com/app/home';
 }
 
 // Create Alerts for deploy progress
