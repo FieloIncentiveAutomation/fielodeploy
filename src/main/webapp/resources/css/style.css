@@ -49,6 +49,12 @@ body {
     color: #54698D !important;
 }
 
+.header2-padding-modal {
+    font-size: 18px !important;
+    font-weight: bold !important;
+    font-family: Salesforce Sans, Bold !important;
+}
+
 .icon {
     width: 25px;
     background-color: #0070D2;
@@ -61,6 +67,11 @@ body {
     width: 24px !important;
     height: 20px !important;
     color: #16325C;
+}
+
+.iconAlertProgress {
+    width: 24px !important;
+    height: 20px !important;
 }
 
 .icon-left {
@@ -158,6 +169,7 @@ span .customLabelBold {
 
 .bodyAlert {
     justify-content: left !important;
+    margin-bottom: 10px !important;
     padding: 5px !important;
     padding-left: 10px;
 }
@@ -168,6 +180,14 @@ span .customLabelBold {
     text-align: left;
     color: #16325C;
 }
+
+
+.customAlerProgess {
+    font-family: Salesforce Sans, Regular;
+    font-size: 14px;
+    text-align: left;
+}
+
 
 .customfaux {
     width: 1.5rem !important;
@@ -289,6 +309,11 @@ span .customLabelBold {
     animation-duration: 0.4s;
     width: 310px;
 }
+
+.modal-content-longer{
+	width: 40% !important;
+}
+
 
 
 /* Add Animation */

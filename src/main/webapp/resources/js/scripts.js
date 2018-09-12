@@ -113,20 +113,21 @@ function getInfo(selected) {
 }
 
 //Progress Bar
-function frame(elem, maxP) {
+function frame(namePackage, percentage) {
 
-    var elemProgressBar = document.getElementById("progressbar");
-    var width = elem;
-    if (elem <= maxP) {
+    var elemProgressBar = document.getElementById(namePackage +'progressbar');
+    //var width = elem;
+    //if (elem <= maxP) {
 
-        if (width >= 100) {
-            $('.progressModal').hide();
-            $('.completeModal').fadeIn("slow");
-        } else {
-            document.getElementById("progressbarInfo").innerHTML = elem + '% Complete';
-            elemProgressBar.style.width = elem + '%';
-        }
-    }
+       // if (width >= 100) {
+      //      $('.progressModal').hide();
+      //      $('.completeModal').fadeIn("slow");
+      //  } else {
+    		//++percentage;
+            document.getElementById(namePackage).innerHTML = percentage + '% Complete';
+            elemProgressBar.style.width = percentage + '%';
+      //  }
+   // }
 }
 
 
@@ -137,12 +138,75 @@ function calcPercentage(min, max) {
 }
 
 function goBack() {
-    window.history.back();
+	window.location.href = 'https://sf-deployer.herokuapp.com/app/home';
 }
 
+//Redirect Button after deploy
 function redirectOrg() {
-    window.location.href = 'https://developer.salesforce.com/';
+    window.location.href = 'https://login.salesforce.com/';
 }
+
+// Cookie expiration to be fix
+function errorLogin()
+{
+	console.log('BUFIX');
+}
+
+// Create Alerts for deploy progress
+function getAlert(alert, typeAlert) {
+	
+	var message = 
+		' <div> ' +
+	        ' <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_'+ typeAlert +' alert bodyAlert" role="alert"> ' +
+	            ' <span class="slds-assistive-text">'+ typeAlert +'</span> ' +
+	            ' <span class="slds-icon_container slds-icon-utility-'+ typeAlert +' slds-m-right_x-small icon-left" title="Description of icon when needed"> '+
+	               ' <svg class="slds-icon slds-icon_x-small iconAlert" aria-hidden="true"> ' +
+	                  ' <use xlink:href="resources/assets/icons/utility-sprite/svg/symbols.svg#'+typeAlert+'"></use> ' +
+	              ' </svg> ' +
+	           ' </span> ' +
+	           ' <span class="customAlerProgess"> ' +
+	           alert +
+	           ' </span> ' +
+	           ' <button class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse alert-close" title="Close"> ' +
+	              ' <svg class="slds-button__icon iconAlertProgress" aria-hidden="true"> ' +
+	                '  <use xlink:href="resources/assets/icons/utility-sprite/svg/symbols.svg#close"></use> ' +
+	             '  </svg> ' +
+	             ' <span class="slds-assistive-text">Close</span> ' +
+	           ' </button> ' +
+	        ' </div> ' +
+	    ' </div> ';
+	
+    return message;
+}
+
+//Create ProgressBar for each deploy
+function getProgressBar(namePackage) {
+	
+	var message = 	
+		
+		'<div class="col-md-12 col-sm-12 col-xs-12 progressModal">' +
+		'<p class="header2-padding-modal h2 ">' + namePackage + '</p>' +
+		  '<div class="slds-grid slds-grid_align-spread slds-p-bottom_x-small" id="progress-bar-label-id-7">' +
+		    '<span aria-hidden="true"> ' +
+		     '<strong id ="'+namePackage +'" >0% Complete</strong> ' +
+		   '</span>' +
+		'</div>' +
+		 '<div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="progress-bar-label-id-7" role="progressbar">' +
+		   '<span id ="'+namePackage +'progressbar"class="slds-progress-bar__value" style="width: 0%;">' +
+		      '<span class="slds-assistive-text">Progress: 0%</span>' +
+		   '</span>' +
+		 '</div>' +
+		'</div>';
+		 return message;
+}
+// Close Alert message for Deploy
+function closeButton(){
+	  $('.alert-close').on('click', function(c){
+  		$(this).parent().parent().fadeOut('slow', function(c){
+  		});
+  	});	
+}
+
 
 
 $(document).ready(function($) {
@@ -155,6 +219,7 @@ $(document).ready(function($) {
         $("#myModal").hide();
         $('.alertModal').hide();
     });
+    
 
     // Verification Checkbox Sales Communities
     $('#checkboxSalesCommunities').change(function() {

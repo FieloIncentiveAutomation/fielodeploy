@@ -181,7 +181,7 @@ public class HomeController {
 	public String checkVersionPLT(HttpServletRequest request, HttpSession session, Map<String, Object> map) throws Exception
 	{
 
-		String flag = "true";
+		String flag = "false";
 		ConnectorConfig config = new ConnectorConfig();
 		
 		//config.setUsername(USERNAME);

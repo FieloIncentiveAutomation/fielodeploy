@@ -61,7 +61,7 @@
                   <span class="customAlert">
                   The installation tool has detected that Communities are not enabled in your org. Before Continuing, <a href="https://support.salesforce.com/articleView?id=networks_enable.htm" target="_blank" ><strong>enable Communities</strong></a> in your org.
                   </span>
-                  <button id="closeAlert" class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse" title="Close">
+                  <button class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse" title="Close">
                      <svg class="slds-button__icon iconAlert" aria-hidden="true">
                         <use xlink:href="resources/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                      </svg>

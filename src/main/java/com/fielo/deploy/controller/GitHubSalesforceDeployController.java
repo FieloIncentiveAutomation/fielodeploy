@@ -274,9 +274,12 @@ public class GitHubSalesforceDeployController {
 		
 		// Display user info
 		forceConnector = new ForceServiceConnector(ForceServiceConnector.getThreadLocalConnectorConfig());
-
-		map.put("userContext", forceConnector.getConnection().getUserInfo());	
-		map.put("githubcontents", "{}");
+		try {
+			map.put("userContext", forceConnector.getConnection().getUserInfo());	
+			map.put("githubcontents", "{}");
+		}catch(Exception e) {
+			return "error";
+		}
 			
 		/*
 		String reposList = "";
