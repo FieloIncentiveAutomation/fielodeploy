@@ -137,7 +137,7 @@
 				var maxPackage = 0; 
 				var minPackage = 0; 
 				var minPercentage = 0;
-				var maxPercentage = 0;
+				var maxPercentage = 100;
 				var valueAlert = 'teste';
 				var flagError = 0;
 				var GitHubDeploy = {
@@ -245,6 +245,7 @@
 					deploy: function() {
 							//console.log(GitHubDeploy.packages.length);
 							minPercentage = 0;
+							maxPercentage = 100;
 							var value = GitHubDeploy.packages.pop();
 							valueAlert = value;
 							//console.log('Packages para instalar');
@@ -377,11 +378,7 @@
 				                    GitHubDeploy.asyncResult = data;
 				                    GitHubDeploy.renderAsync();
 				                    if(GitHubDeploy.asyncResult.state == 'Completed')
-				                    {		                    	
-				                     	while (minPercentage < 100){       		
-				                    			 frame(valueAlert.name, ++minPercentage);
-					                    	  }
-				                    	
+				                    {	
 				                    	window.clearInterval(GitHubDeploy.intervalId);
 				                    	GitHubDeploy.checkDeploy();		                    	
 				                    }
@@ -417,13 +414,12 @@
 				                	var newerVersionTextPT = 'Uma versão mais recente deste pacote está instalada.';
 				                	
 				                	var hasNewerVersion = (data.indexOf(newerVersionText) != -1);
-				                	var hasNewerVersionPT = (data.indexOf(newerVersionTextPT) != -1);
-				                	console.log(hasNewerVersion); 
-				                	console.log(hasNewerVersionPT); 
+				                	var hasNewerVersionPT = (data.indexOf(newerVersionTextPT) != -1);	
 				                	//console.log(data.indexOf(newerVersionText));
 				                	if (data.substr(1, 9) == 'Failures:' && (!hasNewerVersion && !hasNewerVersionPT)) {
 				                		//alert('Deployment error!');
 				                		//console.log(valueAlert);
+				                		//maxPercentage = Math.floor(Math.random() * 21) + 70;
 				                		flagError = 1;
 				                		var msgFailures =  'Deployment Error. We were not able to install '+ valueAlert.name+ ' version:'+ valueAlert.version;
 				                		$('#' + valueAlert.name).prepend(getAlert(msgFailures, 'error')); 
@@ -439,15 +435,21 @@
 
 					                }
 				                	if (hasNewerVersion || hasNewerVersionPT) {
+				                		//maxPercentage = Math.floor(Math.random() * 21) + 70;
 				                		var msghasNewerVersion = valueAlert.name + ' version:'+ valueAlert.version +' will not be installed because there is already a newer version installed in your org.';
 				                		$('#' + valueAlert.name).prepend(getAlert(msghasNewerVersion, 'warning'));
 				                		//console.log('entrou aqui');
 					                	closeButton();
 									//	$('#deploystatus').append('<div>=======================================</div>');					
-				                	} else {
-					               // 	$('#deploystatus').append(data);   
-				                	}
-									if(GitHubDeploy.packages.length > 0){
+				                	} else 
+				                		
+				                	if (data.substr(1, 9) != 'Failures:' && (!hasNewerVersion && !hasNewerVersionPT))
+			                			{
+					                		while (minPercentage < maxPercentage){       		
+				                    			 frame(valueAlert.name, ++minPercentage);
+					                    	  }
+			                			}
+									if(GitHubDeploy.packages.length > 0){	
 										GitHubDeploy.deploy();	  
 									}
 									else{

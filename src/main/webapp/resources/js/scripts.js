@@ -157,7 +157,7 @@ function getAlert(alert, typeAlert) {
 	
 	var message = 
 		' <div> ' +
-	        ' <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_'+ typeAlert +' alert bodyAlert" role="alert"> ' +
+	        ' <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_'+ typeAlert +' alert bodyAlert" role="alert" style="width: 100% !important;"> ' +
 	            ' <span class="slds-assistive-text">'+ typeAlert +'</span> ' +
 	            ' <span class="slds-icon_container slds-icon-utility-'+ typeAlert +' slds-m-right_x-small icon-left" title="Description of icon when needed"> '+
 	               ' <svg class="slds-icon slds-icon_x-small iconAlert" aria-hidden="true"> ' +
@@ -181,7 +181,6 @@ function getAlert(alert, typeAlert) {
 
 //Create ProgressBar for each deploy
 function getProgressBar(namePackage) {
-	
 	
 	var message = 	
 		
