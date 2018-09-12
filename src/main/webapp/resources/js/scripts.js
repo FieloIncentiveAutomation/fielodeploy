@@ -182,6 +182,7 @@ function getAlert(alert, typeAlert) {
 //Create ProgressBar for each deploy
 function getProgressBar(namePackage) {
 	
+	
 	var message = 	
 		
 		'<div class="col-md-12 col-sm-12 col-xs-12 progressModal">' +
