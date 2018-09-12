@@ -42,9 +42,9 @@ function updatebuttonhtml()
 function load()
 {
 	// Default from URL
-	var owner = $.url().param('owner');
-	var repo = $.url().param('repo');
-	var ref = $.url().param('ref');
+	//var owner = $.url().param('owner');
+	//var repo = $.url().param('repo');
+	//	var ref = $.url().param('ref');
 
 	// Check for GitHub referrer?			
 	if(owner==null && repo==null) {
