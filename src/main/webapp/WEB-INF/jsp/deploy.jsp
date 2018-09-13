@@ -82,23 +82,6 @@
 			    </div>
 			    <div id ="modalbody" class="modal-body">	
 					<div id="rowModalBody" class="row">		
-							<!-- Progress Modal -->    	
-							<!-- 
-				   		<div class="col-md-12 col-sm-12 col-xs-12 progressModal">
-						  <div class="slds-grid slds-grid_align-spread slds-p-bottom_x-small" id="progress-bar-label-id-7">
-						    <span aria-hidden="true">
-						      <strong id="progressbarInfo" >0% Complete</strong>
-						    </span>
-						  </div>
-						  <div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="progress-bar-label-id-7" role="progressbar">
-						    <span id="progressbar" class="slds-progress-bar__value" style="width: 0%;">
-						      <span class="slds-assistive-text">Progress: 0%</span>
-						    </span>
-						  </div>
-				   		</div>
-				   		 -->	
-				   		
-				   		
 				   		<!-- Alert Modal -->
 				   		<div class="col-md-12 col-sm-12 col-xs-12 alertModal">
 			               <div id ="alertFielo" class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning alert bodyAlert" role="alert">
@@ -228,36 +211,18 @@
 						if(GitHubDeploy.packages.length > 0){
 							GitHubDeploy.deploy();
 						}
-			            /*$.getJSON('/fielodeploy/deploys.json', function(config) {
-			            	var deploys = [];
-			            	$.each(config,function(key, value){
-			            		deploys.push(value);
-			            		//alert(value.version);
-			            	});
-			            	deploys.reverse();
-							GitHubDeploy.packages = deploys;           	
-							if(GitHubDeploy.packages.length > 0)
-								GitHubDeploy.deploy();
-							});*/
 						},				
 						
 					// Control deploys
 					deploy: function() {
-							//console.log(GitHubDeploy.packages.length);
 							minPercentage = 0;
 							maxPercentage = 100;
 							var value = GitHubDeploy.packages.pop();
 							valueAlert = value;
-							//console.log('Packages para instalar');
-							//console.log(GitHubDeploy.packages);
+
 							
 							$('#rowModalBody').append(getProgressBar(valueAlert.name));
 							$('.progressModal').show();
-							//console.log(value);
-							//var value = pack[0];
-							//var repoData = pack[1];
-							//alert(GitHubDeploy.packages.length);
-							//alert(name);
 							if(value.repoOwner == null)
 								GitHubDeploy.deployPackage(value.name, value.version);
 							else {
@@ -270,15 +235,7 @@
 		
 					// Deploy from Git repository
 					deployRepository: function(repoOwner, repoName, ref) {
-							
-							//alert(repoOwner);
-							//alert(repoName);
-							//alert(ref);
 							$('#deploy').attr('disabled', 'disabled');
-							/////$('#deploystatus').empty();
-							//$('#deploystatus').show();
-							//$('#deploystatus').append('<div>Repository Deployment Started: ' + repoName + '</div>');
-							//$('#deploystatus').append('<div>Status: Connecting</div>');
 				            $.ajax({
 				                type: 'POST',
 				                url: window.location.pathname + '/' + repoOwner + '/' + repoName + '/' + ref, // + (ref!='' ? '&ref=' + ref : ''),
@@ -297,7 +254,6 @@
 				                error: function(jqXHR, textStatus, errorThrown) {
 				                    alert('Failed with status: ' + jqXHR.status + '\n\n' + $(jqXHR.responseText).filter('h1').text());
 									$('#deploy').attr('disabled', null);                    
-				                    //alert('Failed ' + textStatus + errorThrown);
 				                }
 				            });
 						},
@@ -309,15 +265,6 @@
 							 // Get the modal
 							var modal = document.getElementById('myModal');
 							modal.style.display = "block";
-							
-							
-							//$('#rowModalBody').prepend(getProgressBar());
-							//$('.progressModal').show();
-							//$('#deploy').attr('disabled', 'disabled');
-							/////$('#deploystatus').empty();
-							//$('#deploystatus').show();
-							//$('#deploystatus').append('<div>Package Deployment Started: ' + packageName + '</div>');
-							//$('#deploystatus').append('<div>Status: Connecting</div>');
 				            $.ajax({
 				                type: 'POST',
 				                url: window.location.pathname + '/' + packageName + '/' + packageVersion,
@@ -332,36 +279,25 @@
 				                    	GitHubDeploy.checkDeploy();
 				                    }
 				                    else{
-				                    	//console.log('chegou deploypackage');
-				                    	//frame(++minPercentage, maxPercentage);
 				                    	GitHubDeploy.intervalId = window.setInterval(GitHubDeploy.checkStatus, 5000);
 				                    	
 				                    }
 				                },
 				                error: function(jqXHR, textStatus, errorThrown) {
 				                    alert('Failed with status: ' + jqXHR.status + '\n\n' + $(jqXHR.responseText).filter('h1').text());
-									//$('#deploy').attr('disabled', null);
-				                    //$('#deploystatus').append(jqXHR.responseText);
-				                    //alert('Failed ' + textStatus + errorThrown);
+
 				                }
 				            });
 						},		
 						
 						// Render Async
 						renderAsync: function() {
-								//$('div:last-child', '#deploystatus').remove();
+								
 								var completed = (GitHubDeploy.asyncResult.state == 'Completed');
 								if (completed) {
 									GitHubDeploy.dots = 0;
 								}
-								/*
-								$('#deploystatus').append(
-									'<div>Status: '+
-										GitHubDeploy.asyncResult.state + '.'.repeat(GitHubDeploy.dots) +
-										(GitHubDeploy.asyncResult.message != null ? GitHubDeploy.asyncResult.message : '') + 
-									'</div>');
-								*/
-								// GitHubDeploy.dots - [0..3]
+								
 								if (!completed) {
 									GitHubDeploy.dots = (++GitHubDeploy.dots) % 4;	
 								}
@@ -397,34 +333,22 @@
 		
 					// Check Deploy
 					checkDeploy: function() {
-						/*
-							$('div:last-child', '#deploystatus').remove();
-							$('#deploystatus').append('<div>Deployment Complete</div>');
-							$('#deploystatus').append('<div>=======================================</div>');					
-							$('#deploy').attr('disabled', null);
-							*/
-							//var errors = false;
 				            $.ajax({
 				                type: 'GET',
 				                url: window.location.pathname + '/checkdeploy/' + GitHubDeploy.asyncResult.id,
 				                contentType : 'application/json; charset=utf-8',
 				                dataType : 'json',
 				                success: function(data, textStatus, jqXHR) {
+				                	console.log(data);
 				                	var newerVersionText = 'A newer version of this package is currently installed';
 				                	var newerVersionTextPT = 'Uma versão mais recente deste pacote está instalada.';
 				                	
 				                	var hasNewerVersion = (data.indexOf(newerVersionText) != -1);
 				                	var hasNewerVersionPT = (data.indexOf(newerVersionTextPT) != -1);	
-				                	//console.log(data.indexOf(newerVersionText));
 				                	if (data.substr(1, 9) == 'Failures:' && (!hasNewerVersion && !hasNewerVersionPT)) {
-				                		//alert('Deployment error!');
-				                		//console.log(valueAlert);
-				                		//maxPercentage = Math.floor(Math.random() * 21) + 70;
 				                		flagError = 1;
 				                		var msgFailures =  'Deployment Error. We were not able to install '+ valueAlert.name+ ' version:'+ valueAlert.version;
-				                		$('#' + valueAlert.name).prepend(getAlert(msgFailures, 'error')); 
-				                		//console.log('entrou falha');
-				                		console.log(data);			                	
+				                		$('#' + valueAlert.name).prepend(getAlert(msgFailures, 'error')); 		                	
 				                		closeButton();
 					                	GitHubDeploy.packages = [];   
 										$('.headerProgressModal').hide();
@@ -435,25 +359,21 @@
 
 					                }
 				                	if (hasNewerVersion || hasNewerVersionPT) {
-				                		//maxPercentage = Math.floor(Math.random() * 21) + 70;
+				                		
 				                		var msghasNewerVersion = valueAlert.name + ' version:'+ valueAlert.version +' will not be installed because there is already a newer version installed in your org.';
 				                		$('#' + valueAlert.name).prepend(getAlert(msghasNewerVersion, 'warning'));
-				                		//console.log('entrou aqui');
 					                	closeButton();
-									//	$('#deploystatus').append('<div>=======================================</div>');					
-				                	} else 
-				                		
+									
+				                	}  
 				                	if (data.substr(1, 9) != 'Failures:' && (!hasNewerVersion && !hasNewerVersionPT))
-			                			{
-					                		while (minPercentage < maxPercentage){       		
-				                    			 frame(valueAlert.name, ++minPercentage);
-					                    	  }
+			                			{   		
+				                    		frame(valueAlert.name, 100);	 
 			                			}
 									if(GitHubDeploy.packages.length > 0){	
 										GitHubDeploy.deploy();	  
 									}
 									else{
-										if(flagError ==0){
+										if(flagError == 0){
 								
 											$('.headerProgressModal').hide();
 											$('.headerCompleteModal').fadeIn("slow");

@@ -15,8 +15,7 @@ function getInputCheck() {
                 selected.push({
                     type: "package",
                     name: $(this).attr('id')
-                });
-                console.log($(this).attr('id'));
+                });       
             } else {
                 selected.push({
                     type: "linkRepository",
@@ -40,7 +39,6 @@ function continueRedirect() {
                     type: "package",
                     name: $(this).attr('id')
                 });
-                console.log($(this).attr('id'));
             } else {
                 selected.push({
                     type: "linkRepository",
@@ -84,7 +82,6 @@ function getInfo(selected) {
         success: function(data, textStatus, jqXHR) {
             var obj = JSON.parse(data);
             var userContext = JSON.parse(obj.userContext);
-            console.log(obj);
             $('#dropdownInfo').empty();
             var packages = '<li class="slds-dropdown__item">' +
                 '<a href="javascript:void(0);" role="menuitem" tabindex="0">' +
@@ -179,13 +176,39 @@ function getAlert(alert, typeAlert) {
     return message;
 }
 
+function getDeployToolNamePackage(name){
+	
+	switch (name) {
+	
+	case "FieloPLT":
+		name = "Fielo Plataform";
+		break;
+	case "FieloPRP":
+		name = "Invoicing";
+		break;
+	case "FieloELR":
+		name = "Training";
+		break;
+	case "CIP":
+		name = "CIP";
+		break;
+	case "FieloGRS":
+		name = "GRS";
+		break;
+	case "fieloplt-sendgrid":
+		name = "Sendgrid";
+		break;
+	} 
+	return name;
+}
+
 //Create ProgressBar for each deploy
 function getProgressBar(namePackage) {
 	
 	var message = 	
 		
 		'<div class="col-md-12 col-sm-12 col-xs-12 progressModal">' +
-		'<p class="header2-padding-modal h2 ">' + namePackage + '</p>' +
+		'<p class="header2-padding-modal h2 ">' + getDeployToolNamePackage(namePackage) + '</p>' +
 		  '<div class="slds-grid slds-grid_align-spread slds-p-bottom_x-small" id="progress-bar-label-id-7">' +
 		    '<span aria-hidden="true"> ' +
 		     '<strong id ="'+namePackage +'" >0% Complete</strong> ' +
@@ -233,7 +256,6 @@ $(document).ready(function($) {
                     url:  window.location.pathname  + "/checkcommunity",
                     cache: false,
                     success: function(result) {
-                        console.log(result);
                         if (result == "true") {
                             $('#checkboxSalesCommunities').prop("checked");
                             $('.salesforce').fadeIn("slow");
@@ -270,7 +292,6 @@ $(document).ready(function($) {
                 type: 'POST',
                 url:  window.location.pathname  + "/checkversionplt",
                 success: function(result) {
-                    console.log(result);
                     if (result == "true") {
                         $("#myModal").show();
                         $('.alertModal').show();
