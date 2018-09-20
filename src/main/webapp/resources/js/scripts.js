@@ -6,7 +6,6 @@
 
 //Get inputCheck - Home Page
 function getInputCheck() {
-    //var selected = [{"type":"linkRepository","name":"CIP"}];
     var selected = [];
     $("input[type=checkbox]:checked").each(function() {
         if ($(this).attr('id') != "registration" && $(this).attr('id') != "salesforceLeads" &&
@@ -111,20 +110,9 @@ function getInfo(selected) {
 
 //Progress Bar
 function frame(namePackage, percentage) {
-
     var elemProgressBar = document.getElementById(namePackage +'progressbar');
-    //var width = elem;
-    //if (elem <= maxP) {
-
-       // if (width >= 100) {
-      //      $('.progressModal').hide();
-      //      $('.completeModal').fadeIn("slow");
-      //  } else {
-    		//++percentage;
-            document.getElementById(namePackage).innerHTML = percentage + '% Complete';
-            elemProgressBar.style.width = percentage + '%';
-      //  }
-   // }
+    document.getElementById(namePackage).innerHTML = percentage + '% Complete';
+    elemProgressBar.style.width = percentage + '%';
 }
 
 
@@ -230,6 +218,10 @@ function closeButton(){
   	});	
 }
 
+//Close Alert message for Deploy
+function closeButtonAlertOrg(){
+	$('#alertOrg').hide();
+}
 
 
 $(document).ready(function($) {
@@ -240,13 +232,12 @@ $(document).ready(function($) {
     // Close Alert Message
     $("#cancelDeploy").click(function() {
         $("#myModal").hide();
-        $('.alertModal').hide();
+        $('#pltVersionAlert').hide();
     });
     
 
     // Verification Checkbox Sales Communities
     $('#checkboxSalesCommunities').change(function() {
-        //var onclick = "window.location.href='/customize.html'";
         if (this.checked) {
             var returnVal = confirm("Are you sure?");
             if (returnVal) {
@@ -285,28 +276,41 @@ $(document).ready(function($) {
 
     });
 
-    // Verification the version of the PLT
+    //Next Button from Home
     $("#nextButton").click(function() {
-        if ($('#checkboxFieloPlataform').prop('checked')) {
-            $.ajax({
-                type: 'POST',
-                url:  window.location.pathname  + "/checkversionplt",
-                success: function(result) {
-                    if (result == "true") {
-                        $("#myModal").show();
-                        $('.alertModal').show();
-                    } else {
-                        continueRedirect();
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert('Failed ' + textStatus + errorThrown);
-                }
-            });
-        } else {
-            continueRedirect();
-        }
+       continueRedirect();
     });
+    
+    
+    // Verification the version of the PLT
+    $("#deploy").click(function() {   	
+        $.ajax({
+        	type: 'POST',
+            url:  window.location.pathname  + "/checkversionplt",
+            cache: false,
+            processData : false,
+            data : JSON.stringify(GitHubDeploy.deployList[0].name),
+            contentType : 'application/json; charset=utf-8',
+            dataType : 'json',
+            success: function(result) {
+                if (JSON.stringify(result) == "true") {
+                	$('#openInfoPackages').removeClass('slds-is-open');
+                    $('#openInfoPackages').addClass('slds-is-closed');
+                    $("#myModal").show();
+                    $('.alertModal').show();
+                } else {
+                	GitHubDeploy.initDeploy(GitHubDeploy.deployList);
+                }
+            }
+        });
+    });
+    
+    // Verification the version of the PLT
+    $("#continueDeploy").click(function() {
+    	$('.alertModal').hide();
+    	GitHubDeploy.initDeploy(GitHubDeploy.deployList);
+    });
+    
 
     // Open Info Packages to be installed	
     $("#openInfoPackages").click(function() {

@@ -48,7 +48,7 @@
 					            	 <button id="back" class="slds-button slds-button_brand buttonBorder"  onclick="goBack()">Back</button>
 					            </div>
 					            <div class="col-md-1 col-md-offset-10 col-sm-6 col-xs-6" style="padding-right: 0px;">
-					              	 <button id="deploy" class="slds-button slds-button_brand buttonBorder" onclick="GitHubDeploy.initDeploy(GitHubDeploy.deployList);">Install</button>
+					              	 <button id="deploy" class="slds-button slds-button_brand buttonBorder">Install</button>
 					            </div>
 					        </div>
 					   	</div>
@@ -66,7 +66,7 @@
 				</div>
 			</c:if>
 		
-		 	 <!-- Modal content -->
+		 	 <!-- Modal content Deploy -->
 			 <div class="modal-content modal-content-longer">
 				 <!-- Progress Modal Header -->
 			    <div class="modal-header progressModal headerProgressModal">
@@ -76,12 +76,20 @@
 			    <div class="modal-header completeModal headerCompleteModal">
 			      <p>Complete</p>
 			    </div>
+			    <div id ="modalbody" class="modal-body">	
+					<div id="rowModalBody" class="row">					   		
+				   	</div>
+				</div>  
+			</div>
+			
+			<!-- Modal content for the alert-->
+			 <div class="modal-content alertModal">
 			     <!-- Alert Modal Header -->
 			    <div class="modal-header alertModal">
 			      <p>Alert</p>
 			    </div>
-			    <div id ="modalbody" class="modal-body">	
-					<div id="rowModalBody" class="row">		
+			    <div class="modal-body">	
+					<div class="row">		
 				   		<!-- Alert Modal -->
 				   		<div class="col-md-12 col-sm-12 col-xs-12 alertModal">
 			               <div id ="alertFielo" class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning alert bodyAlert" role="alert">
@@ -116,6 +124,7 @@
 		<script src="resources/js/jquery-1.7.1.min.js"></script>
 		<c:if test="${githubcontents != null}">
 			<script type="text/javascript">
+			
 				// Number of packages to be install
 				var maxPackage = 0; 
 				var minPackage = 0; 
@@ -199,6 +208,7 @@
 						$('#deploystatus').empty();
 						$('#openInfoPackages').removeClass('slds-is-open');
 			            $('#openInfoPackages').addClass('slds-is-closed');
+			            $('.modal-content-longer').show();
 		            	var deploys = [];
 		            	$.each(container,function(key, value){
 		            		deploys.push(value);
@@ -222,6 +232,8 @@
 
 							
 							$('#rowModalBody').append(getProgressBar(valueAlert.name));
+							
+							$('.progress').show();
 							$('.progressModal').show();
 							if(value.repoOwner == null)
 								GitHubDeploy.deployPackage(value.name, value.version);

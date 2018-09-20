@@ -4,6 +4,7 @@ import static org.eclipse.egit.github.core.client.IGitHubConstants.SEGMENT_REPOS
 
 import java.net.URL;
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -79,11 +80,14 @@ import com.sforce.soap.metadata.DeployOptions;
 import com.sforce.soap.metadata.DeployResult;
 import com.sforce.soap.metadata.DescribeMetadataObject;
 import com.sforce.soap.metadata.DescribeMetadataResult;
+import com.sforce.soap.metadata.FileProperties;
+import com.sforce.soap.metadata.ListMetadataQuery;
 import com.sforce.soap.metadata.MetadataConnection;
 import com.sforce.soap.metadata.Package;
 import com.sforce.soap.metadata.PackageTypeMembers;
 import com.sforce.soap.metadata.RunTestFailure;
 import com.sforce.soap.metadata.RunTestsResult;
+import com.sforce.ws.ConnectionException;
 import com.sforce.ws.bind.TypeMapper;
 import com.sforce.ws.parser.XmlOutputStream;
 
@@ -580,7 +584,7 @@ public class GitHubSalesforceDeployController {
 				{
 					StringBuilder sb = new StringBuilder();
 					sb.append("<ApexClass xmlns=\"http://soap.sforce.com/2006/04/metadata\">");
-					sb.append("<apiVersion>36.0</apiVersion>"); // TODO: Make version configurable / auto
+					sb.append("<apiVersion>43.0</apiVersion>"); // TODO: Make version configurable / auto
 					sb.append("<status>Active</status>");
 					sb.append("</ApexClass>");
 					ZipEntry missingMetadataZipEntry = new ZipEntry(repoItem.metadataFolder+"/"+repoItem.repositoryItem.getName()+"-meta.xml");
@@ -790,7 +794,8 @@ public class GitHubSalesforceDeployController {
 		bos.close();
 		return bos.toByteArray();
 	}
-			
+	
+	
 	@ResponseBody
 	@RequestMapping(method = RequestMethod.GET, value = "/checkstatus/{asyncId}")
 	//@RequestMapping(method = RequestMethod.GET, value = "/{owner}/{repo}/checkstatus/{asyncId}")
@@ -817,6 +822,42 @@ public class GitHubSalesforceDeployController {
 		ObjectMapper objectMapper = new ObjectMapper();
 		return objectMapper.writeValueAsString(printErrors(deployResult));
 	}
+	
+	@ResponseBody
+	@RequestMapping(method = { RequestMethod.POST }, value="/checkversionplt")
+	public  String checkVersionPLT(HttpServletRequest request, HttpSession session, @RequestBody String repoContentsJson) throws Exception
+
+	{
+		String flag = "false";
+		if(repoContentsJson.equals("FieloPLT")) {
+			SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
+		    java.util.Date data = fmt.parse("13/09/2018 00:00:00");
+			ForceServiceConnector forceConnector = new ForceServiceConnector(ForceServiceConnector.getThreadLocalConnectorConfig());
+			
+			try {
+			    ListMetadataQuery query = new ListMetadataQuery();
+			    query.setType("InstalledPackage");
+			    //query.setFolder(null);
+			    double asOfVersion = 40.0;
+			    // Assuming that the SOAP binding has already been established.
+			    FileProperties[] lmr = forceConnector.getMetadataConnection().listMetadata(new ListMetadataQuery[] {query}, asOfVersion);		  
+			    if (lmr != null) {
+			      for (FileProperties n : lmr) {
+			    	  if (n.getFullName().equals("FieloPLT")) {
+			    		  if(n.getCreatedDate().getTime().before(data)) {
+			    			  flag = "true";
+			    		   }
+			    	  }
+			      }
+			    }
+				
+			  } catch (ConnectionException ce) {
+			    ce.printStackTrace();
+			  }
+		}
+		return flag;
+	}
+			
 
 	/**
 	 * Used with the Jackson JSON library to exclude conflicting getters when serialising AsyncResult
@@ -1123,8 +1164,6 @@ public class GitHubSalesforceDeployController {
 				buf.append(" -- " + ccw.getMessage() + "\n");
 			}
 		}
-		//System.out.println("Result: " + result.toString());
-		//System.out.println("Errors: " + buf.toString());
 		return buf.toString();
 	}
 }

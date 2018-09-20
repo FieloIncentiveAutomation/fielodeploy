@@ -312,6 +312,7 @@ span .customLabelBold {
 
 .modal-content-longer{
 	width: 40% !important;
+	display: none;
 }
 
 

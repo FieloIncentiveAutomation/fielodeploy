@@ -61,7 +61,7 @@
                   <span class="customAlert">
                   The installation tool has detected that Communities are not enabled in your org. Before Continuing, <a href="https://support.salesforce.com/articleView?id=networks_enable.htm" target="_blank" ><strong>enable Communities</strong></a> in your org.
                   </span>
-                  <button class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse" title="Close">
+                  <button class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse" onclick="closeButtonAlertOrg();" title="Close">
                      <svg class="slds-button__icon iconAlert" aria-hidden="true">
                         <use xlink:href="resources/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
                      </svg>
@@ -212,39 +212,5 @@
             </div>
          </div>
 	</div>
-	<!-- The Modal -->
-	<div id="myModal" class="modal">
-	 	 <!-- Modal content -->
-		 <div class="modal-content">
-		     <!-- Alert Modal Header -->
-		    <div class="modal-header alertModal">
-		      <p>Alert</p>
-		    </div>
-		    <div class="modal-body">	
-				<div class="row">		
-			   		<!-- Alert Modal -->
-			   		<div class="col-md-12 col-sm-12 col-xs-12 alertModal">
-		               <div id ="alertFielo" class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning alert bodyAlert" role="alert">
-		                  <span class="slds-assistive-text">warning</span>
-		                  <span class="slds-icon_container slds-icon-utility-warning slds-m-right_x-small icon-left" title="Description of icon when needed">
-		                     <svg class="slds-icon slds-icon_x-small iconAlert" aria-hidden="true">
-		                        <use xlink:href="resources/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
-		                     </svg>
-		                  </span>
-		                  <span class="customAlert">
-		                  YOUR PLT VERSION IS OLD AND THE INSTALLATION OF THIS BEHAVIOR REQUIRES THE UPGRADE OF FIELO PLT. THIS UGRADE MAY CAUSE PROBLEMS WITH THE CURRENT CUSTOMIZATION IN YOUR ORG. PLEASE CONTACT THE ADMINISTRATION AND AGREE TO CONTINUE THE INSTALLATION
-		                  </span>
-		               </div>
-			   		</div>
-			   		<div class="col-md-6 col-sm-12 col-xs-12 alertModal">
-				   		<button id="cancelDeploy" class="slds-button slds-button_brand buttonComplete">Cancel</button>
-					</div>
-					<div class="col-md-6 col-sm-12 col-xs-12 alertModal">
-						<button id="continueDeploy" class="slds-button slds-button_brand buttonComplete" onclick="continueRedirect();">Ok, continue</button>	
-					</div>
-			   	</div>
-			</div>  
-		</div>  
-	  </div>
    </body>
 </html>
