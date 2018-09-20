@@ -289,7 +289,7 @@ $(document).ready(function($) {
             url:  window.location.pathname  + "/checkversionplt",
             cache: false,
             processData : false,
-            data : JSON.stringify(GitHubDeploy.deployList[0].name),
+            data : GitHubDeploy.deployList[0].name,
             contentType : 'application/json; charset=utf-8',
             dataType : 'json',
             success: function(result) {
