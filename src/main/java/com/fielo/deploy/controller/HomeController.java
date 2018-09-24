@@ -21,7 +21,8 @@ import com.fielo.deploy.utils.GithubUtil;
 import com.force.sdk.connector.ForceServiceConnector;
 import com.force.sdk.oauth.context.ForceSecurityContextHolder;
 import com.force.sdk.oauth.context.SecurityContext;
-
+import com.force.api.ApiSession;
+import com.force.api.ForceApi;
 
 
 @Controller
@@ -69,7 +70,16 @@ public class HomeController {
 		return "home";
 	}
 	
+	 private ForceApi getForceApi() {
 	
+         SecurityContext sc = ForceSecurityContextHolder.get();
+         ApiSession s = new ApiSession();
+
+         s.setAccessToken(sc.getSessionId());
+         s.setApiEndpoint(sc.getEndPointHost());
+
+         return new ForceApi(s);
+     }
 
 
 	@ResponseBody
@@ -78,7 +88,25 @@ public class HomeController {
 	{
 
 		String flag = "false";
-		
+		try
+		{
+			
+			String queryS = "Select Id from Network";
+			com.force.api.QueryResult<Map>  result = getForceApi().query(queryS);
+			
+			if(result.getTotalSize()>0)
+			{
+				flag = "true";
+			}			
+			
+		}
+		catch(Exception ex)
+		{
+
+			flag ="false";
+			System.out.println("Exception in main : " + ex);
+		}
+
 		 return flag;
 	}
 
