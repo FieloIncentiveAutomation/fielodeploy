@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fielo.deploy.utils.GithubUtil;
 import com.force.sdk.connector.ForceServiceConnector;
-import com.sforce.soap.partner.PartnerConnection;
+import com.force.sdk.oauth.context.ForceSecurityContextHolder;
+import com.force.sdk.oauth.context.SecurityContext;
+import com.force.api.ApiSession;
+import com.force.api.ForceApi;
 
 
 @Controller
@@ -66,6 +69,18 @@ public class HomeController {
 		
 		return "home";
 	}
+	
+	 private ForceApi getForceApi() {
+	
+         SecurityContext sc = ForceSecurityContextHolder.get();
+         ApiSession s = new ApiSession();
+
+         s.setAccessToken(sc.getSessionId());
+         s.setApiEndpoint(sc.getEndPointHost());
+
+         return new ForceApi(s);
+     }
+
 
 	@ResponseBody
 	@RequestMapping(method = { RequestMethod.POST }, value="/checkcommunity")
@@ -75,11 +90,11 @@ public class HomeController {
 		String flag = "false";
 		try
 		{
-			PartnerConnection connector = forceConnector.getConnection();
-			String query = "SELECT Id From Network";
-			com.sforce.soap.partner.QueryResult result = connector.query(query);
 			
-			if(result.getSize()>0)
+			String queryS = "Select Id from Network";
+			com.force.api.QueryResult<Map>  result = getForceApi().query(queryS);
+			
+			if(result.getTotalSize()>0)
 			{
 				flag = "true";
 			}			
