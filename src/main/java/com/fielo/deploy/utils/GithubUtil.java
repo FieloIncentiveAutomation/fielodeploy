@@ -187,7 +187,7 @@ public class GithubUtil {
 		return jsonArray2;
 	}
 	
-	public class RepoWrapper{
+	public static class RepoWrapper{
 		public String name;
 		public String full_name;
 		public String description;
