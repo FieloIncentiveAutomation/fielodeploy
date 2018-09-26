@@ -31,7 +31,7 @@ function getInputCheck() {
 function continueRedirect() {
     var selected = [];
     $("input[type=checkbox]:checked").each(function() {
-        if ($(this).attr('id') != "registration" && $(this).attr('id') != "salesforceLeads" &&
+        if ($(this).attr('id') != "salesforceLeads" &&
             $(this).attr('id') != "salesforceOpportunities" && $(this).attr('id') != "salesforceOrders") {
             if ($(this).attr('id') == "checkboxFieloPlataform") {
                 selected.push({
@@ -173,6 +173,9 @@ function getDeployToolNamePackage(name){
 		break;
 	case "FieloPRP":
 		name = "Invoicing";
+		break;
+	case "CIP-Registration":
+		name = "Registration";
 		break;
 	case "FieloELR":
 		name = "Training";

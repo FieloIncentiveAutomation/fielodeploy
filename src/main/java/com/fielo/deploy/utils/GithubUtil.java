@@ -203,6 +203,9 @@ public class GithubUtil {
 		case "training":
 			name = "Fielo-Apps/fieloelr";
     		break;
+		case "registration":
+			name = "Fielo-ProgramTypes/CIP-Registration";
+    		break;
 		case "CIP":
 			name = "Fielo-ProgramTypes/CIP";
     		break;
