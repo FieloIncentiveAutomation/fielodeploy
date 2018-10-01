@@ -180,7 +180,7 @@
                </div>
             </div>
             <div class="col-md-9 col-sm-12 col-xs-12 form-group">
-            <label class="labeltext labelpadding">Connectores</label><br>
+            <label class="labeltext labelpadding">Connectors</label><br>
             	<div class="slds-form-element">
                   <div class="slds-form-element__control">
                      <span class="slds-checkbox">
