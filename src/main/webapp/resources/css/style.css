@@ -313,6 +313,9 @@ span .customLabelBold {
 .modal-content-longer{
 	width: 40% !important;
 	display: none;
+	max-height: 100%;
+	overflow-y: auto;	
+	overflow-x: hidden;
 }
 
 

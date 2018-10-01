@@ -18,96 +18,88 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fielo.deploy.utils.GithubUtil;
+import com.force.api.ApiSession;
+import com.force.api.ForceApi;
 import com.force.sdk.connector.ForceServiceConnector;
 import com.force.sdk.oauth.context.ForceSecurityContextHolder;
 import com.force.sdk.oauth.context.SecurityContext;
-import com.force.api.ApiSession;
-import com.force.api.ForceApi;
-
 
 @Controller
 @RequestMapping("/home")
 public class HomeController {
-	
+
 	@Autowired
-    ServletContext context;
-	
+	ServletContext context;
 	HttpServletRequest servletRequest;
 	ForceServiceConnector forceConnector;
-	
-		
-	@RequestMapping(method = RequestMethod.GET, value="")
+
+	@RequestMapping(method = RequestMethod.GET, value = "")
 	public String confirm(HttpSession session, Map<String, Object> map) throws Exception {
-		
+
 		String reposList = "";
 		File file = new File(context.getRealPath("/") + "Fielo-ProgramTypes.txt");
-		if(!file.exists() || ((System.currentTimeMillis() - file.lastModified())/3600000) > 0){
-			//llamo github
+		if (!file.exists() || ((System.currentTimeMillis() - file.lastModified()) / 3600000) > 0) {
+			// llamo github
 			reposList = new ObjectMapper().writeValueAsString(GithubUtil.getJsonFromGithub("Fielo-ProgramTypes"));
-			
-			if(!file.exists()){
-				//creo arquivo
+
+			if (!file.exists()) {
+				// creo arquivo
 				file.createNewFile();
 			}
-			
+
 			FileWriter fileWriter = new FileWriter(file, false);
-            fileWriter.write(reposList);
-            fileWriter.close();   
-		}else{
-			//get arquivo
+			fileWriter.write(reposList);
+			fileWriter.close();
+		} else {
+			// get arquivo
 			JSONParser parser = new JSONParser();
-			try{
-				reposList = parser.parse(new FileReader(file.getAbsolutePath())).toString().replace("\\","");
-			}catch(java.io.FileNotFoundException e){
+			try {
+				reposList = parser.parse(new FileReader(file.getAbsolutePath())).toString().replace("\\", "");
+			} catch (java.io.FileNotFoundException e) {
 				System.out.println(e.getMessage());
 			}
 		}
-		
+
 		System.out.println(reposList);
-		
+
 		map.put("items", reposList);
-		
+
 		return "home";
 	}
-	
-	 private ForceApi getForceApi() {
-	
-         SecurityContext sc = ForceSecurityContextHolder.get();
-         ApiSession s = new ApiSession();
 
-         s.setAccessToken(sc.getSessionId());
-         s.setApiEndpoint(sc.getEndPointHost());
+	private ForceApi getForceApi() {
 
-         return new ForceApi(s);
-     }
+		SecurityContext sc = ForceSecurityContextHolder.get();
+		ApiSession s = new ApiSession();
 
+		s.setAccessToken(sc.getSessionId());
+		s.setApiEndpoint(sc.getEndPointHost());
+
+		return new ForceApi(s);
+	}
 
 	@ResponseBody
-	@RequestMapping(method = { RequestMethod.POST }, value="/checkcommunity")
-	public String checkCommunity(HttpServletRequest request, HttpSession session) throws Exception
-	{
+	@RequestMapping(method = { RequestMethod.POST }, value = "/checkcommunity")
+	public String checkCommunity(HttpServletRequest request, HttpSession session) throws Exception {
 
 		String flag = "false";
-		try
-		{
-			
-			String queryS = "Select Id from Network";
-			com.force.api.QueryResult<Map>  result = getForceApi().query(queryS);
-			
-			if(result.getTotalSize()>0)
-			{
-				flag = "true";
-			}			
-			
-		}
-		catch(Exception ex)
-		{
+		try {
 
-			flag ="false";
+			String queryS = "SELECT Id FROM Network";
+
+			com.force.api.QueryResult<Map> result = getForceApi().query(queryS);
+
+			if (result.getTotalSize() > 0) {
+				flag = "true";
+			}
+
+		} catch (Exception ex) {
+
+			flag = "false";
 			System.out.println("Exception in main : " + ex);
 		}
 
-		 return flag;
+		return flag;
 	}
 
 }

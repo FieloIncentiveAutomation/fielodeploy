@@ -242,8 +242,6 @@ $(document).ready(function($) {
     // Verification Checkbox Sales Communities
     $('#checkboxSalesCommunities').change(function() {
         if (this.checked) {
-            var returnVal = confirm("Are you sure?");
-            if (returnVal) {
                 $.ajax({
                     // This URL need to be changed before release
                     type: 'POST',
@@ -262,13 +260,7 @@ $(document).ready(function($) {
                         }
                     }
                 });
-            } else {
-                $(this).prop('checked', false);
-                $('.salesforce').fadeOut("slow");
-                $('.salesforceCustomer').fadeOut("slow");
-                $('input[type=radio][name=licence]').prop('checked', false);
-                $("input.checkBoxsalesforceCustomer[type=checkbox]").prop('checked', false);
-            }
+       
         } else {
             $('.salesforce').fadeOut("slow");
             $('.salesforceCustomer').fadeOut("slow");
@@ -287,6 +279,7 @@ $(document).ready(function($) {
     
     // Verification the version of the PLT
     $("#deploy").click(function() {   	
+    	$('.demo-only').show();
         $.ajax({
         	type: 'POST',
             url:  window.location.pathname  + "/checkversionplt",
@@ -296,6 +289,7 @@ $(document).ready(function($) {
             contentType : 'application/json; charset=utf-8',
             dataType : 'json',
             success: function(result) {
+            	$('.demo-only').hide();
                 if (JSON.stringify(result) == "true") {
                 	$('#openInfoPackages').removeClass('slds-is-open');
                     $('#openInfoPackages').addClass('slds-is-closed');
