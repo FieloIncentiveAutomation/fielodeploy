@@ -168,14 +168,8 @@
             <div class="col-md-3 col-sm-12 col-xs-12 form-group">
                <label class="labeltext labelpadding">Quick Start Programs</label><br>
                <div class="slds-form-element">
-                  <div class="slds-form-element__control">
-                     <span class="slds-checkbox">
-                     <input type="checkbox" name="options" id="CIP" value="CIP" />
-                     <label class="slds-checkbox__label" for="CIP">
-                     <span class="slds-checkbox_faux customfaux"></span>
-                     <span class="slds-form-element__label customLabel">CIP(Contractor Incentive Program)</span>
-                     </label>
-                     </span>
+                  <div id="lstprogramtypes" class="slds-form-element__control">
+                
                   </div>
                </div>
             </div>
@@ -187,7 +181,7 @@
                      <input type="checkbox" name="options" id="grs" value="grs" class="classDisable"/>
                      <label class="slds-checkbox__label checkboxInline" for="grs">
                      <span class="slds-checkbox_faux customfaux"></span>
-                     <span class="slds-form-element__label customLabel">GRS (Global Rewards Solutions)</span>
+                     <span class="slds-form-element__label customLabel">GRS (Global Reward Solutions)</span>
                      </label>
                      </span>
                   </div>
@@ -212,5 +206,34 @@
             </div>
          </div>
 	</div>
+	<c:if test="${items != null}">
+		<script type="text/javascript">
+	
+			var GitHubDeploy = {
+				// Contents of the GitHub repository
+				contents: ${items},
+	
+				// Render GitHub repository contents
+				render: function(container) {
+						for(fileIdx in container) {
+							var repoItem = container[fileIdx];
+							if(repoItem.name !="PRM"){
+								$('#lstprogramtypes').append(
+										 ' <span class="slds-checkbox">' +
+					                     ' <input type="checkbox" name="options" id="'+ repoItem.full_name +'" value="'+ repoItem.full_name +'" /> '+
+					                     ' <label class="slds-checkbox__label" for="'+ repoItem.full_name+'"> '+
+					                     ' <span class="slds-checkbox_faux customfaux"></span> '+
+					                     ' <span class="slds-form-element__label customLabel">'+ repoItem.name+  ' ('+(repoItem.description != null ? repoItem.description : repoItem.name) +')</span>'+
+					                     ' </label>'+
+					                     ' </span> ');
+							}
+						}
+					}		
+			}
+			
+			// Render files selected to deploy
+			GitHubDeploy.render(GitHubDeploy.contents);
+		</script>
+	</c:if>
    </body>
 </html>

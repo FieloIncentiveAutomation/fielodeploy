@@ -197,6 +197,12 @@ public class GithubUtil {
 		
 		switch (name) {
 		
+		case "customerCommunity":
+			name = "Fielo-Communities/customercommunity";
+    		break;
+		case "partnerCommunity":
+			name = "Fielo-Communities/partnercommunity";
+    		break;
 		case "invoicing":
 			name = "Fielo-Apps/fieloprp";
     		break;
@@ -204,7 +210,7 @@ public class GithubUtil {
 			name = "Fielo-Apps/fieloelr";
     		break;
 		case "registration":
-			name = "Fielo-ProgramTypes/CIP-Registration";
+			name = "Fielo-Apps/Registration";
     		break;
 		case "CIP":
 			name = "Fielo-ProgramTypes/CIP";

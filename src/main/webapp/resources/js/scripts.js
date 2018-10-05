@@ -5,16 +5,21 @@
 */
 
 //Get inputCheck - Home Page
-function getInputCheck() {
+
+
+
+// Verification of Input and Redirect to Deploy
+
+function continueRedirect() {
     var selected = [];
     $("input[type=checkbox]:checked").each(function() {
-        if ($(this).attr('id') != "registration" && $(this).attr('id') != "salesforceLeads" &&
+        if ( $(this).attr('id') != "checkboxSalesCommunities" &&  $(this).attr('id') != "salesforceLeads" &&
             $(this).attr('id') != "salesforceOpportunities" && $(this).attr('id') != "salesforceOrders") {
             if ($(this).attr('id') == "checkboxFieloPlataform") {
                 selected.push({
                     type: "package",
                     name: $(this).attr('id')
-                });       
+                });
             } else {
                 selected.push({
                     type: "linkRepository",
@@ -23,28 +28,11 @@ function getInputCheck() {
             }
         }
     });
-    getInfo(selected);
-}
-
-
-// Verification of Input and Redirect to Deploy
-function continueRedirect() {
-    var selected = [];
-    $("input[type=checkbox]:checked").each(function() {
-        if ($(this).attr('id') != "salesforceLeads" &&
-            $(this).attr('id') != "salesforceOpportunities" && $(this).attr('id') != "salesforceOrders") {
-            if ($(this).attr('id') == "checkboxFieloPlataform") {
-                selected.push({
-                    type: "package",
-                    name: $(this).attr('id')
-                });
-            } else {
-                selected.push({
-                    type: "linkRepository",
-                    name: $(this).attr('id')
-                });
-            }
-        }
+    $("input[type=radio]:checked").each(function() {
+            selected.push({
+                type: "linkRepository",
+            name: $(this).attr('id')
+        });
     });
     if (selected.length == 0) {
         alert("Please select at least one of the sources.");
@@ -168,6 +156,12 @@ function getDeployToolNamePackage(name){
 	
 	switch (name) {
 	
+	case "customerCommunity":
+		name = "Customer Community";
+		break;
+	case "partnercommunity":
+		name = "Partner Community";
+		break;
 	case "FieloPLT":
 		name = "Fielo Plataform";
 		break;
@@ -333,14 +327,16 @@ $(document).ready(function($) {
     });
 
     // Disable Invoicing, Training, Registration and GRS when CIP is checked
-    $('#CIP').change(function() {
-        if (this.checked) {
-            $(".classDisable").prop('disabled', true);
-            $(".classDisable").prop('checked', true);
-        } else {
-            $(".classDisable").prop('disabled', false);
-            $(".classDisable").prop('checked', false);
-        }
+    $('#lstprogramtypes input[type=checkbox]').change(function() {
+    	if ($("#lstprogramtypes input:checkbox:checked").length == 0)
+    	{
+    		 $(".classDisable").prop('disabled', false);
+    		 $(".classDisable").prop('checked', false);
+    	}
+    	if ($("#lstprogramtypes input:checkbox:checked").length > 0){
+    		 $(".classDisable").prop('disabled', true);
+    		 $(".classDisable").prop('checked', false);
+    	}
     });
 
 

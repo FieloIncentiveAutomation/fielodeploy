@@ -60,7 +60,7 @@ public class HomeController {
 			}
 		}
 
-		System.out.println(reposList);
+		//System.out.println(reposList);
 
 		map.put("items", reposList);
 
