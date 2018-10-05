@@ -156,7 +156,7 @@ function getDeployToolNamePackage(name){
 	
 	switch (name) {
 	
-	case "customerCommunity":
+	case "customercommunity":
 		name = "Customer Community";
 		break;
 	case "partnercommunity":
