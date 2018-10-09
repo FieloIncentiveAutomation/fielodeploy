@@ -223,7 +223,7 @@
 					                     ' <input type="checkbox" name="options" id="'+ repoItem.full_name +'" value="'+ repoItem.full_name +'" /> '+
 					                     ' <label class="slds-checkbox__label" for="'+ repoItem.full_name+'"> '+
 					                     ' <span class="slds-checkbox_faux customfaux"></span> '+
-					                     ' <span class="slds-form-element__label customLabel">'+ repoItem.name+  ' ('+(repoItem.description != null ? repoItem.description : repoItem.name) +')</span>'+
+					                     ' <span class="slds-form-element__label customLabel">'+ (repoItem.description != null ? repoItem.description : repoItem.name) +'</span>'+
 					                     ' </label>'+
 					                     ' </span> ');
 							}
