@@ -203,6 +203,15 @@ public class GithubUtil {
 		case "partnerCommunity":
 			name = "Fielo-Communities/partnercommunity";
     		break;
+		case "salesforceOpportunities":
+			name = "Fielo-Communities/opportunity";
+    		break;
+		case "salesforceLeads":
+			name = "Fielo-Communities/lead";
+    		break;
+		case "salesforceOrders":
+			name = "Fielo-Communities/order";
+    		break;
 		case "invoicing":
 			name = "Fielo-Apps/fieloprp";
     		break;

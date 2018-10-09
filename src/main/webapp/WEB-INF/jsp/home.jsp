@@ -121,7 +121,7 @@
                <div class="slds-form-element">
                   <div class="slds-form-element__control">
                      <span class="slds-checkbox">
-                     <input type="checkbox" name="options" id="registration" value="registration" class="classDisable" />
+                     <input type="checkbox" name="options" id="registration" value="registration"/>
                      <label class="slds-checkbox__label checkboxInline" for="registration">
                      <span class="slds-checkbox_faux customfaux"></span>
                      <span class="slds-form-element__label customLabel">Registration</span>

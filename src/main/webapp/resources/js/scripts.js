@@ -13,8 +13,7 @@
 function continueRedirect() {
     var selected = [];
     $("input[type=checkbox]:checked").each(function() {
-        if ( $(this).attr('id') != "checkboxSalesCommunities" &&  $(this).attr('id') != "salesforceLeads" &&
-            $(this).attr('id') != "salesforceOpportunities" && $(this).attr('id') != "salesforceOrders") {
+        if ( $(this).attr('id') != "checkboxSalesCommunities" ) {
             if ($(this).attr('id') == "checkboxFieloPlataform") {
                 selected.push({
                     type: "package",
@@ -162,6 +161,15 @@ function getDeployToolNamePackage(name){
 	case "partnercommunity":
 		name = "Partner Community";
 		break;
+	case "opportunity":
+		name = "Salesforce Opportunities";
+		break;
+	case "lead":
+		name = "Salesforce Leads";
+		break;
+	case "order":
+		name = "Salesforce Orders";
+		break;
 	case "FieloPLT":
 		name = "Fielo Plataform";
 		break;
@@ -236,6 +244,8 @@ $(document).ready(function($) {
     // Verification Checkbox Sales Communities
     $('#checkboxSalesCommunities').change(function() {
         if (this.checked) {
+        		$(".classDisable").prop('disabled', true);
+        		$(".classDisable").prop('checked', false);
                 $.ajax({
                     // This URL need to be changed before release
                     type: 'POST',
@@ -256,6 +266,8 @@ $(document).ready(function($) {
                 });
        
         } else {
+        	$(".classDisable").prop('disabled', false);
+		    $(".classDisable").prop('checked', false);
             $('.salesforce').fadeOut("slow");
             $('.salesforceCustomer').fadeOut("slow");
             $('#alertOrg').fadeOut("slow");
@@ -327,6 +339,7 @@ $(document).ready(function($) {
     });
 
     // Disable Invoicing, Training, Registration and GRS when CIP is checked
+    /*
     $('#lstprogramtypes input[type=checkbox]').change(function() {
     	if ($("#lstprogramtypes input:checkbox:checked").length == 0)
     	{
@@ -338,6 +351,7 @@ $(document).ready(function($) {
     		 $(".classDisable").prop('checked', false);
     	}
     });
+    */
 
 
 });
