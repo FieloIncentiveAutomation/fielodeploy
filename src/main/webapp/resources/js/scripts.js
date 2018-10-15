@@ -203,6 +203,18 @@ function getDeployToolNamePackage(name){
 		break;
 	case "partnercommunity":
 		name = "Partner Community";
+		break;		
+	case "permissionsCustomerPRP":
+		name = "Permissions for Customer Community with Invoicing";
+		break;
+	case "permissionsCustomerELR":
+		name = "Permissions for Customer Community with Training";
+		break;
+	case "permissionsPartnerPRP":
+		name = "Permissions for Partner Community with Invoicing";
+		break;
+	case "permissionsPartnerELR":
+		name = "Permissions for Partner Community with Training";
 		break;
 	case "opportunity":
 		name = "Salesforce Opportunities";
