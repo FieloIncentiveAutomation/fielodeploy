@@ -200,8 +200,20 @@ public class GithubUtil {
 		case "customerCommunity":
 			name = "Fielo-Communities/customercommunity";
     		break;
+		case "permissionsCustomerPRP":
+			name = "Fielo-Communities/permissionsCustomerPRP";
+    		break;
+		case "permissionsCustomerELR":
+			name = "Fielo-Communities/permissionsCustomerELR";
+    		break;
 		case "partnerCommunity":
 			name = "Fielo-Communities/partnercommunity";
+    		break;
+		case "permissionsPartnerPRP":
+			name = "Fielo-Communities/permissionsPartnerPRP";
+    		break;
+		case "permissionsPartnerELR":
+			name = "Fielo-Communities/permissionsPartnerELR";
     		break;
 		case "salesforceOpportunities":
 			name = "Fielo-Communities/opportunity";

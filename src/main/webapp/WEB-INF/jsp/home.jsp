@@ -169,7 +169,6 @@
                <label class="labeltext labelpadding">Quick Start Programs</label><br>
                <div class="slds-form-element">
                   <div id="lstprogramtypes" class="slds-form-element__control">
-                
                   </div>
                </div>
             </div>
@@ -217,11 +216,22 @@
 				render: function(container) {
 						for(fileIdx in container) {
 							var repoItem = container[fileIdx];
-							if(repoItem.name !="PRM"){
+							if(repoItem.name !="PRM" && repoItem.name !="CIP"){
 								$('#lstprogramtypes').append(
 										 ' <span class="slds-checkbox">' +
 					                     ' <input type="checkbox" name="options" id="'+ repoItem.full_name +'" value="'+ repoItem.full_name +'" /> '+
 					                     ' <label class="slds-checkbox__label" for="'+ repoItem.full_name+'"> '+
+					                     ' <span class="slds-checkbox_faux customfaux"></span> '+
+					                     ' <span class="slds-form-element__label customLabel">'+ (repoItem.description != null ? repoItem.description : repoItem.name) +'</span>'+
+					                     ' </label>'+
+					                     ' </span> ');
+							}
+							//CIP has a diferent HTML to check Invoincing. Training and GRS
+							if(repoItem.name =="CIP"){
+								$('#lstprogramtypes').append(
+										 ' <span class="slds-checkbox">' +
+					                     ' <input type="checkbox" name="options" id="'+ repoItem.name +'" value="'+ repoItem.name +'" /> '+
+					                     ' <label class="slds-checkbox__label" for="'+ repoItem.name+'"> '+
 					                     ' <span class="slds-checkbox_faux customfaux"></span> '+
 					                     ' <span class="slds-form-element__label customLabel">'+ (repoItem.description != null ? repoItem.description : repoItem.name) +'</span>'+
 					                     ' </label>'+

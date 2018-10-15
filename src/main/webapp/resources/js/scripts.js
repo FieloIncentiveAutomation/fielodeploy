@@ -14,6 +14,7 @@ function continueRedirect() {
     var selected = [];
     $("input[type=checkbox]:checked").each(function() {
         if ( $(this).attr('id') != "checkboxSalesCommunities" ) {
+
             if ($(this).attr('id') == "checkboxFieloPlataform") {
                 selected.push({
                     type: "package",
@@ -33,6 +34,36 @@ function continueRedirect() {
             name: $(this).attr('id')
         });
     });
+    
+    
+ 	if (checkListId(selected, "customerCommunity") && checkListId(selected, "invoicing") ) {
+		 selected.push({
+            type: "linkRepository",
+            name: "permissionsCustomerPRP"
+        });
+	}
+ 	
+ 	if (checkListId(selected, "customerCommunity") && checkListId(selected, "training") ) {
+		 selected.push({
+           type: "linkRepository",
+           name: "permissionsCustomerELR"
+       });
+	}
+ 	
+	if (checkListId(selected, "partnerCommunity") && checkListId(selected, "invoicing") ) {
+		 selected.push({
+           type: "linkRepository",
+           name: "permissionsPartnerPRP"
+       });
+	}
+	
+	if (checkListId(selected, "partnerCommunity") && checkListId(selected, "training") ) {
+		 selected.push({
+          type: "linkRepository",
+          name: "permissionsPartnerELR"
+      });
+	}
+    
     if (selected.length == 0) {
         alert("Please select at least one of the sources.");
         return;
@@ -58,6 +89,18 @@ function continueRedirect() {
     deployForm.submit();
 }
 
+
+//Check if Id was selected
+function  checkListId(selected, id) {
+	var flag = false;
+	$.each(selected, function(i, v) {
+	    if (v.name == id) {
+	    	flag = true;
+	    }
+	    
+	});
+	return flag;
+}
 
 //Get Information about the Org - Deploy Page
 function getInfo(selected) {
@@ -244,30 +287,26 @@ $(document).ready(function($) {
     // Verification Checkbox Sales Communities
     $('#checkboxSalesCommunities').change(function() {
         if (this.checked) {
-        		$(".classDisable").prop('disabled', true);
-        		$(".classDisable").prop('checked', false);
-                $.ajax({
-                    // This URL need to be changed before release
-                    type: 'POST',
-                    url:  window.location.pathname  + "/checkcommunity",
-                    cache: false,
-                    success: function(result) {
-                        if (result == "true") {
-                            $('#checkboxSalesCommunities').prop("checked");
-                            $('.salesforce').fadeIn("slow");
-                            $('#alertOrg').hide();
-                            $("#myBtn").prop("disabled", false);
-                        } else {
-                            $('#checkboxSalesCommunities').prop('checked', false);
-                            $('#alertOrg').fadeIn("slow");
-                            $("#myBtn").prop("disabled", true);
-                        }
+            $.ajax({
+                // This URL need to be changed before release
+                type: 'POST',
+                url:  window.location.pathname  + "/checkcommunity",
+                cache: false,
+                success: function(result) {
+                    if (result == "true") {
+                        $('#checkboxSalesCommunities').prop("checked");
+                        $('.salesforce').fadeIn("slow");
+                        $('#alertOrg').hide();
+                        $("#myBtn").prop("disabled", false);
+                    } else {
+                        $('#checkboxSalesCommunities').prop('checked', false);
+                        $('#alertOrg').fadeIn("slow");
+                        $("#myBtn").prop("disabled", true);
                     }
-                });
+                }
+            });
        
         } else {
-        	$(".classDisable").prop('disabled', false);
-		    $(".classDisable").prop('checked', false);
             $('.salesforce').fadeOut("slow");
             $('.salesforceCustomer').fadeOut("slow");
             $('#alertOrg').fadeOut("slow");
@@ -339,19 +378,15 @@ $(document).ready(function($) {
     });
 
     // Disable Invoicing, Training, Registration and GRS when CIP is checked
-    /*
-    $('#lstprogramtypes input[type=checkbox]').change(function() {
-    	if ($("#lstprogramtypes input:checkbox:checked").length == 0)
-    	{
-    		 $(".classDisable").prop('disabled', false);
-    		 $(".classDisable").prop('checked', false);
-    	}
-    	if ($("#lstprogramtypes input:checkbox:checked").length > 0){
-    		 $(".classDisable").prop('disabled', true);
-    		 $(".classDisable").prop('checked', false);
-    	}
+    $('#CIP').change(function() {
+	    if (this.checked) {
+	        $(".classDisable").prop('disabled', true);
+	        $(".classDisable").prop('checked', true);
+	    } else {
+	        $(".classDisable").prop('disabled', false);
+	        $(".classDisable").prop('checked', false);
+	    }
     });
-    */
 
 
 });
