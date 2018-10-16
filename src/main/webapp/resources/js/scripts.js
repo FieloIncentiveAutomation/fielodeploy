@@ -34,7 +34,7 @@ function continueRedirect() {
     $("input[type=radio]:checked").each(function() {
     	if (checkListId(selected, "CIP")){
     	
-    	  	if (checkListId(selected, "CIP") &&  checkListId(selected, "customerCommunity")){
+    	  	if (checkListId(selected, "CIP") &&  $(this).attr('id') == "customerCommunity"){
        		 selected.push({
     	            type: "linkRepository",
     	            name: "customercommunityCIP"
