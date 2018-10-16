@@ -29,29 +29,35 @@ function continueRedirect() {
         }
     });
     
-    if (checkListId(selected, "CIP") && (checkListId(selected, "customerCommunity") || checkListId(selected, "partnerCommunity"))){
+    // Selection for CIP and Community differs on each repository the Deploy Tool need to get.
     
-    	if (checkListId(selected, "CIP") &&  checkListId(selected, "customerCommunity")){
-    		 selected.push({
- 	            type: "linkRepository",
- 	            name: "customercommunityCIP"
- 	        });
+    $("input[type=radio]:checked").each(function() {
+    	if (checkListId(selected, "CIP")){
+    	
+    	  	if (checkListId(selected, "CIP") &&  checkListId(selected, "customerCommunity")){
+       		 selected.push({
+    	            type: "linkRepository",
+    	            name: "customercommunityCIP"
+    	        });
+    	  	}
+	       	else{
+	       		 selected.push({
+	    	            type: "linkRepository",
+	    	            name: "partnercommunityCIP"
+	    	        });
+	       	}
     	}
     	else{
-    		 selected.push({
- 	            type: "linkRepository",
- 	            name: "partnercommunityCIP"
- 	        });
-    	}
-    }
-    else{
-    	
-    	$("input[type=radio]:checked").each(function() {
-	               selected.push({
-	                   type: "linkRepository",
-	               name: $(this).attr('id')
-	           });
-	       });
+	            	selected.push({
+	                type: "linkRepository",
+	                name: $(this).attr('id')
+	            	});
+        }
+        
+	});
+
+    // Selection for Behaviors(apps) and Community differs on each repository the Deploy Tool need to get.
+    if (!(checkListId(selected, "CIP") && (checkListId(selected, "customerCommunity") || checkListId(selected, "partnerCommunity")))){
     	
 	 	if (checkListId(selected, "customerCommunity") && checkListId(selected, "invoicing") ) {
 			 selected.push({
