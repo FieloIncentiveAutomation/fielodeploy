@@ -224,6 +224,12 @@ public class GithubUtil {
 		case "salesforceOrders":
 			name = "Fielo-Communities/order";
     		break;
+		case "customercommunityCIP":
+			name = "Fielo-Communities/customercommunityCIP";
+    		break;
+		case "partnercommunityCIP":
+			name = "Fielo-Communities/partnercommunityCIP";
+    		break;
 		case "invoicing":
 			name = "Fielo-Apps/fieloprp";
     		break;

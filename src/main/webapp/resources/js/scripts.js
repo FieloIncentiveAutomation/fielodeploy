@@ -35,34 +35,51 @@ function continueRedirect() {
         });
     });
     
+    if (checkListId(selected, "CIP") && (checkListId(selected, "customerCommunity") || checkListId(selected, "partnerCommunity"))){
     
- 	if (checkListId(selected, "customerCommunity") && checkListId(selected, "invoicing") ) {
-		 selected.push({
-            type: "linkRepository",
-            name: "permissionsCustomerPRP"
-        });
-	}
- 	
- 	if (checkListId(selected, "customerCommunity") && checkListId(selected, "training") ) {
-		 selected.push({
-           type: "linkRepository",
-           name: "permissionsCustomerELR"
-       });
-	}
- 	
-	if (checkListId(selected, "partnerCommunity") && checkListId(selected, "invoicing") ) {
-		 selected.push({
-           type: "linkRepository",
-           name: "permissionsPartnerPRP"
-       });
-	}
-	
-	if (checkListId(selected, "partnerCommunity") && checkListId(selected, "training") ) {
-		 selected.push({
-          type: "linkRepository",
-          name: "permissionsPartnerELR"
-      });
-	}
+    	if (checkListId(selected, "CIP") &&  checkListId(selected, "customerCommunity")){
+    		 selected.push({
+ 	            type: "linkRepository",
+ 	            name: "customercommunityCIP"
+ 	        });
+    	}
+    	else{
+    		 selected.push({
+ 	            type: "linkRepository",
+ 	            name: "partnercommunityCIP"
+ 	        });
+    	}
+    }
+    else{
+    	
+	 	if (checkListId(selected, "customerCommunity") && checkListId(selected, "invoicing") ) {
+			 selected.push({
+	            type: "linkRepository",
+	            name: "permissionsCustomerPRP"
+	        });
+		}
+	 	
+	 	if (checkListId(selected, "customerCommunity") && checkListId(selected, "training") ) {
+			 selected.push({
+	           type: "linkRepository",
+	           name: "permissionsCustomerELR"
+	       });
+		}
+	 	
+		if (checkListId(selected, "partnerCommunity") && checkListId(selected, "invoicing") ) {
+			 selected.push({
+	           type: "linkRepository",
+	           name: "permissionsPartnerPRP"
+	       });
+		}
+		
+		if (checkListId(selected, "partnerCommunity") && checkListId(selected, "training") ) {
+			 selected.push({
+	          type: "linkRepository",
+	          name: "permissionsPartnerELR"
+	      });
+		}
+    }
     
     if (selected.length == 0) {
         alert("Please select at least one of the sources.");
@@ -239,6 +256,12 @@ function getDeployToolNamePackage(name){
 		break;
 	case "CIP":
 		name = "CIP";
+		break;
+	case "customercommunityCIP":
+		name = "Template and Permissions for Customer Community with CIP";
+		break;
+	case "partnercommunityCIP":
+		name = "Template and Permissions for Partner Community with CIP";
 		break;
 	case "FieloGRS":
 		name = "GRS";
