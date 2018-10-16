@@ -28,12 +28,6 @@ function continueRedirect() {
             }
         }
     });
-    $("input[type=radio]:checked").each(function() {
-            selected.push({
-                type: "linkRepository",
-            name: $(this).attr('id')
-        });
-    });
     
     if (checkListId(selected, "CIP") && (checkListId(selected, "customerCommunity") || checkListId(selected, "partnerCommunity"))){
     
@@ -51,6 +45,13 @@ function continueRedirect() {
     	}
     }
     else{
+    	
+    	$("input[type=radio]:checked").each(function() {
+	               selected.push({
+	                   type: "linkRepository",
+	               name: $(this).attr('id')
+	           });
+	       });
     	
 	 	if (checkListId(selected, "customerCommunity") && checkListId(selected, "invoicing") ) {
 			 selected.push({
