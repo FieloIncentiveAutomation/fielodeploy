@@ -233,7 +233,7 @@ public class GithubUtil {
 		case "invoicing":
 			name = "Fielo-Apps/fieloprp";
     		break;
-		case "training":
+		case "learning":
 			name = "Fielo-Apps/fieloelr";
     		break;
 		case "registration":

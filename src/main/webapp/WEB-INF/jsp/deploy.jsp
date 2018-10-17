@@ -29,7 +29,7 @@
 								        </svg>
 								        <span class="slds-assistive-text">Show More</span>
 								    </button>
-								    <div class="slds-dropdown slds-dropdown_left slds-dropdown_length-5 slds-dropdown_medium">
+								    <div class="slds-dropdown slds-dropdown_left slds-dropdown_length-5 slds-dropdown_large">
 								        <ul id="dropdownInfo" class="slds-dropdown__list" role="menu" aria-label="Show More">
 								        </ul>
 								    </div>

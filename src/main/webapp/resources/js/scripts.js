@@ -66,7 +66,7 @@ function continueRedirect() {
 	        });
 		}
 	 	
-	 	if (checkListId(selected, "customerCommunity") && checkListId(selected, "training") ) {
+	 	if (checkListId(selected, "customerCommunity") && checkListId(selected, "learning") ) {
 			 selected.push({
 	           type: "linkRepository",
 	           name: "permissionsCustomerELR"
@@ -80,7 +80,7 @@ function continueRedirect() {
 	       });
 		}
 		
-		if (checkListId(selected, "partnerCommunity") && checkListId(selected, "training") ) {
+		if (checkListId(selected, "partnerCommunity") && checkListId(selected, "learning") ) {
 			 selected.push({
 	          type: "linkRepository",
 	          name: "permissionsPartnerELR"
@@ -89,9 +89,17 @@ function continueRedirect() {
     }
     
     if (selected.length == 0) {
-        alert("Please select at least one of the sources.");
+        alert("Please select one of the installation options.");
         return;
     }
+    
+    if ($('#checkboxSalesCommunities:input:checked').size() == 1 && $("input[type=radio]:checked").size() == 0){
+    	 alert("Please select one of the licences.");
+         return;
+    }
+    
+   
+    
     var continueUrl =
         $('#app').attr('checked') ?
         'deploy' :
@@ -136,13 +144,15 @@ function getInfo(selected) {
             var obj = JSON.parse(data);
             var userContext = JSON.parse(obj.userContext);
             $('#dropdownInfo').empty();
-            var packages = '<li class="slds-dropdown__item">' +
+            var packages ='';
+            
+            packages +='<li class="slds-dropdown__item">' +
                 '<a href="javascript:void(0);" role="menuitem" tabindex="0">' +
-                '<span class="slds-truncate infoPackageLabel">Package</span><span class="slds-truncate infoPackageLabel">Version</span>' +
+                '<span class="slds-truncate infoPackageLabel">Package/Repository</span><span class="slds-truncate infoPackageLabel">Version</span>' +
                 '</a>' +
                 '</li>';
             for (let i = 0; i < obj.deployList.length; i++) {
-                packages = packages +
+                packages +=
                     '<li class="slds-dropdown__item">' +
                     '<a href="javascript:void(0);" role="menuitem" tabindex="0">' +
                     '<span class="slds-truncate infoPackageDescription">' + obj.deployList[i].name + '</span>' + '<span class="slds-truncate infoPackageDescription">' + obj.deployList[i].version + '</span>' +
@@ -232,13 +242,13 @@ function getDeployToolNamePackage(name){
 		name = "Permissions for Customer Community with Invoicing";
 		break;
 	case "permissionsCustomerELR":
-		name = "Permissions for Customer Community with Training";
+		name = "Permissions for Customer Community with Learning";
 		break;
 	case "permissionsPartnerPRP":
 		name = "Permissions for Partner Community with Invoicing";
 		break;
 	case "permissionsPartnerELR":
-		name = "Permissions for Partner Community with Training";
+		name = "Permissions for Partner Community with Learning";
 		break;
 	case "opportunity":
 		name = "Salesforce Opportunities";
@@ -259,7 +269,7 @@ function getDeployToolNamePackage(name){
 		name = "Registration";
 		break;
 	case "FieloELR":
-		name = "Training";
+		name = "Learning";
 		break;
 	case "CIP":
 		name = "CIP";
@@ -347,6 +357,8 @@ $(document).ready(function($) {
                     }
                 }
             });
+            $("#checkboxFieloPlataform").prop('checked', true);
+            $("#checkboxFieloPlataform").prop('disabled', true);
        
         } else {
             $('.salesforce').fadeOut("slow");
@@ -354,6 +366,8 @@ $(document).ready(function($) {
             $('#alertOrg').fadeOut("slow");
             $('input[type=radio][name=licence]').prop('checked', false);
             $("input.checkBoxsalesforceCustomer[type=checkbox]").prop('checked', false);
+            $("#checkboxFieloPlataform").prop('checked', false);
+            $("#checkboxFieloPlataform").prop('disabled', false);
         }
 
     });
@@ -419,14 +433,14 @@ $(document).ready(function($) {
         }
     });
 
-    // Disable Invoicing, Training, Registration and GRS when CIP is checked
+    // Disable Invoicing, Learning, Registration and GRS when CIP is checked
     $('#CIP').change(function() {
 	    if (this.checked) {
 	        $(".classDisable").prop('disabled', true);
-	        $(".classDisable").prop('checked', true);
+	        $(".classDisable").prop('checked', true).change();
 	    } else {
 	        $(".classDisable").prop('disabled', false);
-	        $(".classDisable").prop('checked', false);
+	        $(".classDisable").prop('checked', false).change();
 	    }
     });
 

@@ -21,7 +21,7 @@
                         <div class="slds-form-element">
                         <div class="slds-form-element__control">
                            <span class="slds-checkbox">
-                           <input type="checkbox" name="options" id="checkboxFieloPlataform" value="checkboxFieloPlataform" />
+                           <input type="checkbox" name="options" id="checkboxFieloPlataform" value="checkboxFieloPlataform"  class="classDisable"/>
                            <label class="slds-checkbox__label" for="checkboxFieloPlataform">
                            <span class="slds-checkbox_faux customfaux"></span>
                            <span class="slds-form-element__label customLabelHome">Fielo Plataform</span>
@@ -36,18 +36,29 @@
                <div class="borderbox">
                   <div class ="square">
                      <img src="resources/img/salesforcelogo.png" alt="Salesforce Logo" class="img">
+                     
                      <div class="slds-form-element">
                         <div class="slds-form-element__control">
                            <span class="slds-checkbox">
-                           <input type="checkbox" name="options" id="checkboxSalesCommunities" value="checkboxSalesCommunities" />
+                           <input type="checkbox" name="options" id="checkboxSalesCommunities" value="checkboxSalesCommunities"  class="classDisable"/>
                            <label class="slds-checkbox__label" for="checkboxSalesCommunities">
                            <span class="slds-checkbox_faux customfaux"></span>
                            <span class="slds-form-element__label customLabelHome">Salesforce Communities</span>
+                           <span>
+                           	<button data-tooltip="Installation for Salesforce Communities will include the Community User profile(s), Community template(s), and Community page(s) that apply to the selections you make below." class="slds-button slds-button_icon slds-button slds-button_icon">
+					       		<svg class="slds-button__icon" aria-hidden="true">
+					          	<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="resources/assets/icons/utility-sprite/svg/symbols.svg#info" />
+					        	</svg>
+						      </button>
+                           </span>
+                           
+								
+						
                            </label>
                            </span>
                         </div>
                      </div>
-                  </div>
+                  	</div>
                </div>
             </div>
             <div class="col-md-12">
@@ -59,7 +70,7 @@
                      </svg>
                   </span>
                   <span class="customAlert">
-                  The installation tool has detected that Communities are not enabled in your org. Before Continuing, <a href="https://support.salesforce.com/articleView?id=networks_enable.htm" target="_blank" ><strong>enable Communities</strong></a> in your org.
+                  The installation tool has detected that communities are not enabled in your org. Before Continuing, <a href="https://support.salesforce.com/articleView?id=networks_enable.htm" target="_blank" ><strong>enable Communities</strong></a> in your org.
                   </span>
                   <button class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse" onclick="closeButtonAlertOrg();" title="Close">
                      <svg class="slds-button__icon iconAlert" aria-hidden="true">
@@ -110,10 +121,10 @@
                <div class="slds-form-element">
                   <div class="slds-form-element__control">
                      <span class="slds-checkbox">
-                     <input type="checkbox" name="options" id="training" value="training" class="classDisable" />
-                     <label class="slds-checkbox__label checkboxInline" for="training">
+                     <input type="checkbox" name="options" id="learning" value="learning" class="classDisable" />
+                     <label class="slds-checkbox__label checkboxInline" for="learning">
                      <span class="slds-checkbox_faux customfaux"></span>
-                     <span class="slds-form-element__label customLabel">Training</span>
+                     <span class="slds-form-element__label customLabel">Learning</span>
                      </label>
                      </span>
                   </div>
@@ -226,7 +237,7 @@
 					                     ' </label>'+
 					                     ' </span> ');
 							}
-							//CIP has a diferent HTML to check Invoincing. Training and GRS
+							//CIP has a diferent HTML to check Invoincing. Learning and GRS
 							if(repoItem.name =="CIP"){
 								$('#lstprogramtypes').append(
 										 ' <span class="slds-checkbox">' +
