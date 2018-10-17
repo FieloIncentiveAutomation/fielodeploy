@@ -186,26 +186,42 @@
 							var deploy;
 							var isRepo;
 							var first = true;
-						    var packages =  '<li class="slds-dropdown__item">' 							 +
+							var packages =  "";
+							
+							$.each(container, function(i, v) {
+							    if (v.name == "FieloPLT") {
+							    	   packages +=  '<li class="slds-dropdown__item">' 	 +
+										              '<a href="javascript:void(0);" role="menuitem" tabindex="0">' 	 +				
+										                  '<span class="slds-truncate infoPackageLabel">Package</span><span class="slds-truncate infoPackageLabel">Version</span>' +
+										              '</a>' +												
+							              		 '</li>' +
+								    	  		 '<li class="slds-dropdown__item">' +
+										              '<a href="javascript:void(0);" role="menuitem" tabindex="0">' +
+										                  '<span class="slds-truncate infoPackageDescription">'+ v.name +'</span>' + '<span class="slds-truncate infoPackageDescription">' + ((v.version != null) ? v.version : 'master')  +'</span>' +
+										                  '</a>' +
+									              '</li>';
+							    }
+							    
+							});
+							
+							
+						    packages +=  '<br><li class="slds-dropdown__item">' 							 +
 				              '<a href="javascript:void(0);" role="menuitem" tabindex="0">' 							 +
-				                  '<span class="slds-truncate infoPackageLabel">Package</span><span class="slds-truncate infoPackageLabel">Version</span>' +
+				                  '<span class="slds-truncate infoPackageLabel">Repository</span><span class="slds-truncate infoPackageLabel">Version</span>' +
 				              '</a>' 																					 +
 			               '</li>';
 							for(fileIdx in container) {
-								 packages = packages +
-					        	  '<li class="slds-dropdown__item">' +
-					              '<a href="javascript:void(0);" role="menuitem" tabindex="0">' +
-					                  '<span class="slds-truncate infoPackageDescription">'+ container[fileIdx].name  +'</span>' + '<span class="slds-truncate infoPackageDescription">' + ((container[fileIdx].version != null) ? container[fileIdx].version : 'master') +'</span>' +
-					              '</a></li>';
-					              
-								if (first) {
-									deploy = '';
-									first = false;
-								} else {
-									deploy = '<br>';
+								if(container[fileIdx].name != "FieloPLT"){
+									 packages = packages +
+						        	  '<li class="slds-dropdown__item">' +
+						              '<a href="javascript:void(0);" role="menuitem" tabindex="0">' +
+						                  '<span class="slds-truncate infoPackageDescription">'+ container[fileIdx].name  +'</span>' + '<span class="slds-truncate infoPackageDescription">' + ((container[fileIdx].version != null) ? container[fileIdx].version : 'master') +'</span>' +
+						              '</a></li>';
+						              
+								
+									$('#dropdownInfo').empty();
+									$('#dropdownInfo').append(packages);
 								}
-								$('#dropdownInfo').empty();
-								$('#dropdownInfo').append(packages);
 							}
 							
 						},
