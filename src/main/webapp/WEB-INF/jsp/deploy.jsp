@@ -100,7 +100,12 @@
 			                     </svg>
 			                  </span>
 			                  <span class="customAlert">
-			                  YOUR PLT VERSION IS OLD AND THE INSTALLATION OF THIS BEHAVIOR REQUIRES THE UPGRADE OF FIELO PLT. THIS UGRADE MAY CAUSE PROBLEMS WITH THE CURRENT CUSTOMIZATION IN YOUR ORG. PLEASE CONTACT THE ADMINISTRATION AND AGREE TO CONTINUE THE INSTALLATION
+			                   THE FOLLOWING PACKAGE(S) ARE OUT OF DATE:<br>
+			                   <br>
+			                  - FIELO PLATAFORM
+							  <br>
+							  <br>
+			                  THIS UPGRADE MAY REQUIRE MANUAL STEPS AND/OR CAUSE PROBLEMS WITH THE CURRENT CUSTOMIZATIONS IN YOUR ORG. PLEASE CONSULT YOUR SYSTEM ADMINISTRATOR BEFORE CONTINUING INSTALLATION.
 			                  </span>
 			               </div>
 				   		</div>
