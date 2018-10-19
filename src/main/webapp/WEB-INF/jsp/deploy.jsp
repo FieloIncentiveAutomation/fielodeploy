@@ -208,7 +208,6 @@
 							});
 
 							if (countPackages> 0){
-								console.log('entrou');
 								packages +=  '<li class="slds-dropdown__item">' 	 +
 						              '<a href="javascript:void(0);" role="menuitem" tabindex="0">' 	 +				
 						                  '<span class="slds-truncate infoPackageLabel">Package</span><span class="slds-truncate infoPackageLabel">Version</span>' +
