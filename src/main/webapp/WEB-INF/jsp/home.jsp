@@ -24,7 +24,7 @@
                            <input type="checkbox" name="options" id="checkboxFieloPlataform" value="checkboxFieloPlataform"  class="classDisable"/>
                            <label class="slds-checkbox__label" for="checkboxFieloPlataform">
                            <span class="slds-checkbox_faux customfaux"></span>
-                           <span class="slds-form-element__label customLabelHome">Fielo Plataform</span>
+                           <span class="slds-form-element__label customLabelHome">Fielo Platform</span>
                            </label>
                            </span>
                         </div>

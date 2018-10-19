@@ -102,7 +102,7 @@
 			                  <span class="customAlert">
 			                   THE FOLLOWING PACKAGE(S) ARE OUT OF DATE:<br>
 			                   <br>
-			                  - FIELO PLATAFORM
+			                  - FIELO PLATFORM
 							  <br>
 							  <br>
 			                  THIS UPGRADE MAY REQUIRE MANUAL STEPS AND/OR CAUSE PROBLEMS WITH THE CURRENT CUSTOMIZATIONS IN YOUR ORG. PLEASE CONSULT YOUR SYSTEM ADMINISTRATOR BEFORE CONTINUING INSTALLATION.
