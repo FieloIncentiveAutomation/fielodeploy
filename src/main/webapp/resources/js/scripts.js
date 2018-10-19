@@ -351,9 +351,11 @@ $(document).ready(function($) {
                         $('#alertOrg').hide();
                         $("#myBtn").prop("disabled", false);
                     } else {
-                        $('#checkboxSalesCommunities').prop('checked', false);
+                        //$('#checkboxSalesCommunities').prop('checked', false);
+                    	$('#checkboxSalesCommunities').prop("checked");
+                        $('.salesforce').fadeIn("slow");
                         $('#alertOrg').fadeIn("slow");
-                        $("#myBtn").prop("disabled", true);
+                        //$("#myBtn").prop("disabled", true);
                     }
                 }
             });

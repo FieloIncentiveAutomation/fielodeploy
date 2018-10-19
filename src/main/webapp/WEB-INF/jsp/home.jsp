@@ -70,7 +70,8 @@
                      </svg>
                   </span>
                   <span class="customAlert">
-                  The installation tool has detected that communities are not enabled in your org. Before Continuing, <a href="https://support.salesforce.com/articleView?id=networks_enable.htm" target="_blank" ><strong>enable Communities</strong></a> in your org.
+                  Before installing, make sure that you've <a href="https://support.salesforce.com/articleView?id=networks_enable.htm" target="_blank" ><strong>enabled Communities</strong></a> in your org. 
+                  
                   </span>
                   <button class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse" onclick="closeButtonAlertOrg();" title="Close">
                      <svg class="slds-button__icon iconAlert" aria-hidden="true">
