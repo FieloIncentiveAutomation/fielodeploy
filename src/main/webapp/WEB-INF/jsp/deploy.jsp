@@ -188,21 +188,27 @@
 					// Render deployment list
 					renderDeployList: function(container) {
 						
-						
 							var deploy;
 							var isRepo;
 							var first = true;
 							var packages =  "";
 							var countPackages = 0;
-							
+							var countRepositories = 0;
 							//Count number of packages in the list
 							$.each(container, function(i, v) {
 							    if (v.type == "package") {
 							    	countPackages ++;
 							    }
 							});
+							//Count number of repositories in the list
+							$.each(container, function(i, v) {
+							    if (v.type == "repository") {
+							    	countRepositories ++;
+							    }
+							});
 
 							if (countPackages> 0){
+								console.log('entrou');
 								packages +=  '<li class="slds-dropdown__item">' 	 +
 						              '<a href="javascript:void(0);" role="menuitem" tabindex="0">' 	 +				
 						                  '<span class="slds-truncate infoPackageLabel">Package</span><span class="slds-truncate infoPackageLabel">Version</span>' +
@@ -224,25 +230,25 @@
 							    	  
 							    
 							    
-							
-						    packages +=  '<br><li class="slds-dropdown__item">' 							 +
-				              '<a href="javascript:void(0);" role="menuitem" tabindex="0">' 							 +
-				                  '<span class="slds-truncate infoPackageLabel">Repository</span><span class="slds-truncate infoPackageLabel">Version</span>' +
-				              '</a>' 																					 +
-			               '</li>';
-							for(fileIdx in container) {
-								if (container[fileIdx].type != "package"){
-									 packages = packages +
-						        	  '<li class="slds-dropdown__item">' +
-						              '<a href="javascript:void(0);" role="menuitem" tabindex="0">' +
-						                  '<span class="slds-truncate infoPackageDescription">'+ container[fileIdx].name  +'</span>' + '<span class="slds-truncate infoPackageDescription">' + ((container[fileIdx].version != null) ? container[fileIdx].version : 'master') +'</span>' +
-						              '</a></li>';
-						              
-								
-									$('#dropdownInfo').empty();
-									$('#dropdownInfo').append(packages);
+							if (countRepositories> 0){
+							    packages +=  '<br><li class="slds-dropdown__item">' 							 +
+					              '<a href="javascript:void(0);" role="menuitem" tabindex="0">' 							 +
+					                  '<span class="slds-truncate infoPackageLabel">Repository</span><span class="slds-truncate infoPackageLabel">Version</span>' +
+					              '</a>' 																					 +
+				               '</li>';
+								for(fileIdx in container) {
+									if (container[fileIdx].type != "package"){
+										 packages = packages +
+							        	  '<li class="slds-dropdown__item">' +
+							              '<a href="javascript:void(0);" role="menuitem" tabindex="0">' +
+							                  '<span class="slds-truncate infoPackageDescription">'+ container[fileIdx].name  +'</span>' + '<span class="slds-truncate infoPackageDescription">' + ((container[fileIdx].version != null) ? container[fileIdx].version : 'master') +'</span>' +
+							              '</a></li>';
+							              
+									}
 								}
 							}
+							$('#dropdownInfo').empty();
+							$('#dropdownInfo').append(packages);
 							
 						},
 						
