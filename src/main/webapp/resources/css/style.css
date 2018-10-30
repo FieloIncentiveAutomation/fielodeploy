@@ -86,7 +86,7 @@ body {
     border: 1px solid #D8DDE6;
     text-align: center;
     border-radius: 15px;
-    height: 165px;
+    height: 180px;
     margin-bottom: 10px;
 }
 
@@ -109,7 +109,7 @@ body {
     width: 100%;
     margin-bottom: 1.125rem;
     margin-top: 15px;
-    height: 85px;
+    height: 100px;
 }
 
 .square p {
