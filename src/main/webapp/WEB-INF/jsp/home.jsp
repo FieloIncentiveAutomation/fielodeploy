@@ -18,11 +18,11 @@
                <div class="borderbox">
                   <div class ="square">
                      <img src="resources/img/fielotagline.png" alt="Fielo Plataform Logo" class="img-Fielo">
-                        <div class="slds-form-element">
+                      <div class="slds-form-element margin-box" style="margin-top:25px;">
                         <div class="slds-form-element__control">
                            <span class="slds-checkbox">
                            <input type="checkbox" name="options" id="checkboxFieloPlataform" value="checkboxFieloPlataform"  class="classDisable"/>
-                           <label class="slds-checkbox__label" for="checkboxFieloPlataform">
+                           <label class="slds-checkbox__label" for="checkboxFieloPlataform" style="inline-size: -moz-available;">
                            <span class="slds-checkbox_faux customfaux"></span>
                            <span class="slds-form-element__label customLabelHome">Fielo Platform</span>
                            </label>
@@ -33,33 +33,29 @@
                </div>
             </div>
             <div class="col-sm-6">
-               <div class="borderbox">
-                  <div class ="square">
-                     <img src="resources/img/salesforcelogo.png" alt="Salesforce Logo" class="img">
-                     
-                     <div class="slds-form-element">
-                        <div class="slds-form-element__control">
-                           <span class="slds-checkbox">
-                           <input type="checkbox" name="options" id="checkboxSalesCommunities" value="checkboxSalesCommunities"  class="classDisable"/>
-                           <label class="slds-checkbox__label" for="checkboxSalesCommunities">
-                           <span class="slds-checkbox_faux customfaux"></span>
-                           <span class="slds-form-element__label customLabelHome">Salesforce Communities</span>
-                           <span>
-                           	<button data-tooltip="Installation for Salesforce Communities will include the Community User profile(s), Community template(s), and Community page(s) that apply to the selections you make below." class="slds-button slds-button_icon slds-button slds-button_icon">
-					       		<svg class="slds-button__icon" aria-hidden="true">
-					          	<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="resources/assets/icons/utility-sprite/svg/symbols.svg#info" />
-					        	</svg>
-						      </button>
-                           </span>
-                           
-								
-						
-                           </label>
-                           </span>
-                        </div>
-                     </div>
-                  	</div>
-               </div>
+				<div class="borderbox">
+					<div class ="square">
+						<img src="resources/img/salesforcelogo.png" alt="Salesforce Logo" class="img">
+						<div class="slds-form-element margin-box">
+                        	<div class="slds-form-element__control">
+								<span class="slds-checkbox">
+		                           	<input type="checkbox" name="options" id="checkboxSalesCommunities" value="checkboxSalesCommunities"  class="classDisable"/>
+		                           	<label class="slds-checkbox__label" for="checkboxSalesCommunities">
+			                           	<span class="slds-checkbox_faux customfaux"></span>
+			                           	<span class="slds-form-element__label customLabelHome">Salesforce Communities</span>
+			                           	<span>
+			                           		<button data-tooltip="Installation for Salesforce Communities will include the Community User profile(s), Community template(s), and Community page(s) that apply to the selections you make below." class="slds-button slds-button_icon slds-button slds-button_icon">
+									       		<svg class="slds-button__icon" aria-hidden="true" style="width: 1.35rem; height: 1.35rem;">
+									          		<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="resources/assets/icons/utility-sprite/svg/symbols.svg#info" />
+									        	</svg>
+									      	</button>
+			                           </span>
+		                           </label>
+                           		</span>
+							</div>
+						</div>
+				   </div>
+				</div>
             </div>
             <div class="col-md-12">
                <div id ="alertOrg" class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning alert bodyAlert" role="alert" style="display:none">
