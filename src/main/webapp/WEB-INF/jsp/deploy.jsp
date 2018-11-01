@@ -22,6 +22,7 @@
 						<div class="row">		
 							<!-- Info Modal -->  
 							<div class="col-md-12 col-sm-12 col-xs-12">
+								<div class="dropdownlabel">What will be installed</div>
 								<div id ="openInfoPackages" class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-closed">
 								    <button class="slds-button slds-button_icon slds-button_icon-border-filled" aria-haspopup="true" title="Show More">
 								        <svg class="slds-button__icon" aria-hidden="true">
@@ -35,12 +36,12 @@
 								    </div>
 								</div>
 						   		<dl class="slds-list_stacked">
-								  <dt class="slds-item_label slds-text-color_weak slds-truncate modal-label" title="To">To</dt>
-								  <dd class="slds-item_detail slds-truncate modal-description" title="Salesforce Org">Salesforce Org</dd>
-								  <dt class="slds-item_label slds-text-color_weak slds-truncate modal-label" title="Organization">Organization</dt>
-								  <dd id ="organizationDescription" class="slds-item_detail slds-truncate modal-description" title="Organization Description"><c:out value="${userContext.getOrganizationName()}" /></dd>
-								  <dt class="slds-item_label slds-text-color_weak slds-truncate modal-label" title="User">User</dt>
-								  <dd id ="userDescription" class="slds-item_detail slds-truncate modal-description" title="User Description" ><c:out value="${userContext.getUserName()}" /></dd>
+								  <dt class="slds-item_label slds-text-color_weak slds-truncate modal-label">To</dt>
+								  <dd class="slds-item_detail slds-truncate modal-description">Salesforce Org</dd>
+								  <dt class="slds-item_label slds-text-color_weak slds-truncate modal-label">Organization</dt>
+								  <dd id ="organizationDescription" class="slds-item_detail slds-truncate modal-description"><c:out value="${userContext.getOrganizationName()}" /></dd>
+								  <dt class="slds-item_label slds-text-color_weak slds-truncate modal-label">User</dt>
+								  <dd id ="userDescription" class="slds-item_detail slds-truncate modal-description"><c:out value="${userContext.getUserName()}" /></dd>
 								</dl>
 							</div>
 							<div class="col-md-12 col-sm-12 col-xs-12 buttons infoModal">

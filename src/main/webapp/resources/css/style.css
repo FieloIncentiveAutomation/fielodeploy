@@ -411,6 +411,13 @@ span .customLabelBold {
     color: #626260;
 }
 
+.dropdownlabel{
+	font-family: Salesforce Sans, Semibold;
+    font-size: 13px;
+    font-weight: 700;
+    color: #706e6b;
+}
+
 
 .alertModal {
     display: none;
