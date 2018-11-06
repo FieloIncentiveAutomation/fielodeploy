@@ -10,7 +10,7 @@
 		<div class="container">
 			<div class="row">
 			   <div class="col-md-12">
-			      <p class="header1-padding h1 "><img src="resources/assets/icons/utility/settings.svg" alt="Fielo Plataform Logo" class="icon"> Welcome to Fielo Custom Program Installation </p>
+			      <p class="header1-padding h1 "><img src="resources/assets/icons/utility/settings.svg" alt="Fielo Platform Logo" class="icon"> Welcome to Fielo Custom Program Installation </p>
 			   </div>
 			</div>
 			<div id="confirmDetails">

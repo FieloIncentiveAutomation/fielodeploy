@@ -260,7 +260,7 @@ function getDeployToolNamePackage(name){
 		name = "Salesforce Orders";
 		break;
 	case "FieloPLT":
-		name = "Fielo Plataform";
+		name = "Fielo Platform";
 		break;
 	case "FieloPRP":
 		name = "Invoicing";
