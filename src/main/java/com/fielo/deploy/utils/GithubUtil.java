@@ -90,7 +90,7 @@ public class GithubUtil {
 	    			JSONObject packagePLT = new JSONObject(); 
 	    			packagePLT.put("name", "FieloPLT");
 	    			packagePLT.put("type", "package");
-	    			packagePLT.put("version", "2.56.6");
+	    			packagePLT.put("version", "2.56.9");
 	    			deployList.add(packagePLT);
 	    		}
 	    		else {
