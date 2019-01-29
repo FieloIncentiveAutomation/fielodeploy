@@ -14,18 +14,10 @@ function continueRedirect() {
     var selected = [];
     $("input[type=checkbox]:checked").each(function() {
         if ( $(this).attr('id') != "checkboxSalesCommunities" ) {
-
-            if ($(this).attr('id') == "checkboxFieloPlataform") {
-                selected.push({
-                    type: "package",
-                    name: $(this).attr('id')
-                });
-            } else {
-                selected.push({
-                    type: "linkRepository",
-                    name: $(this).attr('id')
-                });
-            }
+	            selected.push({
+	                type: "linkRepository",
+	                name: $(this).attr('id')
+	            });
         }
     });
     
@@ -446,5 +438,11 @@ $(document).ready(function($) {
 	    }
     });
 
+    // Scroll Down for deploy model.
+    $(".down").click(function() {
+        $('html, body').animate({
+            scrollTop: $(".up").offset().top
+        }, 1500);
+    });
 
 });

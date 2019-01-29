@@ -85,17 +85,7 @@ public class GithubUtil {
 	    		break;
 		    // If type of resource is package, just add it to the list
 	    	case "package":
-	    		//Change this static resource in new version
-	    		if (deployItem.get("name").toString().equals("checkboxFieloPlataform")) {
-	    			JSONObject packagePLT = new JSONObject(); 
-	    			packagePLT.put("name", "FieloPLT");
-	    			packagePLT.put("type", "package");
-	    			packagePLT.put("version", "2.56.10");
-	    			deployList.add(packagePLT);
-	    		}
-	    		else {
 	    			deployList.add(deployItem);
-	    		}
 	    		break;
     		default:
                 throw new IllegalArgumentException("Invalid source type: " + type);
@@ -197,6 +187,10 @@ public class GithubUtil {
 		
 		switch (name) {
 		
+		
+		case "checkboxFieloPlataform":
+			name = "FieloIncentiveAutomation/fielodeploy";
+    		break;
 		case "customerCommunity":
 			name = "Fielo-Communities/customercommunity";
     		break;
