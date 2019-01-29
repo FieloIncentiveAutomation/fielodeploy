@@ -383,6 +383,7 @@ $(document).ready(function($) {
             data : GitHubDeploy.deployList[0].name,
             contentType : 'application/json; charset=utf-8',
             dataType : 'json',
+            async:false, 
             success: function(result) {
             	$('.demo-only').hide();
                 if (JSON.stringify(result) == "true") {
