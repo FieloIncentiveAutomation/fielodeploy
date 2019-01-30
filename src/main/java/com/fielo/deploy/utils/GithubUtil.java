@@ -186,8 +186,6 @@ public class GithubUtil {
 	public static String getGitHubName(String name) {
 		
 		switch (name) {
-		
-		
 		case "checkboxFieloPlataform":
 			name = "FieloIncentiveAutomation/fielodeploy";
     		break;

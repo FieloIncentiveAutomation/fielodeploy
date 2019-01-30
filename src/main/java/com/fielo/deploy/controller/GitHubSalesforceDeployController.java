@@ -105,9 +105,9 @@ public class GitHubSalesforceDeployController {
 	ForceServiceConnector forceConnector;
 
 	private static final String ZIP_FILE = "packages" + File.separator;
-	private static final int MajorVersion = 2;
-	private static final int MinorVersion = 56;
-	private static final int PatchVersion = 6;
+	private static int MajorVersion = 0;
+	private static int MinorVersion = 0;
+	private static int PatchVersion = 0;
 
 	@RequestMapping(method = RequestMethod.GET, value = "/logoutgh")
 	public String logoutgh(HttpSession session, @RequestParam(required = false) final String retUrl) {
@@ -261,6 +261,7 @@ public class GitHubSalesforceDeployController {
 		org.json.simple.JSONArray selection = (org.json.simple.JSONArray) (new JSONParser()).parse(selectionList);
 		org.json.simple.JSONArray deployList = GithubUtil.getDeployList(selection);
 
+		updateStaticVariables(deployList);
 		servletRequest = request;
 
 		// Display user info
@@ -1124,4 +1125,26 @@ public class GitHubSalesforceDeployController {
 		}
 		return buf.toString();
 	}
+	
+	private void updateStaticVariables(org.json.simple.JSONArray deployList) {
+		 String s = "";
+		 for (int i = 0 ; i < deployList.size(); i++) {
+			 	org.json.simple.JSONObject obj = (org.json.simple.JSONObject) deployList.get(i);
+		        s = (String) obj.get("name");
+		        if (s.equals("FieloPLT")) {
+		        	s = (String) obj.get("version");
+		        	String[] lstVersion= s.split("\\.");
+		        	MajorVersion = Integer.parseInt(lstVersion[0]);
+		        	MinorVersion = Integer.parseInt(lstVersion[1]);
+		        	if (lstVersion.length == 3) {
+		        		PatchVersion = Integer.parseInt(lstVersion[2]);
+		        		}
+		        	}
+		        	
+		        	
+		    }
+		
+	}
+	
+	
 }

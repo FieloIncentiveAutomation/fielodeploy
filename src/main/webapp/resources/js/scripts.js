@@ -384,7 +384,6 @@ $(document).ready(function($) {
             contentType : 'application/json; charset=utf-8',
             dataType : 'json',
             success: function(result) {
-            	console.log(JSON.stringify(result));
             	$('.demo-only').hide();
                 if (JSON.stringify(result) == "true") {
                 	$('#openInfoPackages').removeClass('slds-is-open');
